@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getDatabase, ref, set, onValue, push } from "firebase/database";
 import app from "./Store/realtimeDB";
 
@@ -6,13 +6,25 @@ function Form2() {
   const [userData, setUserData] = useState({
     firstname: "",
     questions: {
-      question1: 'aaaa'
+      
     },
   });
+
   const questionArray = [1, 2, 3];
-  questionArray.forEach((_, index) => {
-    userData.questions[`question${index + 1}`] = "";
-  });
+  // questionArray.forEach((_, index) => {
+  //   userData.questions[`question${index + 1}`] = "";
+  // });
+
+  useEffect(() => {
+    const initialQuestions = {};
+    questionArray.forEach((_, index) => {
+      initialQuestions[`question${index + 1}`] = "";
+    });
+    setUserData((prevState) => ({
+      ...prevState,
+      questions: initialQuestions,
+    }));
+  }, []);
   
 
   const saveData = async () => {
@@ -43,10 +55,25 @@ function Form2() {
   const handleData = (e) => {
     name = e.target.name;
     value = e.target.value;
-    setUserData({ ...userData, [name]: value });
+    // setUserData({ ...userData, [name]: value}); //[name]: value
+
+    if (name.startsWith("question")) {
+      setUserData((prevState) => ({
+        ...prevState,
+        questions: {
+          ...prevState.questions,
+          [name]: value,
+        },
+      }));
+    } else {
+      setUserData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
 
-  console.log(userData.questions.question1);
+  console.log(userData);
 
   return (
     <>
@@ -59,14 +86,14 @@ function Form2() {
         <input
           className="border border-black"
           name="firstname"
-          type="questions"
+          type="text"
           value={userData.firstname}
           onChange={handleData}
         />
 
         <p>Enter Your Questions</p>
 
-        <label htmlFor="">Q1</label>
+        {/* <label htmlFor="">Q1</label>
         <input
           className="border border-black"
           name="questions"
@@ -75,7 +102,7 @@ function Form2() {
           onChange={handleData}
           rows={10}
           column={10}
-        ></input>
+        ></input> */}
 
 
         {questionArray.map((n) => {
@@ -86,6 +113,7 @@ function Form2() {
                 className="border border-black"
                 name={`question${n}`}
                 id=""
+                type="text"
                 value={userData.questions[`question${n}`]}
                 onChange={handleData}
                 rows={10}
@@ -105,5 +133,3 @@ function Form2() {
 
 export default Form2;
 
-// link.com ---> public
-//  /form --> user
