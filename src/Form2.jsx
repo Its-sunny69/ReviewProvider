@@ -5,7 +5,6 @@ import { getDatabase, ref, set, push } from "firebase/database";
 import app from "./Store/realtimeDB";
 
 function Form2() {
-  const [id, setId] = useState(null);
   const [userData, setUserData] = useState({
     firstname: "",
     questions: {},
@@ -26,7 +25,7 @@ function Form2() {
   const navigate = useNavigate();
 
   const saveData = async () => {
-    setId(uuidv4());
+    let id = uuidv4();
     console.log(id);
     const db = getDatabase(app);
     const newDocRef = push(ref(db, `Database/${id}`));
