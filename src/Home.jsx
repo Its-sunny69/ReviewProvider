@@ -1,9 +1,11 @@
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
-  let navigate = useNavigate();
 
-  let handleCreate = () => {
+  const navigate = useNavigate();
+
+  const handleCreate = () => {
     navigate("/Form");
   };
   return (

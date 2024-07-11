@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { getDatabase, ref, set, onValue, push } from "firebase/database";
+import { useNavigate } from "react-router-dom";
+import { getDatabase, ref, set, push } from "firebase/database";
 import app from "./Store/realtimeDB";
 
 function Form2() {
@@ -9,6 +10,7 @@ function Form2() {
   });
 
   const questionArray = [1, 2, 3];
+
 
   useEffect(() => {
     const initialQuestions = {};
@@ -20,6 +22,8 @@ function Form2() {
       questions: initialQuestions,
     }));
   }, []);
+
+  const navigate = useNavigate();
 
   const saveData = async () => {
     const db = getDatabase(app);
@@ -37,10 +41,14 @@ function Form2() {
       .catch((error) => {
         alert("error", error.message);
       });
+
+      navigate("/user-dashboard");
   };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
   };
 
   let name, value;
@@ -62,6 +70,8 @@ function Form2() {
         [name]: value,
       }));
     }
+    
+
   };
 
   console.log(userData);
