@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 import { getDatabase, ref, set, push } from "firebase/database";
 import app from "./Store/realtimeDB";
 
 function Form2() {
+  let [id, setId] = useState();
   const [userData, setUserData] = useState({
     firstname: "",
     questions: {},
   });
 
   const questionArray = [1, 2, 3];
-
-
+  console.log(uuidv4());
   useEffect(() => {
     const initialQuestions = {};
     questionArray.forEach((_, index) => {
@@ -26,8 +27,9 @@ function Form2() {
   const navigate = useNavigate();
 
   const saveData = async () => {
+    setId(uuidv4());
     const db = getDatabase(app);
-    const newDocRef = push(ref(db, "Database/Space"));
+    const newDocRef = push(ref(db, `Database/${id}`));
     set(newDocRef, {
       firstname: userData.firstname,
       formLink: "",
@@ -42,13 +44,11 @@ function Form2() {
         alert("error", error.message);
       });
 
-      navigate("/user-dashboard");
+    navigate("/user-dashboard");
   };
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
   };
 
   let name, value;
@@ -70,8 +70,6 @@ function Form2() {
         [name]: value,
       }));
     }
-    
-
   };
 
   console.log(userData);
