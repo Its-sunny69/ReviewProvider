@@ -5,6 +5,7 @@ import UserDashboard from "./UserDashboard";
 import Review from "./Review";
 import Form2 from "./Form2";
 import GetData from "./GetData";
+import SignUp from "./Auth/SignUp";
 function App() {
   return (
     <div>
@@ -22,6 +23,7 @@ function App() {
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/review" element={<Review />} />
           <Route path="/getData" element={<GetData />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </div>

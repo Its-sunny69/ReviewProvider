@@ -33,7 +33,7 @@ function UserDashboard() {
     <>
       <p> Dashboard</p> 
       {/* {userName[0]["firstname"]} */}
-      <button onClick={handleSubmit}>Submit</button>
+      <button onClick={handleSubmit}>Review</button>
     </>
   );
 }
