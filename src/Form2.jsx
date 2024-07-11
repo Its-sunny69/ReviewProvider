@@ -5,14 +5,13 @@ import { getDatabase, ref, set, push } from "firebase/database";
 import app from "./Store/realtimeDB";
 
 function Form2() {
-  let [id, setId] = useState();
+  const [id, setId] = useState(null);
   const [userData, setUserData] = useState({
     firstname: "",
     questions: {},
   });
 
   const questionArray = [1, 2, 3];
-  console.log(uuidv4());
   useEffect(() => {
     const initialQuestions = {};
     questionArray.forEach((_, index) => {
@@ -28,6 +27,7 @@ function Form2() {
 
   const saveData = async () => {
     setId(uuidv4());
+    console.log(id);
     const db = getDatabase(app);
     const newDocRef = push(ref(db, `Database/${id}`));
     set(newDocRef, {

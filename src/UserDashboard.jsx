@@ -22,7 +22,7 @@ function UserDashboard() {
   }, []);
 
   console.log(userName);
-  console.log(userName[0]["firstname"])
+  // console.log(userName[0]["firstname"])
 
 
   let navigate = useNavigate();
@@ -31,7 +31,8 @@ function UserDashboard() {
   };
   return (
     <>
-      <p>{userName[0]["firstname"]} Dashboard</p>
+      <p> Dashboard</p> 
+      {/* {userName[0]["firstname"]} */}
       <button onClick={handleSubmit}>Submit</button>
     </>
   );
