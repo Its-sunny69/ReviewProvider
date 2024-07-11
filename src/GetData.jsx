@@ -1,36 +1,28 @@
-import React, { useState } from "react";
-import app from "./Store/realtimeDB";
-import { getDatabase, ref, set, onValue, push, get } from "firebase/database";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import { DataProvider, useData } from './contexts/getDataContext.jsx'
 function GetData() {
-  const navigate = useNavigate()
-  let [data, setData] = useState([]);
-  const fetchData = async () => {
-    const db = getDatabase(app);
-    const dbRef = ref(db, `Database`);
-    const snapshot = await get(dbRef);
-    if (snapshot.exists()) {
-      setData(Object.values(snapshot.val()));
-    } else {
-      console.log("Fetch failed");
-    }
-  };
+  const navigate = useNavigate();
+  const { data, loading } = useData();
 
-  console.log(data);
+  if (loading) {
+    return (
+      <div>Loading...</div>
+    )
+  }
+
   return (
     <div>
-      <button onClick={fetchData}>Get Data</button>
       <ul className="flex flex-wrap gap-10 p-10">
-        {data.map((item, index) => {
-          console.log(item)
-          return (
-            <li key={index} onClick={()=>navigate('/user-dashboard')}>
-              <div className="flex justify-center items-center flex-col border-2 shadow-sm w-52 h-52 shadow-black">
-                <p className="font-bold text-xl">{item['-O1XoSCS3D2Ej5glavUf'].firstname}</p>
-              </div>
-            </li>
-          )
-        })}
+        {data.map((item, index) => (
+          <li key={index} onClick={() => navigate('/user-dashboard')}>
+            <div className="flex justify-center items-center flex-col border-2 shadow-sm w-52 h-52 shadow-black">
+              {Object.entries(item).map(([key, value]) => (
+                <p key={key} className="font-bold text-xl">{value.firstname}</p>
+              ))}
+            </div>
+          </li>
+        ))}
       </ul>
     </div>
   );
@@ -49,4 +41,10 @@ function RenderQuestions({ questions }) {
   );
 }
 
-export default GetData;
+export default function App() {
+  return (
+    <DataProvider>
+      <GetData />
+    </DataProvider>
+  )
+};
