@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import app from "./Store/realtimeDB";
 import { getDatabase, ref, set, onValue, push, get } from "firebase/database";
+import { useNavigate } from "react-router-dom";
 function GetData() {
+  const navigate = useNavigate()
   let [data, setData] = useState([]);
   const fetchData = async () => {
     const db = getDatabase(app);
-    const dbRef = ref(db, "Database/Space");
+    const dbRef = ref(db, `Database`);
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
       setData(Object.values(snapshot.val()));
@@ -18,12 +20,17 @@ function GetData() {
   return (
     <div>
       <button onClick={fetchData}>Get Data</button>
-      <ul>
-        {data.map((item, index) => (
-          <li key={index}>
-            <RenderQuestions questions={item.reviewQ.questions} />
-          </li>
-        ))}
+      <ul className="flex flex-wrap gap-10 p-10">
+        {data.map((item, index) => {
+          console.log(item)
+          return (
+            <li key={index} onClick={()=>navigate('/user-dashboard')}>
+              <div className="flex justify-center items-center flex-col border-2 shadow-sm w-52 h-52 shadow-black">
+                <p className="font-bold text-xl">{item['-O1XoSCS3D2Ej5glavUf'].firstname}</p>
+              </div>
+            </li>
+          )
+        })}
       </ul>
     </div>
   );
