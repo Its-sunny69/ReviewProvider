@@ -5,15 +5,10 @@ import app from "./Store/realtimeDB";
 function Form2() {
   const [userData, setUserData] = useState({
     firstname: "",
-    questions: {
-      
-    },
+    questions: {},
   });
 
   const questionArray = [1, 2, 3];
-  // questionArray.forEach((_, index) => {
-  //   userData.questions[`question${index + 1}`] = "";
-  // });
 
   useEffect(() => {
     const initialQuestions = {};
@@ -25,7 +20,6 @@ function Form2() {
       questions: initialQuestions,
     }));
   }, []);
-  
 
   const saveData = async () => {
     const db = getDatabase(app);
@@ -34,9 +28,7 @@ function Form2() {
       firstname: userData.firstname,
       formLink: "",
       reviewQ: {
-        1: {
-          questions: userData.questions,
-        }
+        questions: userData.questions,
       },
     })
       .then(() => {
@@ -55,7 +47,6 @@ function Form2() {
   const handleData = (e) => {
     name = e.target.name;
     value = e.target.value;
-    // setUserData({ ...userData, [name]: value}); //[name]: value
 
     if (name.startsWith("question")) {
       setUserData((prevState) => ({
@@ -93,18 +84,6 @@ function Form2() {
 
         <p>Enter Your Questions</p>
 
-        {/* <label htmlFor="">Q1</label>
-        <input
-          className="border border-black"
-          name="questions"
-          id=""
-          value={userData.questions}
-          onChange={handleData}
-          rows={10}
-          column={10}
-        ></input> */}
-
-
         {questionArray.map((n) => {
           return (
             <div key={n}>
@@ -132,4 +111,3 @@ function Form2() {
 }
 
 export default Form2;
-
