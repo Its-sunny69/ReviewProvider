@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { DataProvider, useData } from './contexts/getDataContext.jsx'
+import { DataProvider, useData } from '../contexts/getDataContext.jsx'
 function GetData() {
   const navigate = useNavigate();
   const { data, loading } = useData();

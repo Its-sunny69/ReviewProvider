@@ -1,14 +1,14 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import UserInput from "./UserInput";
-import Home from "./Home";
-import UserDashboard from "./UserDashboard";
-import Review from "./Review";
-import Form2 from "./Form2";
-import GetData from "./GetData";
+import UserInput from "./components/UserInput";
+import Home from "./components/Home";
+import UserDashboard from "./components/UserDashboard";
+import Review from "./components/Review";
+import Form2 from "./components/Form2";
+import GetData from "./components/GetData";
 import SignUp from "./Auth/SignUp";
 function App() {
   return (
-    <div>
+    <div className="select-none">
       <BrowserRouter>
         <nav>
           <ul>

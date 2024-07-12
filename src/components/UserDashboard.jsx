@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getDatabase, ref, get } from "firebase/database";
-import app from "./Store/realtimeDB";
+import app from "../Store/realtimeDB";
 
 function UserDashboard() {
   const { state } = useLocation()
@@ -38,8 +38,6 @@ function UserDashboard() {
   return (
     <>
       <p> Dashboard</p>
-      {/* {userName[0]["firstname"]} */}
-      <button onClick={handleSubmit}>Review</button>
       <div>
         <li>
           <div className="flex justify-center items-center flex-col border-2 shadow-sm w-52 h-52 shadow-black">
@@ -50,6 +48,7 @@ function UserDashboard() {
           </div>
         </li>
       </div>
+      <button onClick={handleSubmit}>Review</button>
     </>
   );
 }
