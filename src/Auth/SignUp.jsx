@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore"; 
+import { store } from "../Store/realtimeDB";
 
 function SignUp() {
   const [userData, setUserData] = useState({
@@ -8,6 +11,32 @@ function SignUp() {
     password: "",
   });
 
+  const signup = async () => {
+    const auth = getAuth();
+    await createUserWithEmailAndPassword(auth, userData.email, userData.password)
+      .then((userCredential) => {
+        console.log("Signed up");
+        
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+
+      try {
+        const docRef = await addDoc(collection(store, "users", userData.uid), {
+            fname: userData.fname,
+            lname: userData.lname,
+            email: userData.email,
+            password: userData.password,
+        });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+  };
+
   let name, value;
   const handleInput = (e) => {
     name = e.target.name;
@@ -16,10 +45,9 @@ function SignUp() {
     setUserData({ ...userData, [name]: value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-  }
+  };
 
   console.log(userData);
   return (
@@ -27,7 +55,7 @@ function SignUp() {
       <form className="w-3/5 flex flex-col" action="" onClick={handleSubmit}>
         <label htmlFor="fname">First Name: </label>
         <input
-        className=" border border-black"
+          className=" border border-black"
           type="text"
           name="fname"
           value={userData.fname}
@@ -35,7 +63,7 @@ function SignUp() {
         />
         <label htmlFor="lname">Last Name: </label>
         <input
-        className=" border border-black"
+          className=" border border-black"
           type="text"
           name="lname"
           value={userData.lname}
@@ -43,7 +71,7 @@ function SignUp() {
         />
         <label htmlFor="email">Email: </label>
         <input
-        className=" border border-black"
+          className=" border border-black"
           type="email"
           name="email"
           value={userData.email}
@@ -51,14 +79,14 @@ function SignUp() {
         />
         <label htmlFor="password">Password: </label>
         <input
-        className=" border border-black"
+          className=" border border-black"
           type="password"
           name="password"
           value={userData.password}
           onChange={handleInput}
         />
 
-        <button>Sign Up</button>
+        <button onClick={signup}>Sign Up</button>
       </form>
     </>
   );
