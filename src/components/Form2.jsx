@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 import { getDatabase, ref, set, push } from "firebase/database";
-import app from "./Store/realtimeDB";
+import app from "../Store/realtimeDB";
 
 function Form2() {
   const [userData, setUserData] = useState({
