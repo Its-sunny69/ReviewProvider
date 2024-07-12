@@ -12,9 +12,9 @@ function Form2() {
 
   const questionArray = [1, 2, 3];
   useEffect(() => {
-    const initialQuestions = {};
+    const initialQuestions = [];
     questionArray.forEach((_, index) => {
-      initialQuestions[`question${index + 1}`] = "";
+      initialQuestions.push({ question: "", answer: [] });
     });
     setUserData((prevState) => ({
       ...prevState,
@@ -30,11 +30,13 @@ function Form2() {
     const db = getDatabase(app);
     const newDocRef = push(ref(db, `Database/${id}`));
     set(newDocRef, {
-      firstname: userData.firstname,
       formLink: "",
-      reviewQ: {
-        questions: userData.questions,
-      },
+      firstname: userData.firstname,
+      reviewQ: [
+        {
+          question: userData.questions,
+        },
+      ],
     })
       .then(() => {
         alert("Data Saved");
@@ -43,11 +45,11 @@ function Form2() {
         alert("error", error.message);
       });
 
-      navigate("/user-dashboard",{
-        state:{
-          data:userData
-        }
-      });
+    navigate("/user-dashboard", {
+      state: {
+        data: userData,
+      },
+    });
   };
 
   const handleSubmit = (e) => {
@@ -62,10 +64,7 @@ function Form2() {
     if (name.startsWith("question")) {
       setUserData((prevState) => ({
         ...prevState,
-        questions: {
-          ...prevState.questions,
-          [name]: value,
-        },
+        [questions[name.split("question")[1]].question]: value,
       }));
     } else {
       setUserData((prevState) => ({
