@@ -30,7 +30,7 @@ function Review() {
   };
 
   const getQuestionsDiv = (questions) => {
-    return `<div style=${style} style>
+    return `<div style=${style}>
         ${Object.entries(questions).map(([questionKey, questionValue]) => `
           <p class="text-xl p-1 font-bold">${questionKey}: ${questionValue}</p>
         `).join('')}
@@ -72,7 +72,6 @@ function Review() {
               </motion.div>
             </div>
           ))}
-
           {iframeVisible && (
             <iframe srcDoc={iframeUrl} className="w-full h-96 border-4 flex justify-center items-center"></iframe>
           )}

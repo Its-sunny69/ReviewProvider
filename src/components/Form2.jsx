@@ -43,7 +43,11 @@ function Form2() {
         alert("error", error.message);
       });
 
-    navigate("/user-dashboard");
+      navigate("/user-dashboard",{
+        state:{
+          data:userData
+        }
+      });
   };
 
   const handleSubmit = (e) => {

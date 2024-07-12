@@ -6,7 +6,7 @@ import app from "../Store/realtimeDB";
 function UserDashboard() {
   const { state } = useLocation()
   const [userName, setUserName] = useState([]);
-
+  console.log(state)
   // useEffect(() => {
   //   const fatchData = async () => {
   //     const db = getDatabase(app);
@@ -31,7 +31,7 @@ function UserDashboard() {
   let handleSubmit = () => {
     navigate("/review", {
       state: {
-        data: state.data.item
+        data: state.data.item || state.data
       }
     });
   };
@@ -41,10 +41,14 @@ function UserDashboard() {
       <div>
         <li>
           <div className="flex justify-center items-center flex-col border-2 shadow-sm w-52 h-52 shadow-black">
-            {Object.entries(state.data.item).map((key) => (
-              key[1].firstname &&
-              <p className="font-bold text-xl" key={state.data.item}>{key[1].firstname}fdk</p>
-            ))}
+            {
+              state.data.item ?
+                Object.entries(state.data.item).map((key, index) => (
+                  <p className="font-bold text-xl" key={index}>{key[1].firstname}</p>
+                ))
+                :
+                <p className="font-bold text-xl">{state.data.firstname}</p>
+            }
           </div>
         </li>
       </div>
