@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import UserInput from "./components/UserInput";
 import Home from "./components/Home";
 import UserDashboard from "./components/UserDashboard";
@@ -8,20 +8,35 @@ import GetData from "./components/GetData";
 import SignUp from "./Auth/SignUp";
 import { Toaster } from "react-hot-toast";
 import Login from "./Auth/Login";
+import { useEffect, useState } from "react";
+import { auth } from "./Store/realtimeDB";
 
 function App() {
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+    });
+    console.log(user);
+  }, []);
   return (
     <div className="select-none w-full">
       <BrowserRouter>
         <nav>
           <ul>
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/Home">Home</Link>
             </li>
           </ul>
         </nav>
         <Routes>
-          <Route exact path="/" element={<Home />} />
+          <Route
+            exact
+            path="/"
+            element={user ? <Navigate to="/Home" /> : <Login />}
+          />
+          <Route path="/Home" element={<Home />} />
           <Route path="/Form" element={<Form2 />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/review" element={<Review />} />

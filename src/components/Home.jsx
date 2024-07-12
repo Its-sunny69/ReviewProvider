@@ -2,13 +2,32 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GetData from "./GetData";
 import { AuthProvider, useAuth } from "../contexts/getUser";
+import { auth } from "../Store/realtimeDB";
+import toast from "react-hot-toast";
 
 function Home() {
   const navigate = useNavigate();
-  const userData = useAuth().userData
+  const userData = useAuth().userData;
+
   const handleCreate = () => {
     navigate("/Form");
   };
+
+  const handleLogout = async() => {
+    try {
+      await auth.signOut();
+      toast.success("User Logedout Successfully!!", {
+        duration: "3000",
+        position: "top-center"
+      })
+      navigate("/Login")
+    } catch (error) {
+      toast.error(error.message, {
+        duration: "3000",
+        position: "bottom-center"
+      })
+    }
+  }
   return (
     <div>
       {userData ? (
@@ -19,7 +38,7 @@ function Home() {
         console.log("UserData Loading...")
       )}
 
-      <button>Logout</button>
+      <button onClick={handleLogout}>Logout</button>
       <p className="text-2xl font-bold">Create Space: </p>
       <button
         onClick={handleCreate}
@@ -39,4 +58,4 @@ export default function App() {
       <Home />
     </AuthProvider>
   );
-};
+}
