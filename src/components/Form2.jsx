@@ -7,7 +7,7 @@ import app from "../Store/realtimeDB";
 function Form2() {
   const [userData, setUserData] = useState({
     firstname: "",
-    questions: {},
+    questions: [],
   });
 
   const questionArray = [1, 2, 3];

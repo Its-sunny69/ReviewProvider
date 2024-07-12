@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore"; 
-import { store } from "../Store/realtimeDB";
+import { doc, setDoc } from "firebase/firestore";
+import app, { store } from "../Store/realtimeDB";
 
 function SignUp() {
   const [userData, setUserData] = useState({
@@ -11,32 +11,6 @@ function SignUp() {
     password: "",
   });
 
-  const signup = async () => {
-    const auth = getAuth();
-    await createUserWithEmailAndPassword(auth, userData.email, userData.password)
-      .then((userCredential) => {
-        console.log("Signed up");
-        
-        const user = userCredential.user;
-        console.log(user);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-
-      try {
-        const docRef = await addDoc(collection(store, "users", userData.uid), {
-            fname: userData.fname,
-            lname: userData.lname,
-            email: userData.email,
-            password: userData.password,
-        });
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-  };
-
   let name, value;
   const handleInput = (e) => {
     name = e.target.name;
@@ -45,8 +19,31 @@ function SignUp() {
     setUserData({ ...userData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const auth = getAuth(app);
+      await createUserWithEmailAndPassword(
+        auth,
+        userData.email,
+        userData.password
+      );
+      const user = auth.currentUser;
+      console.log(user);
+      console.log({email: user.email,
+        fname: userData.fname,
+        lname: userData.lname,})
+
+      if (user) {
+        await setDoc(doc(store, "users", user.uid), {
+          email: user.email,
+          fname: userData.fname,
+          lname: userData.lname,
+        });
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   console.log(userData);
@@ -86,7 +83,7 @@ function SignUp() {
           onChange={handleInput}
         />
 
-        <button onClick={signup}>Sign Up</button>
+        <button>Sign Up</button>
       </form>
     </>
   );
