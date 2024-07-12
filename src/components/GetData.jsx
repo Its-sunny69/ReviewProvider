@@ -11,6 +11,7 @@ function GetData() {
     )
   }
 
+
   return (
     <div>
       <ul className="flex flex-wrap gap-10 p-10">

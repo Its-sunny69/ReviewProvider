@@ -1,20 +1,21 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { getDatabase, ref, get } from "firebase/database";
 import app from "../Store/realtimeDB";
+import { AuthProvider, useAuth } from './getUser';
 
 const dataContext = createContext();
 
 function DataProvider({ children }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { userData } = useAuth()
 
-  const fetchData = async () => {
+  const fetchData = async (path) => {
     const db = getDatabase(app);
-    const dbRef = ref(db, `Database`);
+    const dbRef = ref(db, `Database/${path}`);
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
-      setData(Object.values(snapshot.val()));
-      setLoading(false);
+      setData((prev) => [...prev, Object.values(snapshot.val())]);
     } else {
       console.log("Fetch failed");
       setLoading(false);
@@ -22,13 +23,20 @@ function DataProvider({ children }) {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (userData) {
+      userData.spaces.forEach(element => {
+        fetchData(element)
+      });
+      setLoading(false)
+    }
+  }, [userData]);
 
   return (
-    <dataContext.Provider value={{ data, loading }}>
-      {children}
-    </dataContext.Provider>
+    <AuthProvider>
+      <dataContext.Provider value={{ data, loading }}>
+        {children}
+      </dataContext.Provider>
+    </AuthProvider>
   );
 }
 const useData = () => {

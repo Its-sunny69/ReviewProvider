@@ -42,6 +42,7 @@ function SignUp() {
           email: user.email,
           fname: userData.fname,
           lname: userData.lname,
+          spaces: []
         });
       }
 

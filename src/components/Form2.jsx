@@ -3,8 +3,11 @@ import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 import { getDatabase, ref, set, push } from "firebase/database";
 import app from "../Store/realtimeDB";
+import { AuthProvider, useAuth } from "../contexts/getUser";
+import { arrayUnion, doc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
 
 function Form2() {
+  const userId = useAuth().id
   const [userData, setUserData] = useState({
     firstname: "",
     questions: [],
@@ -27,8 +30,10 @@ function Form2() {
   const saveData = async () => {
     let id = uuidv4();
     console.log(id);
-    const db = getDatabase(app);
-    const newDocRef = push(ref(db, `Database/${id}`));
+    const db = getFirestore(app);
+    const db1 = getDatabase(app);
+    const userDocRef = doc(db, "users", userId);
+    const newDocRef = push(ref(db1, `Database/${id}`));
     set(newDocRef, {
       formLink: "",
       firstname: userData.firstname,
@@ -38,22 +43,29 @@ function Form2() {
         },
       ],
     })
-      .then(() => {
-        alert("Data Saved");
+      .then(async () => {
+        if (userId) {
+          console.log(id);
+          await updateDoc(userDocRef, {
+            spaces: arrayUnion(id)
+          });
+          alert("Data Saved");
+          navigate("/user-dashboard", {
+            state: {
+              data: userData,
+            },
+          });
+        }
       })
       .catch((error) => {
+        console.log(error);
         alert("error", error.message);
       });
-
-    navigate("/user-dashboard", {
-      state: {
-        data: userData,
-      },
-    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
   };
 
   const handleData = (e) => {
@@ -122,4 +134,10 @@ function Form2() {
   );
 }
 
-export default Form2;
+export default function App() {
+  return (
+    <AuthProvider>
+      <Form2 />
+    </AuthProvider>
+  )
+}
