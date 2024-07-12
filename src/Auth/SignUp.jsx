@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import app, { store } from "../Store/realtimeDB";
+import app, { store, auth } from "../Store/realtimeDB";
+import toast from 'react-hot-toast';
+import { useNavigate } from "react-router-dom";
+
 
 function SignUp() {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     fname: "",
     lname: "",
@@ -22,7 +26,6 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const auth = getAuth(app);
       await createUserWithEmailAndPassword(
         auth,
         userData.email,
@@ -41,15 +44,27 @@ function SignUp() {
           lname: userData.lname,
         });
       }
+
+      console.log("User Signedup Successfully")
+      toast.success("User Signedup Successfully", {
+        position: "top-center",
+        duration: 4000,
+      })
+      navigate('/')
     } catch (error) {
       console.log(error)
+      toast.error(error.message, {
+        position: "bottom-center",
+        duration: 4000,
+      })
     }
+    
   };
 
   console.log(userData);
   return (
     <>
-      <form className="w-3/5 flex flex-col" action="" onClick={handleSubmit}>
+      <form className="w-3/5 flex flex-col" action="" onSubmit={handleSubmit}>
         <label htmlFor="fname">First Name: </label>
         <input
           className=" border border-black"

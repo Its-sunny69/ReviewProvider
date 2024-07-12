@@ -6,9 +6,12 @@ import Review from "./components/Review";
 import Form2 from "./components/Form2";
 import GetData from "./components/GetData";
 import SignUp from "./Auth/SignUp";
+import { Toaster } from "react-hot-toast";
+import Login from "./Auth/Login";
+
 function App() {
   return (
-    <div className="select-none">
+    <div className="select-none w-full">
       <BrowserRouter>
         <nav>
           <ul>
@@ -24,8 +27,10 @@ function App() {
           <Route path="/review" element={<Review />} />
           <Route path="/getData" element={<GetData />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
+      <Toaster />
     </div>
   );
 }
