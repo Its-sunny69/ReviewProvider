@@ -56,15 +56,17 @@ function Form2() {
     e.preventDefault();
   };
 
-  let name, value;
   const handleData = (e) => {
-    name = e.target.name;
-    value = e.target.value;
+    const name = e.target.name;
+    const value = e.target.value;
 
     if (name.startsWith("question")) {
+      const questionIndex = parseInt(name.split("question")[1]) - 1;
       setUserData((prevState) => ({
         ...prevState,
-        [questions[name.split("question")[1]].question]: value,
+        questions: prevState.questions.map((q, index) =>
+          index === questionIndex ? { ...q, question: value } : q
+        ),
       }));
     } else {
       setUserData((prevState) => ({
