@@ -37,11 +37,7 @@ function Form2() {
     set(newDocRef, {
       formLink: "",
       firstname: userData.firstname,
-      reviewQ: [
-        {
-          question: userData.questions,
-        },
-      ],
+      reviewQ: userData.questions
     })
       .then(async () => {
         if (userId) {

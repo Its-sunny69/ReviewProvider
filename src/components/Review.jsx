@@ -19,6 +19,7 @@ function Review() {
     alignItems: 'center',
     padding: '1rem'
   };
+  console.log(state)
 
   const getData = () => {
     navigate("/getData");
@@ -41,15 +42,15 @@ function Review() {
     <>
       <p>This is Review</p>
       <button onClick={getData} >getData</button>
-      {state && state.data && (
         <div>
-          {Object.entries(state.data).map(([key, value], index) => (
-            <div key={index} className="flex w-52 h-52 flex-col border-2 shadow-xl items-center p-4 ">
-              {Object.entries(value.reviewQ.questions).map(([questionKey, questionValue], questionIndex) => (
-                <p key={questionIndex} className="text-xl p-1 font-bold">
-                  {questionKey}: {questionValue}
-                </p>
-              ))}
+            <div className="flex w-52 h-52 flex-col border-2 shadow-xl items-center p-4 ">
+              {
+                state.data.questions.map((item, index) => (
+                  <p key={index} className="text-xl p-1 font-bold">
+                    {index}:{item.question}
+                  </p>
+                ))
+              }
               <div className="flex justify-around items-center p-5">
                 <button className="flex border-2 rounded-full bg-green-600 w-max h-max p-2 justify-center items-center text-white" onClick={() => setIsShow(!isShow)}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -71,12 +72,10 @@ function Review() {
                 </p>
               </motion.div>
             </div>
-          ))}
           {iframeVisible && (
             <iframe srcDoc={iframeUrl} className="w-full h-96 border-4 flex justify-center items-center"></iframe>
           )}
         </div>
-      )}
     </>
   );
 }
