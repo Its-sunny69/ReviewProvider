@@ -3,23 +3,22 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getDatabase, ref, get, remove } from "firebase/database";
 import app, { store } from "../Store/realtimeDB";
 import { AuthProvider, useAuth } from "../contexts/getUser";
-import { doc, updateDoc } from "firebase/firestore";
+import { arrayRemove, doc, updateDoc } from "firebase/firestore";
 
 function UserDashboard() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { id } = useAuth();
   console.log(state);
-  console.log(state.data.item[0]._id);
 
   const handleDelete = async () => {
     const db = getDatabase(app);
-    const docRef = ref(db, `Database/${state.data.item[0]._id}`);
+    const docRef = ref(db, `Database/${state.data.item ? state.data.item[0]._id : state.data._id}`);
     await remove(docRef)
       .then(async () => {
         const userRef = doc(store, "users", id);
         await updateDoc(userRef, {
-          spaces : state.data.item[0]._id
+          spaces: arrayRemove(state.data.item ? state.data.item[0]._id : state.data._id)
         })
         navigate("/Home");
       })
