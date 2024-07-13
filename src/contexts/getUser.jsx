@@ -16,7 +16,6 @@ const AuthProvider = ({ children }) => {
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
                 setUserData(docSnap.data());
-                console.log(docSnap.data());
             } else {
                 console.log("User is not loggedin");
             }
