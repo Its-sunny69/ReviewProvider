@@ -8,7 +8,7 @@ function Home() {
   const userData = useAuth().userData;
 
   const handleCreate = () => {
-    navigate("/Form");
+    navigate("/form");
   };
 
 

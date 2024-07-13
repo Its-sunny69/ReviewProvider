@@ -20,7 +20,7 @@ function UserDashboard() {
         await updateDoc(userRef, {
           spaces: arrayRemove(state.data.item ? state.data.item[0]._id : state.data._id)
         })
-        navigate("/Home");
+        navigate("/home");
       })
       .catch((error) => console.log(error));
   };

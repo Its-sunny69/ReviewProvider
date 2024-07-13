@@ -29,10 +29,10 @@ function App() {
           <Route
             exact
             path="/"
-            element={user ? <Navigate to="/Home" /> : <Login />}
+            element={user ? <Navigate to="/home" /> : <Login />}
           />
-          <Route path="/Home" element={<Home />} />
-          <Route path="/Form" element={<Form2 />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/form" element={<Form2 />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/review" element={<Review />} />
           <Route path="/getData" element={<GetData />} />

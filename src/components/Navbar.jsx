@@ -20,7 +20,7 @@ function Navbar() {
         position: "top-center",
       });
       setId(null);
-      navigate("/Login");
+      navigate("/login");
     } catch (error) {
       toast.error(error.message, {
         duration: 2000,
