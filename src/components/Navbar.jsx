@@ -8,9 +8,13 @@ function Navbar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [uid, setId] = useState(useAuth().id)
-  const { userData } = useAuth();
+  const { id, userData } = useAuth();
 
 
+  useEffect(() => {
+    if (id && pathname != '/login') 
+      setId(id)
+  }, [pathname])
 
   const handleLogout = async () => {
     try {
