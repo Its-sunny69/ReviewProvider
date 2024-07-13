@@ -4,10 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { getDatabase, ref, set, push } from "firebase/database";
 import app from "../Store/realtimeDB";
 import { AuthProvider, useAuth } from "../contexts/getUser";
-import { arrayUnion, doc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
+import {
+  arrayUnion,
+  doc,
+  getFirestore,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 function Form2() {
-  const userId = useAuth().id
+  const userId = useAuth().id;
   const [userData, setUserData] = useState({
     firstname: "",
     questions: [],
@@ -37,13 +43,13 @@ function Form2() {
     set(newDocRef, {
       formLink: "",
       firstname: userData.firstname,
-      reviewQ: userData.questions
+      reviewQ: userData.questions,
     })
       .then(async () => {
         if (userId) {
           console.log(id);
           await updateDoc(userDocRef, {
-            spaces: arrayUnion(id)
+            spaces: arrayUnion(id),
           });
           alert("Data Saved");
           navigate("/user-dashboard", {
@@ -61,7 +67,6 @@ function Form2() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
   };
 
   const handleData = (e) => {
@@ -83,8 +88,6 @@ function Form2() {
       }));
     }
   };
-
-  console.log(userData);
 
   return (
     <>
@@ -135,5 +138,5 @@ export default function App() {
     <AuthProvider>
       <Form2 />
     </AuthProvider>
-  )
+  );
 }
