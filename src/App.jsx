@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 import Login from "./Auth/Login";
 import { useEffect, useState } from "react";
 import { auth } from "./Store/realtimeDB";
+import Navbar from "./components/Navbar";
 
 function App() {
   const [user, setUser] = useState();
@@ -23,13 +24,7 @@ function App() {
   return (
     <div className="select-none w-full">
       <BrowserRouter>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/Home">Home</Link>
-            </li>
-          </ul>
-        </nav>
+        <Navbar />
         <Routes>
           <Route
             exact

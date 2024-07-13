@@ -17,6 +17,7 @@ function Form2() {
   const [userData, setUserData] = useState({
     firstname: "",
     questions: [],
+    _id: "",
   });
 
   const questionArray = [1, 2, 3];
@@ -36,6 +37,10 @@ function Form2() {
   const saveData = async () => {
     let id = uuidv4();
     console.log(id);
+    setUserData((prev) => ({
+      ...prev,
+      _id: id,
+    }));
     const db = getFirestore(app);
     const db1 = getDatabase(app);
     const userDocRef = doc(db, "users", userId);

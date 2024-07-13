@@ -11,6 +11,8 @@ function GetData() {
     )
   }
 
+  console.log(data)
+
 
   return (
     <div>

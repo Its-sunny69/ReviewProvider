@@ -1,60 +1,62 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getDatabase, ref, get } from "firebase/database";
-import app from "../Store/realtimeDB";
+import { getDatabase, ref, get, remove } from "firebase/database";
+import app, { store } from "../Store/realtimeDB";
+import { AuthProvider, useAuth } from "../contexts/getUser";
+import { arrayRemove, doc, updateDoc } from "firebase/firestore";
 
 function UserDashboard() {
-  const { state } = useLocation()
-  const [userName, setUserName] = useState([]);
-  console.log(state)
-  // useEffect(() => {
-  //   const fatchData = async () => {
-  //     const db = getDatabase(app);
-  //     const dbref = ref(db, "Database");
-  //     const snapshot = await get(dbref);
-  //     if (snapshot.exists) {
-  //       setUserName(Object.values(snapshot.val()));
-  //     } else {
-  //       console.log(error);
-  //     }
-  //   };
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  const { id } = useAuth();
+  console.log(state);
 
-  //   fatchData();
-  // }, []);
+  const handleDelete = async () => {
+    const db = getDatabase(app);
+    const docRef = ref(db, `Database/${state.data.item ? state.data.item[0]._id : state.data._id}`);
+    await remove(docRef)
+      .then(async () => {
+        const userRef = doc(store, "users", id);
+        await updateDoc(userRef, {
+          spaces: arrayRemove(state.data.item ? state.data.item[0]._id : state.data._id)
+        })
+        navigate("/Home");
+      })
+      .catch((error) => console.log(error));
+  };
 
-  // console.log(userName);
-  // console.log(userName[0]["firstname"])
-
-
-
-  let navigate = useNavigate();
   let handleSubmit = () => {
     navigate("/review", {
       state: {
-        data: state.data.item || state.data
-      }
+        data: state.data.item || state.data,
+      },
     });
   };
   return (
     <>
-      <p> Dashboard</p>
       <div>
-        <li>
-          <div className="flex justify-center items-center flex-col border-2 shadow-sm w-52 h-52 shadow-black">
-            {
-              state.data.item ?
-                Object.entries(state.data.item).map((key, index) => (
-                  <p className="font-bold text-xl" key={index}>{key[1].firstname}</p>
-                ))
-                :
-                <p className="font-bold text-xl">{state.data.firstname}</p>
-            }
-          </div>
-        </li>
+        <div className="flex justify-left items-center flex-col border-2 shadow-sm w-52">
+          {state.data.item ? (
+            Object.entries(state.data.item).map((key, index) => (
+              <p className="font-bold text-xl" key={index}>
+                {key[1].firstname}
+              </p>
+            ))
+          ) : (
+            <p className="font-bold text-xl">{state.data.firstname}</p>
+          )}
+        </div>
       </div>
+      <button onClick={handleDelete}>Delete Space</button>
       <button onClick={handleSubmit}>Review</button>
     </>
   );
 }
 
-export default UserDashboard;
+export default function App() {
+  return (
+    <AuthProvider>
+      <UserDashboard />
+    </AuthProvider>
+  );
+}
