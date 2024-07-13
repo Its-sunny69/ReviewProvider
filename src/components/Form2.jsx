@@ -84,8 +84,6 @@ function Form2() {
     }
   };
 
-  console.log(userData);
-
   return (
     <>
       <form

@@ -6,26 +6,6 @@ import app from "../Store/realtimeDB";
 function UserDashboard() {
   const { state } = useLocation()
   const [userName, setUserName] = useState([]);
-  console.log(state)
-  // useEffect(() => {
-  //   const fatchData = async () => {
-  //     const db = getDatabase(app);
-  //     const dbref = ref(db, "Database");
-  //     const snapshot = await get(dbref);
-  //     if (snapshot.exists) {
-  //       setUserName(Object.values(snapshot.val()));
-  //     } else {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   fatchData();
-  // }, []);
-
-  // console.log(userName);
-  // console.log(userName[0]["firstname"])
-
-
 
   let navigate = useNavigate();
   let handleSubmit = () => {
