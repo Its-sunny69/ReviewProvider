@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "../contexts/getUser";
 import toast from "react-hot-toast";
@@ -7,14 +7,10 @@ import { auth } from "../Store/realtimeDB";
 function Navbar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { id, userData } = useAuth();
-  console.log(pathname);
+  const [uid, setId] = useState(useAuth().id)
+  const { userData } = useAuth();
 
-  console.log(useAuth());
 
-  useEffect(() => {
-    if(!id) return null;
-  }, [pathname])
 
   const handleLogout = async () => {
     try {
@@ -23,6 +19,7 @@ function Navbar() {
         duration: 2000,
         position: "top-center",
       });
+      setId(null);
       navigate("/Login");
     } catch (error) {
       toast.error(error.message, {
@@ -41,7 +38,7 @@ function Navbar() {
         </div>
       </Link>
       <div className="flex justify-evenly items-center px-4 gap-x-4">
-        {id ? (
+        {uid ? (
           <>
             <div>
               {userData ? (
