@@ -41,6 +41,7 @@ function DataProvider({ children }) {
 
   useEffect(() => {
     if (userData) {
+      console.log("userData", userData)
       userData.spaces.forEach(element => {
         fetchData(element)
       });

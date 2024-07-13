@@ -1,41 +1,52 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getDatabase, ref, get, remove } from "firebase/database";
-import app from "../Store/realtimeDB";
+import app, { store } from "../Store/realtimeDB";
+import { AuthProvider, useAuth } from "../contexts/getUser";
+import { doc, updateDoc } from "firebase/firestore";
 
 function UserDashboard() {
-  const { state } = useLocation()
+  const { state } = useLocation();
   const navigate = useNavigate();
-  console.log(state)
+  const { id } = useAuth();
+  console.log(state);
+  console.log(state.data.item[0]._id);
 
-  const handleDelete = async() => {
+  const handleDelete = async () => {
     const db = getDatabase(app);
-    const docRef = ref(db, `Database/${state.data.item._id}`);
-    await remove(docRef);
-    navigate('/Home')
-  }
-
+    const docRef = ref(db, `Database/${state.data.item[0]._id}`);
+    await remove(docRef)
+      .then(async () => {
+        const userRef = doc(store, "users", id);
+        await updateDoc(userRef, {
+          spaces : state.data.item[0]._id
+        })
+        navigate("/Home");
+      })
+      .catch((error) => console.log(error));
+  };
 
   let handleSubmit = () => {
     navigate("/review", {
       state: {
-        data: state.data.item || state.data
-      }
+        data: state.data.item || state.data,
+      },
     });
   };
   return (
     <>
       <div>
-          <div className="flex justify-left items-center flex-col border-2 shadow-sm w-52">
-            {
-              state.data.item ?
-                Object.entries(state.data.item).map((key, index) => (
-                  <p className="font-bold text-xl" key={index}>{key[1].firstname}</p>
-                ))
-                :
-                <p className="font-bold text-xl">{state.data.firstname}</p>
-            }
-          </div>
+        <div className="flex justify-left items-center flex-col border-2 shadow-sm w-52">
+          {state.data.item ? (
+            Object.entries(state.data.item).map((key, index) => (
+              <p className="font-bold text-xl" key={index}>
+                {key[1].firstname}
+              </p>
+            ))
+          ) : (
+            <p className="font-bold text-xl">{state.data.firstname}</p>
+          )}
+        </div>
       </div>
       <button onClick={handleDelete}>Delete Space</button>
       <button onClick={handleSubmit}>Review</button>
@@ -43,4 +54,10 @@ function UserDashboard() {
   );
 }
 
-export default UserDashboard;
+export default function App() {
+  return (
+    <AuthProvider>
+      <UserDashboard />
+    </AuthProvider>
+  );
+}
