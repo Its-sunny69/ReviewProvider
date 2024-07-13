@@ -17,15 +17,15 @@ function Home() {
     try {
       await auth.signOut();
       toast.success("User Logedout Successfully!!", {
-        duration: "3000",
+        duration: 2000,
         position: "top-center"
       })
       navigate("/Login")
     } catch (error) {
       toast.error(error.message, {
-        duration: "3000",
+        duration: 2000,
         position: "bottom-center"
-      })
+      }) 
     }
   }
   return (

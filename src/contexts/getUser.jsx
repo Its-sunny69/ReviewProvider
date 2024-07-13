@@ -26,7 +26,7 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         setTimeout(() => {
             fetchUser()
-        }, 2000)
+        }, 200)
     }, [])
 
     return (
