@@ -1,33 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getDatabase, ref, get } from "firebase/database";
+import { getDatabase, ref, get, remove } from "firebase/database";
 import app from "../Store/realtimeDB";
 
 function UserDashboard() {
   const { state } = useLocation()
-  const [userName, setUserName] = useState([]);
+  const navigate = useNavigate();
   console.log(state)
-  // useEffect(() => {
-  //   const fatchData = async () => {
-  //     const db = getDatabase(app);
-  //     const dbref = ref(db, "Database");
-  //     const snapshot = await get(dbref);
-  //     if (snapshot.exists) {
-  //       setUserName(Object.values(snapshot.val()));
-  //     } else {
-  //       console.log(error);
-  //     }
-  //   };
 
-  //   fatchData();
-  // }, []);
-
-  // console.log(userName);
-  // console.log(userName[0]["firstname"])
+  const handleDelete = async() => {
+    const db = getDatabase(app);
+    const docRef = ref(db, `Database/${state.data.item._id}`);
+    await remove(docRef);
+    navigate('/Home')
+  }
 
 
-
-  let navigate = useNavigate();
   let handleSubmit = () => {
     navigate("/review", {
       state: {
@@ -37,10 +25,8 @@ function UserDashboard() {
   };
   return (
     <>
-      <p> Dashboard</p>
       <div>
-        <li>
-          <div className="flex justify-center items-center flex-col border-2 shadow-sm w-52 h-52 shadow-black">
+          <div className="flex justify-left items-center flex-col border-2 shadow-sm w-52">
             {
               state.data.item ?
                 Object.entries(state.data.item).map((key, index) => (
@@ -50,8 +36,8 @@ function UserDashboard() {
                 <p className="font-bold text-xl">{state.data.firstname}</p>
             }
           </div>
-        </li>
       </div>
+      <button onClick={handleDelete}>Delete Space</button>
       <button onClick={handleSubmit}>Review</button>
     </>
   );

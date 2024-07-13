@@ -10,12 +10,29 @@ function DataProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const { userData } = useAuth()
 
+  // const fetchData = async (path) => {
+  //   const db = getDatabase(app);
+  //   const dbRef = ref(db, `Database/${path}`);
+  //   const snapshot = await get(dbRef);
+  //   if (snapshot.exists()) {
+  //     setData((prev) => [...prev, Object.values(snapshot.val())]);
+  //   } else {
+  //     console.log("Fetch failed");
+  //     setLoading(false);
+  //   }
+  // };
+
   const fetchData = async (path) => {
     const db = getDatabase(app);
     const dbRef = ref(db, `Database/${path}`);
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
-      setData((prev) => [...prev, Object.values(snapshot.val())]);
+      const fetchedData = Object.values(snapshot.val());
+      const updatedData = fetchedData.map((item) => ({
+        ...item,
+        _id: path,
+      }));
+      setData((prev) => [...prev, updatedData]);
     } else {
       console.log("Fetch failed");
       setLoading(false);

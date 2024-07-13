@@ -44,8 +44,7 @@ function Home() {
         onClick={handleCreate}
         className="border-2 w-32 h-12 text-xl font-semibold font-sans rounded-lg bg-blue-400 text-white"
       >
-        {" "}
-        Create +{" "}
+        Create +
       </button>
       <GetData />
     </div>
