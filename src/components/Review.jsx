@@ -1,10 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AuthProvider } from "../contexts/getUser";
-import { arrayUnion, getFirestore } from "firebase/firestore";
+import { getDatabase, ref, update, get, child } from "firebase/database";
 import app from "../Store/realtimeDB";
-import { doc } from "firebase/firestore";
 
 function Review() {
   const navigate = useNavigate();
@@ -12,40 +11,82 @@ function Review() {
   const [isShow, setIsShow] = useState(false);
   const [iframeUrl, setIframeUrl] = useState("");
   const [iframeVisible, setIframeVisible] = useState(false);
-  const [ansForm, setAnsForm] = useState({
-    answer0: "",
-    answer1: "",
-    answer2: "",
-  });
-  console.log(state)
+  const [ansForm, setAnsForm] = useState({});
+  const [dynamicKey, setDynamicKey] = useState("");
+
+  // Populate the ansForm state with empty strings for each question
+  const initializeAnswers = () => {
+    const initialAnswers = {};
+    state.data.questions.forEach((_, index) => {
+      initialAnswers[`answer${index}`] = "";
+    });
+    setAnsForm(initialAnswers);
+  };
+
+  // Fetch the dynamic key when the component mounts
+  useEffect(() => {
+    const fetchDynamicKey = async () => {
+      const db1 = getDatabase(app);
+      const dbRef = ref(db1, `Database/${state.data._id}`);
+      const snapshot = await get(dbRef);
+
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const keys = Object.keys(data);
+        const firstKey = keys[0]; // Assuming you need the first key
+        setDynamicKey(firstKey);
+      } else {
+        console.log("No data available");
+      }
+    };
+
+    fetchDynamicKey();
+    initializeAnswers();
+  }, [state.data._id]);
+
   const ansInput = (e) => {
-    let name = e.target.name;
-    let value = e.target.value;
+    const { name, value } = e.target;
     setAnsForm({ ...ansForm, [name]: value });
   };
 
-  const style = {
-    display: "flex",
-    flexDirection: "column",
-    width: "13rem",
-    height: "13rem",
-    border: "2px solid",
-    boxShadow:
-      "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-    alignItems: "center",
-    padding: "1rem",
-  };
-
-  console.log(state);
-
   const saveAnswer = async () => {
-    const db1 = getFirestore(app);
-    Object.entries(ansForm).map(async ([key, val], index) => {
-      const AnsDocRef = doc(db1, `Database/${state.data[0]._id}/reviewQ`);
-      await updateDoc(AnsDocRef, {
-        answer: arrayUnion(val),
-      });
+    if (!dynamicKey) {
+      alert("Dynamic key not found!");
+      return;
+    }
+
+    const db1 = getDatabase(app);
+    const userDocRef = ref(db1, `Database/${state.data._id}/${dynamicKey}`);
+
+    // Fetch the current data dynamically
+    const snapshot = await get(userDocRef);
+    const currentData = snapshot.val();
+
+    if (!currentData) {
+      alert("No data found!");
+      return;
+    }
+
+    const questions = currentData.questions;
+
+    // Prepare updates for each answer
+    state.data.questions.forEach((question, index) => {
+      const answerKey = `answers${index}`;
+      if (!questions[index][answerKey]) {
+        questions[index][answerKey] = [];
+      }
+      questions[index][answerKey].push(ansForm[`answer${index}`]);
     });
+
+    // Update the database with the answers
+    await update(userDocRef, { questions })
+      .then(() => {
+        alert("Answers saved successfully!");
+      })
+      .catch((error) => {
+        console.error("Error saving answers: ", error);
+        alert("Error saving answers");
+      });
   };
 
   const getData = () => {
@@ -126,7 +167,7 @@ function Review() {
             <p
               className="w-full hover:bg-slate-700 hover:text-white hover:cursor-pointer text-center"
               onClick={() =>
-                toggleIframe(getQuestionsDiv(value.reviewQ.questions))
+                toggleIframe(getQuestionsDiv(state.data.questions))
               }
             >
               Embed Code
@@ -147,7 +188,8 @@ function Review() {
 export default function App() {
   return (
     <AuthProvider>
-      <Review></Review>
+      <Review />
     </AuthProvider>
   );
 }
+
