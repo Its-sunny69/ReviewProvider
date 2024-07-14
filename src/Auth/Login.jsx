@@ -61,7 +61,7 @@ function Login() {
           onChange={handleInput}
         />
 
-        <button>Sign Up</button>
+        <button>Login</button>
       </form>
     </>
   );

@@ -12,7 +12,7 @@ function Navbar() {
 
 
   useEffect(() => {
-    if (id && pathname != '/login') 
+    if (id && pathname != '/login' && pathname != '/signup') 
       setId(id)
   }, [pathname])
 

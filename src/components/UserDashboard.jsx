@@ -43,11 +43,12 @@ function UserDashboard() {
               </p>
             ))
           ) : (
-            <p className="font-bold text-xl">{state.data.firstname}</p>
+            <p className="font-bold text-xl">{state.data.firstname} Dashboard</p>
           )}
         </div>
       </div>
       <button onClick={handleDelete}>Delete Space</button>
+      <br />
       <button onClick={handleSubmit}>Review</button>
     </>
   );
