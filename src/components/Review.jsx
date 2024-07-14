@@ -3,10 +3,12 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { getDatabase, ref, get, push } from "firebase/database";
 import { AuthProvider, useAuth } from "../contexts/getUser";
+import app from "../Store/realtimeDB";
+import { arrayUnion, doc, getFirestore, updateDoc } from "firebase/firestore";
 
 function Review() {
+  const navigate = useNavigate();
   const { state } = useLocation();
-  const { id } = useAuth();
   const [isShow, setIsShow] = useState(false);
   const [iframeUrl, setIframeUrl] = useState("");
   const [iframeVisible, setIframeVisible] = useState(false);
@@ -15,8 +17,7 @@ function Review() {
     answer1: "",
     answer2: "",
   });
-  let navigate = useNavigate();
-
+  console.log(state)
   const ansInput = (e) => {
     let name = e.target.name;
     let value = e.target.value;
@@ -36,8 +37,14 @@ function Review() {
   };
 
   const saveAnswer = async () => {
-    const db = getDatabase(app);
-    const newDocRef = push(ref(db, `Database/${id}/`));
+    const db = getFirestore(app);
+    Object.values(ansForm).forEach(async (item, index) => {
+      const newDocRef = doc(db, `Database/${state.data._id}/${index}`);
+      await updateDoc(newDocRef, {
+        answer: arrayUnion(`${item}.answer${index}`),
+      });
+      console.log(newDocRef);
+    })
   };
 
   const getData = () => {
@@ -52,12 +59,12 @@ function Review() {
   const getQuestionsDiv = (questions) => {
     return `<div style=${style}>
         ${Object.entries(questions)
-          .map(
-            ([questionKey, questionValue]) => `
+        .map(
+          ([questionKey, questionValue]) => `
           <p class="text-xl p-1 font-bold">${questionKey}: ${questionValue}</p>
         `
-          )
-          .join("")}
+        )
+        .join("")}
       </div>`;
   };
 
