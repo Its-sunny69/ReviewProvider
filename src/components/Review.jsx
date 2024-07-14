@@ -1,10 +1,11 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { getDatabase, ref, get, push } from "firebase/database";
+import { getDatabase } from "firebase/database";
 import { AuthProvider, useAuth } from "../contexts/getUser";
+import { arrayUnion, getFirestore } from "firebase/firestore";
 import app from "../Store/realtimeDB";
-import { arrayUnion, doc, getFirestore, updateDoc } from "firebase/firestore";
+import { doc } from "firebase/firestore";
 
 function Review() {
   const navigate = useNavigate();
@@ -36,15 +37,16 @@ function Review() {
     padding: "1rem",
   };
 
+  console.log(state);
+
   const saveAnswer = async () => {
-    const db = getFirestore(app);
-    Object.values(ansForm).forEach(async (item, index) => {
-      const newDocRef = doc(db, `Database/${state.data._id}/${index}`);
-      await updateDoc(newDocRef, {
-        answer: arrayUnion(`${item}.answer${index}`),
+    const db1 = getFirestore(app);
+    Object.entries(ansForm).map(async ([key, val], index) => {
+      const AnsDocRef = doc(db1, `Database/${state.data[0]._id}/reviewQ`);
+      await updateDoc(AnsDocRef, {
+        answer: arrayUnion(val),
       });
-      console.log(newDocRef);
-    })
+    });
   };
 
   const getData = () => {
@@ -67,6 +69,8 @@ function Review() {
         .join("")}
       </div>`;
   };
+
+  console.log(state);
 
   return (
     <>
