@@ -17,7 +17,7 @@ function Form2() {
   const [userData, setUserData] = useState({
     firstname: "",
     questions: [],
-    _id: "",
+    _id: uuidv4(),
   });
 
   const questionArray = [1, 2, 3];
@@ -35,26 +35,20 @@ function Form2() {
   const navigate = useNavigate();
 
   const saveData = async () => {
-    let id = uuidv4();
-    console.log(id);
-    setUserData((prev) => ({
-      ...prev,
-      _id: id,
-    }));
     const db = getFirestore(app);
     const db1 = getDatabase(app);
     const userDocRef = doc(db, "users", userId);
-    const newDocRef = push(ref(db1, `Database/${id}`));
+    const newDocRef = push(ref(db1, `Database/${userData._id}`));
     set(newDocRef, {
       formLink: "",
       firstname: userData.firstname,
-      reviewQ: userData.questions,
+      questions: userData.questions,
     })
       .then(async () => {
         if (userId) {
-          console.log(id);
+          console.log(userData._id);
           await updateDoc(userDocRef, {
-            spaces: arrayUnion(id),
+            spaces: arrayUnion(userData._id),
           });
           alert("Data Saved");
           navigate("/user-dashboard", {
@@ -83,7 +77,7 @@ function Form2() {
       setUserData((prevState) => ({
         ...prevState,
         questions: prevState.questions.map((q, index) =>
-          index === questionIndex ? { ...q, question: value } : q
+          index === questionIndex ? { ...q, question: value, answer: [] } : q
         ),
       }));
     } else {
@@ -92,7 +86,9 @@ function Form2() {
         [name]: value,
       }));
     }
+    console.log(userData)
   };
+
 
   return (
     <>

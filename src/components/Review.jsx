@@ -1,12 +1,14 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { getDatabase, ref, get, push } from "firebase/database";
-import { AuthProvider, useAuth } from "../contexts/getUser";
+import { AuthProvider } from "../contexts/getUser";
+import { arrayUnion, getFirestore } from "firebase/firestore";
+import app from "../Store/realtimeDB";
+import { doc } from "firebase/firestore";
 
 function Review() {
+  const navigate = useNavigate();
   const { state } = useLocation();
-  const { id } = useAuth();
   const [isShow, setIsShow] = useState(false);
   const [iframeUrl, setIframeUrl] = useState("");
   const [iframeVisible, setIframeVisible] = useState(false);
@@ -15,8 +17,7 @@ function Review() {
     answer1: "",
     answer2: "",
   });
-  let navigate = useNavigate();
-
+  console.log(state)
   const ansInput = (e) => {
     let name = e.target.name;
     let value = e.target.value;
@@ -35,9 +36,16 @@ function Review() {
     padding: "1rem",
   };
 
+  console.log(state);
+
   const saveAnswer = async () => {
-    const db = getDatabase(app);
-    const newDocRef = push(ref(db, `Database/${id}/`));
+    const db1 = getFirestore(app);
+    Object.entries(ansForm).map(async ([key, val], index) => {
+      const AnsDocRef = doc(db1, `Database/${state.data[0]._id}/reviewQ`);
+      await updateDoc(AnsDocRef, {
+        answer: arrayUnion(val),
+      });
+    });
   };
 
   const getData = () => {
@@ -52,14 +60,16 @@ function Review() {
   const getQuestionsDiv = (questions) => {
     return `<div style=${style}>
         ${Object.entries(questions)
-          .map(
-            ([questionKey, questionValue]) => `
+        .map(
+          ([questionKey, questionValue]) => `
           <p class="text-xl p-1 font-bold">${questionKey}: ${questionValue}</p>
         `
-          )
-          .join("")}
+        )
+        .join("")}
       </div>`;
   };
+
+  console.log(state);
 
   return (
     <>

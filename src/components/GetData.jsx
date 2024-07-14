@@ -20,7 +20,7 @@ function GetData() {
         {data.map((item, index) => (
           <li key={index} onClick={() => navigate('/user-dashboard', {
             state: {
-              data: {item}
+              data: item[0]
             }
           })}>
             <div className="flex justify-center items-center flex-col border-2 shadow-sm w-52 h-52 shadow-black">
