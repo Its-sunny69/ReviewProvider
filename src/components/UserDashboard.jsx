@@ -13,18 +13,22 @@ function UserDashboard() {
 
   const handleDelete = async () => {
     const db = getDatabase(app);
-    const docRef = ref(db, `Database/${state.data.item ? state.data.item[0]._id : state.data._id}`);
+    const docRef = ref(
+      db,
+      `Database/${state.data.item ? state.data.item[0]._id : state.data._id}`
+    );
     await remove(docRef)
       .then(async () => {
         const userRef = doc(store, "users", id);
         await updateDoc(userRef, {
-          spaces: arrayRemove(state.data.item ? state.data.item[0]._id : state.data._id)
-        })
+          spaces: arrayRemove(
+            state.data.item ? state.data.item[0]._id : state.data._id
+          ),
+        });
         navigate("/home");
       })
       .catch((error) => console.log(error));
   };
-  
 
   let handleSubmit = () => {
     navigate("/review", {
@@ -33,6 +37,7 @@ function UserDashboard() {
       },
     });
   };
+
   return (
     <>
       <div>
@@ -44,13 +49,23 @@ function UserDashboard() {
               </p>
             ))
           ) : (
-            <p className="font-bold text-xl">{state.data.firstname} Dashboard</p>
+            <p className="font-bold text-xl">
+              {state.data.firstname} Dashboard
+            </p>
           )}
         </div>
       </div>
       <button onClick={handleDelete}>Delete Space</button>
       <br />
       <button onClick={handleSubmit}>Review</button>
+      <div>
+        {state.data.questions.map((item, index) => (
+          <>
+            <p>{item.question}</p>
+            <p>{item[`answers${index}`]}</p>
+          </>
+        ))}
+      </div>
     </>
   );
 }
