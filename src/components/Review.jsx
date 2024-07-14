@@ -1,8 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { getDatabase } from "firebase/database";
-import { AuthProvider, useAuth } from "../contexts/getUser";
+import { AuthProvider } from "../contexts/getUser";
 import { arrayUnion, getFirestore } from "firebase/firestore";
 import app from "../Store/realtimeDB";
 import { doc } from "firebase/firestore";
