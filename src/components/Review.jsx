@@ -11,17 +11,19 @@ function Review() {
   const [isShow, setIsShow] = useState(false);
   const [iframeUrl, setIframeUrl] = useState("");
   const [iframeVisible, setIframeVisible] = useState(false);
-  const [ansForm, setAnsForm] = useState({});
+  const [ansForm, setAnsForm] = useState([]);
   const [dynamicKey, setDynamicKey] = useState("");
 
   // Populate the ansForm state with empty strings for each question
   const initializeAnswers = () => {
-    const initialAnswers = {};
+    const initialAnswers = [];
     state.data.questions.forEach((_, index) => {
-      initialAnswers[index] = "";
+      initialAnswers.push({id: "", answer: ""})
     });
     setAnsForm(initialAnswers);
   };
+
+  console.log(ansForm);
 
   // Fetch the dynamic key when the component mounts
   useEffect(() => {
@@ -125,7 +127,7 @@ function Review() {
                 type="text"
                 className="border-2"
                 onChange={ansInput}
-                name={index}
+                name="answer"
                 value={ansForm[index]}
               />
             </p>
