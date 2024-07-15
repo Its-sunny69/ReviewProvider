@@ -18,7 +18,7 @@ function Review() {
   const initializeAnswers = () => {
     const initialAnswers = {};
     state.data.questions.forEach((_, index) => {
-      initialAnswers[`answer${index}`] = "";
+      initialAnswers[index] = "";
     });
     setAnsForm(initialAnswers);
   };
@@ -71,11 +71,11 @@ function Review() {
 
     // Prepare updates for each answer
     state.data.questions.forEach((question, index) => {
-      const answerKey = `answers${index}`;
+      const answerKey = index;
       if (!questions[index][answerKey]) {
         questions[index][answerKey] = [];
       }
-      questions[index][answerKey].push(ansForm[`answer${index}`]);
+      questions[index][answerKey].push(ansForm[index]);
     });
 
     // Update the database with the answers
@@ -125,8 +125,8 @@ function Review() {
                 type="text"
                 className="border-2"
                 onChange={ansInput}
-                name={`answer${index}`}
-                value={ansForm[`answer${index}`]}
+                name={index}
+                value={ansForm[index]}
               />
             </p>
           ))}
