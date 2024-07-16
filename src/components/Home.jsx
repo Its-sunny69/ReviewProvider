@@ -11,6 +11,9 @@ function Home() {
     navigate("/form");
   };
 
+  console.log('home')
+
+
   return (
     <div className="w-full h-dvh px-4 py-2 pt-16">
       <div className="border border-black grid grid-cols-2 gap-4">
