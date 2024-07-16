@@ -23,7 +23,7 @@ function App() {
     console.log(user);
   }, []);
   return (
-    <div className="select-none w-full">
+    <div className="select-none w-full bg-slate-100">
       <BrowserRouter>
         <Navbar />
         <Routes>

@@ -37,11 +37,11 @@ function Navbar() {
 
   if (pathname && pathname != '/login' && pathname != '/signup')
     return (
-      <nav className="w-full py-4 bg-blue-950 h-max flex justify-between">
+      <nav className="w-full py-2 bg-blue-200 h-max flex justify-between">
         <Link to={"/home"}>
           <div className="flex justify-around w-max gap-x-3 items-center px-4">
             <img width={50} height={50} className="rounded-full border-2" />
-            <p className="text-white text-xl font-bold ">Testimonals</p>
+            <p className="text-blue-800 text-xl font-bold ">Testimonals</p>
           </div>
         </Link>
         <div className="flex justify-evenly items-center px-4 gap-x-4">
@@ -49,15 +49,15 @@ function Navbar() {
             <>
               <div>
                 {userData ? (
-                  <p className="text-white font-bold text-xl">
-                    {userData.fname} {userData.lname}
+                  <p className="text-black font-extrabold text-2xl drop-shadow-sm">
+                    {(userData.fname).charAt(0).toUpperCase()+(userData.fname).slice(1)}
                   </p>
                 ) : (
                   console.log("UserData Loading...")
                 )}
               </div>
               <button
-                className="flex justify-evenly border-2 border-red-500 min-w-32 h-max p-3 rounded-3xl text-white font-mono font-bold text-md bg-red-500 hover:bg-red-600"
+                className="flex items-center gap-x-2 border border-1 shadow-md border-red-500 h-max px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md bg-red-500 hover:bg-red-100 hover:text-slate-900"
                 onClick={() => handleLogout()}
               >
                 Logout
@@ -67,7 +67,7 @@ function Navbar() {
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="size-6"
+                  className="size-4"
                 >
                   <path
                     strokeLinecap="round"
