@@ -11,6 +11,7 @@ import Login from "./Auth/Login";
 import { useEffect, useState } from "react";
 import { auth } from "./Store/realtimeDB";
 import Navbar from "./components/Navbar";
+import './App.css'
 
 function App() {
   const [user, setUser] = useState();

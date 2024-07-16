@@ -13,16 +13,20 @@ function Review() {
   const [iframeUrl, setIframeUrl] = useState("");
   const [iframeVisible, setIframeVisible] = useState(false);
   const [ansForm, setAnsForm] = useState([]);
+  const [ansForm, setAnsForm] = useState([]);
   const [dynamicKey, setDynamicKey] = useState("");
 
   // Populate the ansForm state with empty strings for each question
   const initializeAnswers = () => {
+    const initialAnswers = [];
     const initialAnswers = [];
     state.data.questions.forEach((_, index) => {
       initialAnswers.push({ id: "", answer: "" });
     });
     setAnsForm(initialAnswers);
   };
+
+  console.log(ansForm);
 
   console.log(ansForm);
 
@@ -83,11 +87,11 @@ function Review() {
 
     // Prepare updates for each answer
     state.data.questions.forEach((question, index) => {
-      const answerKey = `answers${index}`;
+      const answerKey = index;
       if (!questions[index][answerKey]) {
         questions[index][answerKey] = [];
       }
-      questions[index][answerKey].push(ansForm[`answer${index}`]);
+      questions[index][answerKey].push(ansForm[index]);
     });
 
     // Update the database with the answers
