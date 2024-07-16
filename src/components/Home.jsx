@@ -11,6 +11,8 @@ function Home() {
     navigate("/form");
   };
 
+  console.log('home')
+
 
   return (
     <div>

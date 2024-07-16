@@ -1,5 +1,5 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { auth } from "../Store/realtimeDB";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -8,20 +8,26 @@ import {
   EyeTwoTone,
   CaretRightOutlined,
 } from "@ant-design/icons";
+import { AuthProvider, useAuth } from "../contexts/getUser";
 
 function Login() {
   const navigate = useNavigate();
-
   const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
-
+  const { id } = useAuth()
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  useEffect(() => {
+    if (id) {
+      navigate("/home")
+    }
+  })
 
   let name, value;
   const handleInput = (e) => {
@@ -117,4 +123,10 @@ function Login() {
   );
 }
 
-export default Login;
+export default function App() {
+  return (
+    <AuthProvider>
+      <Login />
+    </AuthProvider>
+  )
+}
