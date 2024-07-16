@@ -81,19 +81,16 @@ function UserDashboard() {
       <button onClick={handleSubmit}>Review</button>
       <div className="flex flex-wrap justify-evenly items-center p-4">
         {
-          Object.entries(names).map(([key, value]) => {
-            console.log(value)
-            return (
-              <div key={key} className="w-max h-max p-10 shadow-md border-2 border-slate-800 ">
-                <p>{key}</p>
-                {value.map((item) => (
-                  <div key={item.question}>
-                    <p>{item.question}:{item.answer}</p>
-                  </div>
-                ))}
-              </div>
-            )
-          })
+          Object.entries(names).map(([key, value]) => (
+            <div key={key} className="w-max h-max p-10 shadow-md border-2 border-slate-800 ">
+              <p>{key}</p>
+              {value.map((item) => (
+                <div key={item.question}>
+                  <p>{item.question}:{item.answer}</p>
+                </div>
+              ))}
+            </div>
+          ))
         }
       </div>
     </>
