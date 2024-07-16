@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "../contexts/getUser";
 import toast from "react-hot-toast";
 import { auth } from "../Store/realtimeDB";
-import { ReactComponent as Imagesvg } from "../assets/logo.svg";
+import Logo from '../assets/logo.svg'
 
 function Navbar() {
   const navigate = useNavigate();
@@ -40,7 +40,9 @@ function Navbar() {
       <nav className="w-full py-2 bg-blue-200 h-max flex justify-between">
         <Link to={"/home"}>
           <div className="flex justify-around w-max gap-x-3 items-center px-4">
-            <Imagesvg />
+            <div className="w-14 h-14">
+              <img src={Logo} alt="" />
+            </div>
             <p className="text-blue-800 text-xl font-bold ">TrustVibes</p>
           </div>
         </Link>

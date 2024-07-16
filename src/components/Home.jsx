@@ -19,7 +19,7 @@ function Home() {
       <div className="border border-black grid grid-cols-2 gap-4">
         <div className="m-2 p-1 flex flex-col">
           <div className="p-2">
-            <p className="text-5xl font-extrabold drop-shadow-md">Don't Now How To Create Space ?</p>
+            <p className="text-5xl font-extrabold drop-shadow-md tracking-tighter">Don't Now How To Create Space ?</p>
           </div>
           <div className="p-2 py-6">
             <p className="text-xl text-slate-600 drop-shadow-md">Here is Quick Tutorail which will guide you to the working of our Service 😄</p>
