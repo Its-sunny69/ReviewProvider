@@ -6,6 +6,7 @@ import Review from "./components/Review";
 import Form2 from "./components/Form2";
 import GetData from "./components/GetData";
 import SignUp from "./Auth/SignUp";
+import Landing from "./components/Landing";
 import { Toaster } from "react-hot-toast";
 import Login from "./Auth/Login";
 import { useEffect, useState } from "react";
@@ -27,11 +28,6 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route
-            exact
-            path="/"
-            element={user ? <Navigate to="/home" /> : <Login />}
-          />
           <Route path="/home" element={<Home />} />
           <Route path="/form" element={<Form2 />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
@@ -39,6 +35,7 @@ function App() {
           <Route path="/getData" element={<GetData />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Landing />}></Route>
         </Routes>
       </BrowserRouter>
       <Toaster />
