@@ -13,20 +13,18 @@ function Review() {
   const [iframeUrl, setIframeUrl] = useState("");
   const [iframeVisible, setIframeVisible] = useState(false);
   const [ansForm, setAnsForm] = useState([]);
-  const [ansForm, setAnsForm] = useState([]);
+  const [inputName, setInputName] = useState("");
   const [dynamicKey, setDynamicKey] = useState("");
 
   // Populate the ansForm state with empty strings for each question
   const initializeAnswers = () => {
     const initialAnswers = [];
-    const initialAnswers = [];
+
     state.data.questions.forEach((_, index) => {
-      initialAnswers.push({ id: "", answer: "" });
+      initialAnswers.push({ id: inputName, answer: "" });
     });
     setAnsForm(initialAnswers);
   };
-
-  console.log(ansForm);
 
   console.log(ansForm);
 
@@ -65,6 +63,13 @@ function Review() {
     });
   };
 
+  const updateId = (e) => {
+    let change = e.target.value;
+    for (let i = 0; i < ansForm.length; i++) {
+      ansForm[i].id = change;
+    }
+  };
+
   const saveAnswer = async () => {
     if (!dynamicKey) {
       alert("Dynamic key not found!");
@@ -87,11 +92,10 @@ function Review() {
 
     // Prepare updates for each answer
     state.data.questions.forEach((question, index) => {
-      const answerKey = index;
-      if (!questions[index][answerKey]) {
-        questions[index][answerKey] = [];
+      if (!questions[index]["answers"]) {
+        questions[index]["answers"] = [];
       }
-      questions[index][answerKey].push(ansForm[index]);
+      questions[index]["answers"].push(ansForm[index]);
     });
 
     // Update the database with the answers
@@ -146,9 +150,14 @@ function Review() {
                     value={ansForm[index].answer}
                   />
                 </p>
-                <input type="text" />
               </>
             ))}
+            <input
+              type="text"
+              name="id"
+              value={ansForm[id]}
+              onChange={(e) => updateId(e)}
+            />
             <button onClick={saveAnswer}>Answer</button>
             <div className="flex justify-around items-center p-5">
               <button

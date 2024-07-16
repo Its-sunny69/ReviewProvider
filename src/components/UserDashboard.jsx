@@ -62,7 +62,9 @@ function UserDashboard() {
         {state.data.questions.map((item, index) => (
           <>
             <p>{item.question}</p>
-            <p>{item[`answers${index}`]}</p>
+            {item.answers.map((ans, idx) => (
+              <p>{ans.answer}</p>
+            ))}
           </>
         ))}
       </div>
