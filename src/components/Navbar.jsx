@@ -3,20 +3,20 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "../contexts/getUser";
 import toast from "react-hot-toast";
 import { auth } from "../Store/realtimeDB";
+import { ReactComponent as Imagesvg } from "../assets/logo.svg";
 
 function Navbar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const [uid, setId] = useState(null)
+  const [uid, setId] = useState(null);
   const { id, userData } = useAuth();
 
-
   useEffect(() => {
-    if (id && pathname != '/login' && pathname != '/signup') {
-      console.log(id)
-      setId(id)
+    if (id && pathname != "/login" && pathname != "/signup") {
+      console.log(id);
+      setId(id);
     }
-  }, [pathname, id])
+  }, [pathname, id]);
 
   const handleLogout = async () => {
     try {
@@ -35,13 +35,13 @@ function Navbar() {
     }
   };
 
-  if (pathname && pathname != '/login' && pathname != '/signup')
+  if (pathname && pathname != "/login" && pathname != "/signup")
     return (
       <nav className="w-full py-2 bg-blue-200 h-max flex justify-between">
         <Link to={"/home"}>
           <div className="flex justify-around w-max gap-x-3 items-center px-4">
-            <img width={50} height={50} className="rounded-full border-2" />
-            <p className="text-blue-800 text-xl font-bold ">Testimonals</p>
+            <Imagesvg />
+            <p className="text-blue-800 text-xl font-bold ">TrustVibes</p>
           </div>
         </Link>
         <div className="flex justify-evenly items-center px-4 gap-x-4">
@@ -50,7 +50,8 @@ function Navbar() {
               <div>
                 {userData ? (
                   <p className="text-black font-extrabold text-2xl drop-shadow-sm">
-                    {(userData.fname).charAt(0).toUpperCase()+(userData.fname).slice(1)}
+                    {userData.fname.charAt(0).toUpperCase() +
+                      userData.fname.slice(1)}
                   </p>
                 ) : (
                   console.log("UserData Loading...")
