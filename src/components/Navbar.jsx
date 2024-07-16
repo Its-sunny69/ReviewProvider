@@ -7,7 +7,7 @@ import { auth } from "../Store/realtimeDB";
 function Navbar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const [uid, setId] = useState(useAuth().id)
+  const [uid, setId] = useState(null)
   const { id, userData } = useAuth();
 
 
@@ -16,7 +16,7 @@ function Navbar() {
       console.log(id)
       setId(id)
     }
-  }, [pathname])
+  }, [pathname, id])
 
   const handleLogout = async () => {
     try {
