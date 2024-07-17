@@ -16,9 +16,11 @@ function Review() {
   const [inputName, setInputName] = useState("");
   const [dynamicKey, setDynamicKey] = useState("");
   const [data, setData] = useState(state ? state.data : []);
-  const [questions, setQuestions] = useState(state ? state.data.questions : data ? data.questions : []);
-  const { reviewId } = useParams()
-  console.log(state)
+  const [questions, setQuestions] = useState(
+    state ? state.data.questions : data ? data.questions : []
+  );
+  const { reviewId } = useParams();
+  console.log(state);
 
   useEffect(() => {
     const getData = async (path) => {
@@ -31,19 +33,18 @@ function Review() {
           ...item,
           _id: path,
         }));
-        console.log(updatedData)
+        console.log(updatedData);
         setData((prev) => [...prev, updatedData]);
         setQuestions(updatedData[0].questions);
       } else {
         console.log("Fetch failed");
         setLoading(false);
       }
-    }
-    if (reviewId)
-      getData(reviewId);
-  }, [])
+    };
+    if (reviewId) getData(reviewId);
+  }, []);
 
-  console.log(data, ansForm)
+  console.log(data, ansForm);
   // Populate the ansForm state with empty strings for each question
   const initializeAnswers = () => {
     const initialAnswers = [];
@@ -52,7 +53,6 @@ function Review() {
     });
     setAnsForm(initialAnswers);
   };
-
 
   // Fetch the dynamic key when the component mounts
   useEffect(() => {
@@ -71,10 +71,10 @@ function Review() {
       }
     };
     setTimeout(() => {
-      console.log(questions)
+      console.log(questions);
       fetchDynamicKey();
       initializeAnswers();
-    }, 10)
+    }, 10);
   }, [state || data]);
 
   const ansInput = (e, index) => {
@@ -105,7 +105,10 @@ function Review() {
     }
 
     const db1 = getDatabase(app);
-    const userDocRef = ref(db1, `Database/${state ? state.data._id : reviewId}/${dynamicKey}`);
+    const userDocRef = ref(
+      db1,
+      `Database/${state ? state.data._id : reviewId}/${dynamicKey}`
+    );
 
     // Fetch the current data dynamically
     const snapshot = await get(userDocRef);
@@ -146,7 +149,6 @@ function Review() {
     setIframeVisible(!iframeVisible);
   };
 
-
   if (ansForm.length && questions.length && data)
     return (
       <>
@@ -167,12 +169,16 @@ function Review() {
                 </p>
               </>
             ))}
-            <input
-              type="text"
-              name="id"
-              value={ansForm[id]}
-              onChange={(e) => updateId(e)}
-            />
+            <>
+              <p>Name:</p>
+              <input
+                type="text"
+                name="id"
+                value={ansForm[id]}
+                onChange={(e) => updateId(e)}
+              />
+            </>
+
             <button onClick={saveAnswer}>Answer</button>
             <div className="flex justify-around items-center p-5">
               <button
@@ -203,13 +209,15 @@ function Review() {
             >
               <p
                 className="w-full hover:bg-slate-700 hover:text-white hover:cursor-pointer text-center"
-                onClick={() => navigator.clipboard.writeText(`${import.meta.env.VITE_API_URL}/review/${data._id}`)}
+                onClick={() =>
+                  navigator.clipboard.writeText(
+                    `${import.meta.env.VITE_API_URL}/review/${data._id}`
+                  )
+                }
               >
                 Get the link
               </p>
-              <p
-                className="w-full hover:bg-slate-700 hover:text-white hover:cursor-pointer text-center"
-              >
+              <p className="w-full hover:bg-slate-700 hover:text-white hover:cursor-pointer text-center">
                 Embed Code
               </p>
             </motion.div>
