@@ -105,7 +105,7 @@ function Review() {
     }
 
     const db1 = getDatabase(app);
-    const userDocRef = ref(db1, `Database/${state.data._id}/${dynamicKey}`);
+    const userDocRef = ref(db1, `Database/${state ? state.data._id : reviewId}/${dynamicKey}`);
 
     // Fetch the current data dynamically
     const snapshot = await get(userDocRef);
