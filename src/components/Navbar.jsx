@@ -37,7 +37,7 @@ function Navbar() {
 
   if (pathname && pathname != "/login" && pathname != "/signup")
     return (
-      <nav className="w-full py-2 bg-blue-200 h-max flex justify-between">
+      <nav className="w-full py-2 h-max flex justify-between">
         <Link to={"/home"}>
           <div className="flex justify-around w-max gap-x-3 items-center px-4">
             <div className="w-14 h-14">
