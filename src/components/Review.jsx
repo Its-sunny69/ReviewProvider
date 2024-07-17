@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { AuthProvider, useAuth } from "../contexts/getUser";
@@ -15,24 +15,50 @@ function Review() {
   const [ansForm, setAnsForm] = useState([]);
   const [inputName, setInputName] = useState("");
   const [dynamicKey, setDynamicKey] = useState("");
+  const [data, setData] = useState(state ? state.data : []);
+  const [questions, setQuestions] = useState(state ? state.data.questions : data ? data.questions : []);
+  const { reviewId } = useParams()
+  console.log(state)
 
+  useEffect(() => {
+    const getData = async (path) => {
+      const db = getDatabase(app);
+      const dbRef = ref(db, `Database/${path}`);
+      const snapshot = await get(dbRef);
+      if (snapshot.exists()) {
+        const fetchedData = Object.values(snapshot.val());
+        const updatedData = fetchedData.map((item) => ({
+          ...item,
+          _id: path,
+        }));
+        console.log(updatedData)
+        setData((prev) => [...prev, updatedData]);
+        setQuestions(updatedData[0].questions);
+      } else {
+        console.log("Fetch failed");
+        setLoading(false);
+      }
+    }
+    if (reviewId)
+      getData(reviewId);
+  }, [])
+
+  console.log(data, ansForm)
   // Populate the ansForm state with empty strings for each question
   const initializeAnswers = () => {
     const initialAnswers = [];
-
-    state.data.questions.forEach((_, index) => {
+    questions?.forEach((_, index) => {
       initialAnswers.push({ id: inputName, answer: "" });
     });
     setAnsForm(initialAnswers);
   };
 
-  console.log(ansForm);
 
   // Fetch the dynamic key when the component mounts
   useEffect(() => {
     const fetchDynamicKey = async () => {
       const db1 = getDatabase(app);
-      const dbRef = ref(db1, `Database/${state.data._id}`);
+      const dbRef = ref(db1, `Database/${state ? state.data._id : reviewId}`);
       const snapshot = await get(dbRef);
 
       if (snapshot.exists()) {
@@ -44,10 +70,12 @@ function Review() {
         console.log("No data available");
       }
     };
-
-    fetchDynamicKey();
-    initializeAnswers();
-  }, [state.data._id]);
+    setTimeout(() => {
+      console.log(questions)
+      fetchDynamicKey();
+      initializeAnswers();
+    }, 10)
+  }, [state || data]);
 
   const ansInput = (e, index) => {
     const { name, value } = e.target;
@@ -91,7 +119,7 @@ function Review() {
     const questions = currentData.questions;
 
     // Prepare updates for each answer
-    state.data.questions.forEach((question, index) => {
+    questions.forEach((question, index) => {
       if (!questions[index]["answers"]) {
         questions[index]["answers"] = [];
       }
@@ -118,27 +146,14 @@ function Review() {
     setIframeVisible(!iframeVisible);
   };
 
-  const getQuestionsDiv = (questions) => {
-    return `<div style=${style}>
-        ${Object.entries(questions)
-          .map(
-            ([questionKey, questionValue]) => `
-          <p class="text-xl p-1 font-bold">${questionKey}: ${questionValue}</p>
-        `
-          )
-          .join("")}
-      </div>`;
-  };
 
-  console.log(state);
-  if (ansForm.length)
+  if (ansForm.length && questions.length && data)
     return (
       <>
         <p>This is Review</p>
-        <button onClick={getData}>getData</button>
         <div>
           <div className="flex w-full h-52 flex-col border-2 shadow-xl items-center p-4 ">
-            {state.data.questions.map((item, index) => (
+            {questions.map((item, index) => (
               <>
                 <p key={index} className="text-xl p-1 font-bold">
                   {item.question}{" "}
@@ -188,15 +203,12 @@ function Review() {
             >
               <p
                 className="w-full hover:bg-slate-700 hover:text-white hover:cursor-pointer text-center"
-                onClick={() => toggleIframe("https://example.com")}
+                onClick={() => navigator.clipboard.writeText(`${import.meta.env.VITE_API_URL}/review/${data._id}`)}
               >
                 Get the link
               </p>
               <p
                 className="w-full hover:bg-slate-700 hover:text-white hover:cursor-pointer text-center"
-                onClick={() =>
-                  toggleIframe(getQuestionsDiv(state.data.questions))
-                }
               >
                 Embed Code
               </p>
