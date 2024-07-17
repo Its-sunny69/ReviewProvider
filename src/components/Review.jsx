@@ -16,6 +16,14 @@ function Review() {
   const [inputName, setInputName] = useState("");
   const [dynamicKey, setDynamicKey] = useState("");
 
+  const getBlobURL = (code, type) => {
+    const blob = new Blob([code], { type });
+    return URL.createObjectURL(blob);
+  };
+
+  console.log(getBlobURL("<p>My webpage</p>", "text/html"));
+  // blob:https://dev.to/9ca05e31-05ea-48f8-838d-cc1ad0949ec8
+
   // Populate the ansForm state with empty strings for each question
   const initializeAnswers = () => {
     const initialAnswers = [];
@@ -152,12 +160,16 @@ function Review() {
                 </p>
               </>
             ))}
-            <input
-              type="text"
-              name="id"
-              value={ansForm[id]}
-              onChange={(e) => updateId(e)}
-            />
+            <>
+              <p>Name:</p>
+              <input
+                type="text"
+                name="id"
+                value={ansForm[id]}
+                onChange={(e) => updateId(e)}
+              />
+            </>
+
             <button onClick={saveAnswer}>Answer</button>
             <div className="flex justify-around items-center p-5">
               <button

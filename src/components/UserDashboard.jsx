@@ -4,12 +4,15 @@ import { getDatabase, ref, get, remove } from "firebase/database";
 import app, { store } from "../Store/realtimeDB";
 import { AuthProvider, useAuth } from "../contexts/getUser";
 import { arrayRemove, doc, updateDoc } from "firebase/firestore";
+import Modal from "./Modal";
 
 function UserDashboard() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { id } = useAuth();
-  const [names, setNames] = useState({})
+  const [names, setNames] = useState({});
+  const [modalOpen, setModalOpen] = useState(false);
+
   console.log(state);
 
   const handleDelete = async () => {
@@ -39,25 +42,34 @@ function UserDashboard() {
     });
   };
 
-
-
   const AnswerElements = () => {
-    const questions = state.data.questions
-    const names = {}
+    const questions = state.data.questions;
+    const names = {};
     questions.forEach((item, index) => {
       if (item.answers) {
         item.answers.forEach((answer, index) => {
-          if (!names[answer.id]) names[answer.id] = []
-          names[answer.id].push({ question: item.question, 'answer': answer.answer })
-        })
+          if (!names[answer.id]) names[answer.id] = [];
+          names[answer.id].push({
+            question: item.question,
+            answer: answer.answer,
+          });
+        });
       }
     });
-    setNames(names)
-  }
+    setNames(names);
+  };
 
   useEffect(() => {
     AnswerElements();
   }, []);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   return (
     <>
@@ -80,19 +92,27 @@ function UserDashboard() {
       <br />
       <button onClick={handleSubmit}>Review</button>
       <div className="flex flex-wrap justify-evenly items-center p-4">
-        {
-          Object.entries(names).map(([key, value]) => (
-            <div key={key} className="w-max h-max p-10 shadow-md border-2 border-slate-800 ">
-              <p>{key}</p>
-              {value.map((item) => (
-                <div key={item.question}>
-                  <p>{item.question}:{item.answer}</p>
-                </div>
-              ))}
-            </div>
-          ))
-        }
+        {Object.entries(names).map(([key, value]) => (
+          <div
+            key={key}
+            className="w-max h-max p-10 shadow-md border-2 border-slate-800 "
+          >
+            <p>{key}</p>
+            {value.map((item) => (
+              <div key={item.question}>
+                <p>
+                  {item.question}:{item.answer}
+                </p>
+              </div>
+            ))}
+            <button onClick={openModal}>share</button>
+          </div>
+        ))}
       </div>
+      <Modal isOpen={modalOpen} isClosed={closeModal}>
+        <h2>Modal Content</h2>
+        <p>This is the content of the modal.</p>
+      </Modal>
     </>
   );
 }
