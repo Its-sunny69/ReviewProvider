@@ -16,7 +16,7 @@ function Home() {
 
   return (
     <div className="w-full h-dvh px-4 py-2 pt-16">
-      <div className="border border-black grid grid-cols-2 gap-4">
+      <div className=" grid grid-cols-2 gap-4">
         <div className="m-2 p-1 flex flex-col">
           <div className="p-2">
             <p className="text-5xl font-extrabold drop-shadow-md tracking-tighter">Don't Now How To Create Space ?</p>
@@ -30,9 +30,11 @@ function Home() {
             </button>
           </div>
         </div>
-        <div className="bg-blue-400">
-          <div className="w-4/5 h-10 bg-gray-600">
-
+        <div className="flex justify-center items-center">
+          <div className="w-full pt-[56.25%] m-2 relative flex justify-center items-center rounded-lg">
+            <div className="absolute top-0 bottom-0 right-0 left-0 flex justify-center items-center shadow-md rounded-lg">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/WX7DBPcsiEs?si=sXn90_TIhWuDFm3W" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
           </div>
         </div>
       </div>

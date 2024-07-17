@@ -41,7 +41,7 @@ function Navbar() {
         <Link to={"/home"}>
           <div className="flex justify-around w-max gap-x-3 items-center px-4">
             <div className="w-14 h-14">
-              <img src={Logo} alt="" />
+              <img src={Logo} alt="logo" />
             </div>
             <p className="text-blue-800 text-xl font-bold ">TrustVibes</p>
           </div>
