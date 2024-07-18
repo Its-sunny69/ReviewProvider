@@ -11,6 +11,7 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
+import Navbar from "./Navbar";
 
 function Form2() {
   const userId = useAuth().id;
@@ -92,6 +93,8 @@ function Form2() {
 
   return (
     <>
+    <div className="w-full h-dvh">
+    <Navbar />
       <form
         className="w-2/5 border flex flex-col"
         action=""
@@ -130,7 +133,8 @@ function Form2() {
           Submit
         </button>
       </form>
-    </>
+      </div>
+      </>
   );
 }
 

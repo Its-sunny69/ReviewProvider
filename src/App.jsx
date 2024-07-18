@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
-import UserInput from "./components/UserInput";
 import Home from "./components/Home";
 import UserDashboard from "./components/UserDashboard";
 import Review from "./components/Review";
@@ -26,7 +25,6 @@ function App() {
   return (
     <div className="select-none w-full bg-slate-100">
       <BrowserRouter>
-        <Navbar />
         <Routes>
           <Route
             path="/home"

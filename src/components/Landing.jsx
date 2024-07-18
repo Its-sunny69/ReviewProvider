@@ -1,19 +1,41 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 
 export default function landing() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
-    <div className='flex w-full flex-col justify-center h-full items-center min-h-screen text-white bg-gradient-to-r from-purple-500 to-purple-900'>
-      <h1 className='text-3xl font-semibold font-serif text-wrap p-4 text-center '>
-        Effortlessly gather testimonials from your customers.
-      </h1>
-      <p className='text-2xl font-serif text-wrap text-center p-8'>
-        We understand that collecting testimonials can be challenging. That's why we created Testimonial. Within minutes, you can collect text and video testimonials from your customers, without needing a developer or website hosting.
-      </p>
-      <div className='flex justify-center items-center py-10 w-full'>
-            <button className='rounded-xl bg-sky-500 text-white text-2xl p-4 hover:scale-110 transition-all' onClick={()=>navigate('/home')} >Try Free <small>now</small></button>
+    <>
+      <div className="w-full h-dvh">
+        <Navbar />
+
+        <div className="w-fullbg-slate-100 px-24 py-6">
+          <div className=" my-2 mr-2 py-1 flex flex-col justify-center items-center text-center">
+            <div className="py-2">
+              <p className="text-5xl font-extrabold drop-shadow-md">
+                Effortlessly gather testimonials from your customers.
+              </p>
+            </div>
+            <div className="py-6">
+              <p className="text-xl text-slate-600 drop-shadow-md">
+                {" "}
+                We understand that collecting testimonials can be challenging.
+                That's why we created Testimonial. Within minutes, you can
+                collect text and video testimonials from your customers, without
+                needing a developer or website hosting.
+              </p>
+            </div>
+            <div className="py-2">
+              <button
+                className="border border-1 shadow-md border-blue-800 h-max px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md bg-blue-800 hover:bg-blue-100 hover:text-slate-900"
+                onClick={() => navigate("/home")}
+              >
+                Try Free Now!
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  )
+    </>
+  );
 }

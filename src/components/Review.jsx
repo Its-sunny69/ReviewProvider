@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { AuthProvider, useAuth } from "../contexts/getUser";
 import { getDatabase, ref, update, get, child } from "firebase/database";
 import app from "../Store/realtimeDB";
+import Navbar from "./Navbar";
 
 function Review() {
   const navigate = useNavigate();
@@ -152,82 +153,86 @@ function Review() {
   if (ansForm.length && questions.length && data)
     return (
       <>
-        <p>This is Review</p>
-        <div>
-          <div className="flex w-full h-52 flex-col border-2 shadow-xl items-center p-4 ">
-            {questions.map((item, index) => (
-              <>
-                <p key={index} className="text-xl p-1 font-bold">
-                  {item.question}{" "}
-                  <input
-                    type="text"
-                    className="border-2"
-                    onChange={(e) => ansInput(e, index)}
-                    name={`answer`}
-                    value={ansForm[index].answer}
-                  />
-                </p>
-              </>
-            ))}
-            <>
-              <p>Name:</p>
-              <input
-                type="text"
-                name="id"
-                value={ansForm[id]}
-                onChange={(e) => updateId(e)}
-              />
-            </>
+        <div className="w-full h-dvh">
+          <Navbar />
 
-            <button onClick={saveAnswer}>Answer</button>
-            <div className="flex justify-around items-center p-5">
-              <button
-                className="flex border-2 rounded-full bg-green-600 w-max h-max p-2 justify-center items-center text-white"
-                onClick={() => setIsShow(!isShow)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-6"
+          <p>This is Review</p>
+          <div>
+            <div className="flex w-full h-52 flex-col border-2 shadow-xl items-center p-4 ">
+              {questions.map((item, index) => (
+                <>
+                  <p key={index} className="text-xl p-1 font-bold">
+                    {item.question}{" "}
+                    <input
+                      type="text"
+                      className="border-2"
+                      onChange={(e) => ansInput(e, index)}
+                      name={`answer`}
+                      value={ansForm[index].answer}
+                    />
+                  </p>
+                </>
+              ))}
+              <>
+                <p>Name:</p>
+                <input
+                  type="text"
+                  name="id"
+                  value={ansForm[id]}
+                  onChange={(e) => updateId(e)}
+                />
+              </>
+
+              <button onClick={saveAnswer}>Answer</button>
+              <div className="flex justify-around items-center p-5">
+                <button
+                  className="flex border-2 rounded-full bg-green-600 w-max h-max p-2 justify-center items-center text-white"
+                  onClick={() => setIsShow(!isShow)}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"
-                  />
-                </svg>
-              </button>
-            </div>
-            <motion.div
-              initial={{ scaleY: 0 }}
-              animate={{ scaleY: isShow ? 1 : 0 }}
-              transition={{ duration: 0.5 }}
-              className="w-full border-2 min-h-16 border-slate-400 flex justify-around flex-col items-center origin-top"
-            >
-              <p
-                className="w-full hover:bg-slate-700 hover:text-white hover:cursor-pointer text-center"
-                onClick={() =>
-                  navigator.clipboard.writeText(
-                    `${import.meta.env.VITE_API_URL}/review/${data._id}`
-                  )
-                }
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <motion.div
+                initial={{ scaleY: 0 }}
+                animate={{ scaleY: isShow ? 1 : 0 }}
+                transition={{ duration: 0.5 }}
+                className="w-full border-2 min-h-16 border-slate-400 flex justify-around flex-col items-center origin-top"
               >
-                Get the link
-              </p>
-              <p className="w-full hover:bg-slate-700 hover:text-white hover:cursor-pointer text-center">
-                Embed Code
-              </p>
-            </motion.div>
+                <p
+                  className="w-full hover:bg-slate-700 hover:text-white hover:cursor-pointer text-center"
+                  onClick={() =>
+                    navigator.clipboard.writeText(
+                      `${import.meta.env.VITE_API_URL}/review/${data._id}`
+                    )
+                  }
+                >
+                  Get the link
+                </p>
+                <p className="w-full hover:bg-slate-700 hover:text-white hover:cursor-pointer text-center">
+                  Embed Code
+                </p>
+              </motion.div>
+            </div>
+            {iframeVisible && (
+              <iframe
+                srcDoc={iframeUrl}
+                className="w-full h-96 border-4 flex justify-center items-center"
+              ></iframe>
+            )}
           </div>
-          {iframeVisible && (
-            <iframe
-              srcDoc={iframeUrl}
-              className="w-full h-96 border-4 flex justify-center items-center"
-            ></iframe>
-          )}
         </div>
       </>
     );

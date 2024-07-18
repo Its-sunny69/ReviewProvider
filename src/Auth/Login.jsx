@@ -97,7 +97,7 @@ function Login() {
                 type="button"
                 onClick={togglePasswordVisibility}
               >
-                {showPassword ? <EyeInvisibleTwoTone /> : <EyeTwoTone />}
+                {showPassword ? <EyeTwoTone /> : <EyeInvisibleTwoTone />}
               </button>
             </div>
           </div>

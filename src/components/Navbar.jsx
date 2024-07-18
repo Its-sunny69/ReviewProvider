@@ -37,7 +37,7 @@ function Navbar() {
 
   if (pathname && pathname != "/login" && pathname != "/signup")
     return (
-      <nav className="w-full py-2 h-max flex justify-between">
+      <nav className="w-full py-2 flex justify-between shadow-md shadow-cyan-400 z-50 sticky top-0 backdrop-blur-lg">
         <Link to={"/home"}>
           <div className="flex justify-around w-max gap-x-3 items-center px-4">
             <div className="w-14 h-14">
@@ -82,20 +82,20 @@ function Navbar() {
             </>
           ) : (
             <>
-              {pathname != "/signup" && (
-                <button
-                  className="border-2 border-blue-800 min-w-32 h-max p-3 rounded-3xl text-white font-mono font-bold text-md bg-blue-800 hover:bg-blue-100 hover:text-slate-900"
-                  onClick={() => navigate("/signup")}
-                >
-                  Signup
-                </button>
-              )}
               {pathname != "/login" && (
                 <button
-                  className="border-2 border-blue-600 min-w-32 h-max p-3 rounded-3xl text-white font-mono font-bold text-md bg-blue-600 hover:bg-blue-100 hover:text-slate-900"
+                  className="flex items-center justify-center border border-1 shadow-md px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md  border-blue-800 min-w-32 p-3 text-md bg-blue-600 hover:bg-blue-100 hover:text-black hover:opacity-65 hover:shadow-none"
                   onClick={() => navigate("/login")}
                 >
                   Login
+                </button>
+              )}
+              {pathname != "/signup" && (
+                <button
+                  className="flex justify-center items-center border border-1 shadow-md px-3 py-1.5 text-md border-blue-800 min-w-32 h-max p-3 rounded-3xl text-black font-mono font-bold text-md bg-blue-100 hover:bg-blue-800 hover:text-white hover:opacity-65 hover:shadow-none"
+                  onClick={() => navigate("/signup")}
+                >
+                  Signup
                 </button>
               )}
             </>
