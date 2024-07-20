@@ -107,7 +107,11 @@ function UserDashboard() {
       </div>
     );
     console.log(content);
-    setIframeContent(renderToString(content));
+    const htmlString = renderToString(content);
+    const blob = new Blob([htmlString], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+
+    setIframeContent(url);
   };
 
   useEffect(() => {
@@ -127,7 +131,7 @@ function UserDashboard() {
     <>
       <div className="w-full h-dvh">
         <Navbar />
-        
+
         <div className="flex justify-left items-center flex-col border-2 shadow-sm w-52">
           {state.data.item ? (
             Object.entries(state.data.item).map((key, index) => (
@@ -167,11 +171,23 @@ function UserDashboard() {
         <Modal isOpen={modalOpen} isClosed={closeModal}>
           <h2>Modal Content</h2>
           <p>This is the content of the modal.</p>
-          <pre>
-            <a href={iframeContent} target="_blank" rel="noopener noreferrer">
-              Click to view the iframe content
-            </a>
-          </pre>
+          <div
+            contentEditable
+            suppressContentEditableWarning
+            style={{
+              border: "1px solid #ccc",
+              padding: "10px",
+              marginBottom: "10px",
+              whiteSpace: "pre-wrap",
+            }}
+          >
+            <pre>
+              <code>
+                &lt;iframe src={iframeContent}{" "}
+                frameborder="0"&gt;&lt;/iframe&gt;
+              </code>
+            </pre>
+          </div>
         </Modal>
       </div>
     </>
