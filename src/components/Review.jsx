@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from "../contexts/getUser";
 import { getDatabase, ref, update, get, child } from "firebase/database";
 import app from "../Store/realtimeDB";
 import Navbar from "./Navbar";
+import toast from "react-hot-toast";
 
 function Review() {
   const navigate = useNavigate();
@@ -42,8 +43,11 @@ function Review() {
         setLoading(false);
       }
     };
-    if (reviewId) getData(reviewId);
-  }, []);
+
+    if (reviewId) {
+      getData(reviewId);
+    }
+  }, [reviewId]);
 
   console.log(data, ansForm);
   // Populate the ansForm state with empty strings for each question
@@ -134,6 +138,11 @@ function Review() {
     await update(userDocRef, { questions })
       .then(() => {
         alert("Answers saved successfully!");
+        setData((prevData) => ({
+          ...prevData,
+          questions: [...questions], // Deep clone the questions array
+        }));
+        setQuestions([...questions]);
       })
       .catch((error) => {
         console.error("Error saving answers: ", error);
@@ -141,13 +150,21 @@ function Review() {
       });
   };
 
-  const getData = () => {
-    navigate("/getData");
-  };
+  console.log(data);
 
   const toggleIframe = (url) => {
     setIframeUrl(url);
     setIframeVisible(!iframeVisible);
+  };
+
+  const handleLink = () => {
+    navigator.clipboard.writeText(
+      `${import.meta.env.VITE_API_URL}/review/${data._id}`
+    );
+    toast.success("URL Copied!", {
+      duration: 1000,
+      position: "top-center"
+    })
   };
 
   if (ansForm.length && questions.length && data)
@@ -211,13 +228,10 @@ function Review() {
                 transition={{ duration: 0.5 }}
                 className="w-full border-2 min-h-16 border-slate-400 flex justify-around flex-col items-center origin-top"
               >
+              <p>{`${import.meta.env.VITE_API_URL}/review/${data._id}`}</p>
                 <p
                   className="w-full hover:bg-slate-700 hover:text-white hover:cursor-pointer text-center"
-                  onClick={() =>
-                    navigator.clipboard.writeText(
-                      `${import.meta.env.VITE_API_URL}/review/${data._id}`
-                    )
-                  }
+                  onClick={handleLink}
                 >
                   Get the link
                 </p>
