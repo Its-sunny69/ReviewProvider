@@ -2,18 +2,15 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { AuthProvider, useAuth } from "../contexts/getUser";
-import { getDatabase, ref, update, get, child } from "firebase/database";
+import { getDatabase, ref, update, get } from "firebase/database";
 import app from "../Store/realtimeDB";
 import Navbar from "./Navbar";
 import toast from "react-hot-toast";
 
 function Review() {
-  const navigate = useNavigate();
   const { state } = useLocation();
   const { id } = useAuth();
   const [isShow, setIsShow] = useState(false);
-  const [iframeUrl, setIframeUrl] = useState("");
-  const [iframeVisible, setIframeVisible] = useState(false);
   const [ansForm, setAnsForm] = useState([]);
   const [inputName, setInputName] = useState("");
   const [dynamicKey, setDynamicKey] = useState("");
@@ -22,7 +19,6 @@ function Review() {
     state ? state.data.questions : data ? data.questions : []
   );
   const { reviewId } = useParams();
-  console.log(state);
 
   useEffect(() => {
     const getData = async (path) => {
@@ -49,7 +45,6 @@ function Review() {
     }
   }, [reviewId]);
 
-  console.log(data, ansForm);
   // Populate the ansForm state with empty strings for each question
   const initializeAnswers = () => {
     const initialAnswers = [];
@@ -76,7 +71,6 @@ function Review() {
       }
     };
     setTimeout(() => {
-      console.log(questions);
       fetchDynamicKey();
       initializeAnswers();
     }, 10);
@@ -150,21 +144,14 @@ function Review() {
       });
   };
 
-  console.log(data);
-
-  const toggleIframe = (url) => {
-    setIframeUrl(url);
-    setIframeVisible(!iframeVisible);
-  };
-
   const handleLink = () => {
     navigator.clipboard.writeText(
       `${import.meta.env.VITE_API_URL}/review/${data._id}`
     );
-    toast.success("URL Copied!", {
+    toast.success("Link Copied!", {
       duration: 1000,
-      position: "top-center"
-    })
+      position: "top-center",
+    });
   };
 
   if (ansForm.length && questions.length && data)
@@ -228,24 +215,15 @@ function Review() {
                 transition={{ duration: 0.5 }}
                 className="w-full border-2 min-h-16 border-slate-400 flex justify-around flex-col items-center origin-top"
               >
-              <p>{`${import.meta.env.VITE_API_URL}/review/${data._id}`}</p>
+                <p>{`${import.meta.env.VITE_API_URL}/review/${data._id}`}</p>
                 <p
                   className="w-full hover:bg-slate-700 hover:text-white hover:cursor-pointer text-center"
                   onClick={handleLink}
                 >
-                  Get the link
-                </p>
-                <p className="w-full hover:bg-slate-700 hover:text-white hover:cursor-pointer text-center">
-                  Embed Code
+                  Copy the link
                 </p>
               </motion.div>
             </div>
-            {iframeVisible && (
-              <iframe
-                srcDoc={iframeUrl}
-                className="w-full h-96 border-4 flex justify-center items-center"
-              ></iframe>
-            )}
           </div>
         </div>
       </>

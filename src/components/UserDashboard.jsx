@@ -7,6 +7,7 @@ import { arrayRemove, doc, updateDoc } from "firebase/firestore";
 import Modal from "./Modal";
 import { renderToString } from "react-dom/server";
 import Navbar from "./Navbar";
+import LoadingPage from "./LoadingPage";
 
 function UserDashboard() {
   const { state } = useLocation();
@@ -49,9 +50,6 @@ function UserDashboard() {
     },
   };
 
-  console.log(iframeContent);
-  console.log(state);
-  
   const fetchData = async (path) => {
     const db = getDatabase(app);
     const dbRef = ref(db, `Database/${path}`);
@@ -59,15 +57,16 @@ function UserDashboard() {
     if (snapshot.exists()) {
       const fetchedData = snapshot.val();
       const key = Object.keys(fetchedData);
-      const firstKey = key[0]
+      const firstKey = key[0];
       setData(fetchedData[`${firstKey}`]);
-      setLoading(false);
+      setTimeout(()=> {
+        setLoading(false);
+      }, 1000)
     } else {
       console.log("No data available");
       setLoading(false);
     }
   };
-
 
   useEffect(() => {
     if (state && state.data) {
@@ -75,8 +74,6 @@ function UserDashboard() {
     }
   }, [state]);
 
-  console.log(data)
-  // console.log(data["-O1lwsmEoiEk1ZJ9fCEt"].questions)
   useEffect(() => {
     if (data && data.questions) {
       const updateNames = (questions) => {
@@ -97,12 +94,9 @@ function UserDashboard() {
 
       setTimeout(() => {
         updateNames(data.questions);
-      }, 1000)
+      }, 1000);
     }
   }, [data]);
-
-  
-  
 
   const handleDelete = async () => {
     const db = getDatabase(app);
@@ -131,27 +125,6 @@ function UserDashboard() {
     });
   };
 
-  console.log(state.data.questions)
-  console.log(data)
-  console.log(data)
-  // const AnswerElements = () => {
-  //   const questions = state.data.questions;
-  //   const names = {};
-  //   questions.forEach((item, index) => {
-  //     if (item.answers) {
-  //       item.answers.forEach((answer, index) => {
-  //         if (!names[answer.id]) names[answer.id] = [];
-  //         names[answer.id].push({
-  //           question: item.question,
-  //           answer: answer.answer,
-  //         });
-  //       });
-  //     }
-  //   });
-  //   setNames(names);
-  // };
-
-  console.log(names)
   const handleClick = (key, value) => {
     const content = (
       <div key={key} style={styles.container}>
@@ -176,10 +149,6 @@ function UserDashboard() {
     setIframeContent(url);
   };
 
-  // useEffect(() => {
-  //   AnswerElements();
-  // }, []);
-
   const openModal = (key, value) => {
     handleClick(key, value);
     setModalOpen(true);
@@ -190,7 +159,7 @@ function UserDashboard() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingPage/>
   }
 
   return (
@@ -198,7 +167,7 @@ function UserDashboard() {
       <div className="w-full h-dvh">
         <Navbar />
 
-        <div className="flex justify-left items-center flex-col border-2 shadow-sm w-52">
+        <div className="flex justify-center items-left flex-col border-2 shadow-sm">
           {state.data.item ? (
             Object.entries(state.data.item).map((key, index) => (
               <p className="font-bold text-xl" key={index}>
@@ -210,6 +179,15 @@ function UserDashboard() {
               {state.data.firstname} Dashboard
             </p>
           )}
+          <p>
+            Form Link:{" "}
+            <a
+              href={`${import.meta.env.VITE_API_URL}/review/${state.data._id}`}
+              target="_blank"
+            >
+              {`${import.meta.env.VITE_API_URL}/review/${state.data._id}`}
+            </a>
+          </p>
         </div>
         <button onClick={handleDelete}>Delete Space</button>
         <br />
