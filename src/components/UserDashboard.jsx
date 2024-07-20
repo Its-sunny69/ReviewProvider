@@ -14,8 +14,13 @@ function UserDashboard() {
   const { id } = useAuth();
   const [names, setNames] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
+  const [data, setData] = useState(null);
+  const [dynamicKey, setDynamicKey] = useState("");
+  const [loading, setLoading] = useState(true);
+
   const [iframeContent, setIframeContent] = useState(null);
   const divRef = useRef(null);
+
   const styles = {
     container: {
       width: "max-content",
@@ -46,6 +51,59 @@ function UserDashboard() {
 
   console.log(iframeContent);
   console.log(state);
+  
+  const fetchData = async (path) => {
+    const db = getDatabase(app);
+    const dbRef = ref(db, `Database/${path}`);
+    const snapshot = await get(dbRef);
+    if (snapshot.exists()) {
+      const fetchedData = snapshot.val();
+      const key = Object.keys(fetchedData);
+      const firstKey = key[0]
+      setData(fetchedData[`${firstKey}`]);
+      setLoading(false);
+    } else {
+      console.log("No data available");
+      setLoading(false);
+    }
+  };
+
+
+  useEffect(() => {
+    if (state && state.data) {
+      fetchData(state.data._id);
+    }
+  }, [state]);
+
+  console.log(data)
+  // console.log(data["-O1lwsmEoiEk1ZJ9fCEt"].questions)
+  useEffect(() => {
+    if (data && data.questions) {
+      const updateNames = (questions) => {
+        const names = {};
+        questions.forEach((item) => {
+          if (item.answers) {
+            item.answers.forEach((answer) => {
+              if (!names[answer.id]) names[answer.id] = [];
+              names[answer.id].push({
+                question: item.question,
+                answer: answer.answer,
+              });
+            });
+          }
+        });
+        setNames(names);
+      };
+
+      setTimeout(() => {
+        updateNames(data.questions);
+      }, 1000)
+    }
+  }, [data]);
+
+  
+  
+
   const handleDelete = async () => {
     const db = getDatabase(app);
     const docRef = ref(
@@ -73,23 +131,27 @@ function UserDashboard() {
     });
   };
 
-  const AnswerElements = () => {
-    const questions = state.data.questions;
-    const names = {};
-    questions.forEach((item, index) => {
-      if (item.answers) {
-        item.answers.forEach((answer, index) => {
-          if (!names[answer.id]) names[answer.id] = [];
-          names[answer.id].push({
-            question: item.question,
-            answer: answer.answer,
-          });
-        });
-      }
-    });
-    setNames(names);
-  };
+  console.log(state.data.questions)
+  console.log(data)
+  console.log(data)
+  // const AnswerElements = () => {
+  //   const questions = state.data.questions;
+  //   const names = {};
+  //   questions.forEach((item, index) => {
+  //     if (item.answers) {
+  //       item.answers.forEach((answer, index) => {
+  //         if (!names[answer.id]) names[answer.id] = [];
+  //         names[answer.id].push({
+  //           question: item.question,
+  //           answer: answer.answer,
+  //         });
+  //       });
+  //     }
+  //   });
+  //   setNames(names);
+  // };
 
+  console.log(names)
   const handleClick = (key, value) => {
     const content = (
       <div key={key} style={styles.container}>
@@ -110,9 +172,9 @@ function UserDashboard() {
     setIframeContent(renderToString(content));
   };
 
-  useEffect(() => {
-    AnswerElements();
-  }, []);
+  // useEffect(() => {
+  //   AnswerElements();
+  // }, []);
 
   const openModal = (key, value) => {
     handleClick(key, value);
@@ -122,6 +184,10 @@ function UserDashboard() {
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
