@@ -227,7 +227,7 @@ function UserDashboard() {
           >
             <pre>
               <code>
-                &lt;iframe src={iframeContent}{" "}
+                &lt;iframe src={iframeContent} 
                 frameborder="0"&gt;&lt;/iframe&gt;
               </code>
             </pre>

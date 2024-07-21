@@ -3,20 +3,21 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDiO9j8oeL-6G5zSqylSn2UmtMnbNTiDxk",
-  authDomain: "reviewprovider-afd9d.firebaseapp.com",
-  databaseURL: "https://reviewprovider-afd9d-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "reviewprovider-afd9d",
-  storageBucket: "reviewprovider-afd9d.appspot.com",
-  messagingSenderId: "732027694749",
-  appId: "1:732027694749:web:b7dec5a3930d2bbd3cae74",
-  measurementId: "G-KD1HJTJ4B5"
+  apiKey: String(import.meta.env.VITE_FIREBASE_API_KEY),
+  authDomain: String(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN),
+  databaseURL: String(import.meta.env.VITE_FIREBASE_DATABASE_URL),
+  projectId: String(import.meta.env.VITE_FIREBASE_PROJECT_ID),
+  storageBucket: String(import.meta.env.VITE_FIREBASE_STORAGE_BUCKET),
+  messagingSenderId: String(import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID),
+  appId: String(import.meta.env.VITE_FIREBASE_APP_ID),
+  measurementId: String(import.meta.env.VITE_FIREBASE_MEASUREMENT_ID)
 };
 
 // Initialize Firebase
