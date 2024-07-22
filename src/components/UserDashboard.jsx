@@ -223,7 +223,8 @@ function UserDashboard() {
           >
             <pre>
               <code>
-                &lt;iframe src={iframeContent}
+                &lt;iframe
+                src="https://review-provider.vercel.app/user-dashboard"
                 frameborder="0"&gt;&lt;/iframe&gt;
               </code>
             </pre>
