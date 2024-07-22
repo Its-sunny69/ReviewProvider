@@ -11,7 +11,7 @@ import Login from "./Auth/Login";
 import { useEffect, useState } from "react";
 import { auth } from "./Store/realtimeDB";
 import Navbar from "./components/Navbar";
-import './App.css'
+import "./App.css";
 
 function App() {
   const [user, setUser] = useState();
@@ -26,11 +26,13 @@ function App() {
     <div className="select-none w-full bg-slate-100">
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/home"
-            element={user ? <Home /> : <Navigate to="/login" />}
-          />
-          <Route path="/form" element={<Form2 />} />
+          <Switch>
+            <Route
+              path="/home"
+              element={user ? <Home /> : <Navigate to="/login" />}
+            />
+            <Route path="/form" element={<Form2 />} />
+          </Switch>
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/review/:reviewId?" element={<Review />} />
           <Route path="/getData" element={<GetData />} />
