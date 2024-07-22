@@ -1,4 +1,10 @@
-import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+} from "react-router-dom";
 import Home from "./components/Home";
 import UserDashboard from "./components/UserDashboard";
 import Review from "./components/Review";
@@ -11,7 +17,7 @@ import Login from "./Auth/Login";
 import { useEffect, useState } from "react";
 import { auth } from "./Store/realtimeDB";
 import Navbar from "./components/Navbar";
-import './App.css'
+import "./App.css";
 
 function App() {
   const [user, setUser] = useState();
