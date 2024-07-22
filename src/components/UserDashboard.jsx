@@ -59,9 +59,9 @@ function UserDashboard() {
       const key = Object.keys(fetchedData);
       const firstKey = key[0];
       setData(fetchedData[`${firstKey}`]);
-      setTimeout(()=> {
+      setTimeout(() => {
         setLoading(false);
-      }, 1000)
+      }, 1000);
     } else {
       console.log("No data available");
       setLoading(false);
@@ -142,11 +142,7 @@ function UserDashboard() {
       </div>
     );
     console.log(content);
-    const htmlString = renderToString(content);
-    const blob = new Blob([htmlString], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-
-    setIframeContent(url);
+    setIframeContent(content);
   };
 
   const openModal = (key, value) => {
@@ -159,7 +155,7 @@ function UserDashboard() {
   };
 
   if (loading) {
-    return <LoadingPage/>
+    return <LoadingPage />;
   }
 
   return (
@@ -227,7 +223,7 @@ function UserDashboard() {
           >
             <pre>
               <code>
-                &lt;iframe src={iframeContent} 
+                &lt;iframe src={iframeContent}
                 frameborder="0"&gt;&lt;/iframe&gt;
               </code>
             </pre>
