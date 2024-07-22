@@ -26,13 +26,11 @@ function App() {
     <div className="select-none w-full bg-slate-100">
       <BrowserRouter>
         <Routes>
-          <Switch>
             <Route
               path="/home"
               element={user ? <Home /> : <Navigate to="/login" />}
             />
             <Route path="/form" element={<Form2 />} />
-          </Switch>
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/review/:reviewId?" element={<Review />} />
           <Route path="/getData" element={<GetData />} />
