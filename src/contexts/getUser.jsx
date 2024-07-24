@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { doc, getDoc } from "firebase/firestore";
 import { auth, store } from "../Store/realtimeDB";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
 
 
 const authContext = createContext()
