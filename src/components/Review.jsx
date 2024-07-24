@@ -94,6 +94,7 @@ function Review() {
   const updateId = (e) => {
     let change = e.target.value;
     for (let i = 0; i < ansForm.length; i++) {
+      setInputName(change)
       ansForm[i].id = change;
     }
   };
@@ -187,7 +188,7 @@ function Review() {
                 <input
                   type="text"
                   name="id"
-                  value={ansForm[id]}
+                  value={inputName}
                   onChange={(e) => updateId(e)}
                 />
               </>
