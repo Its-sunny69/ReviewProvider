@@ -37,7 +37,6 @@ function Review() {
         setQuestions(updatedData[0].questions);
       } else {
         console.log("Fetch failed");
-        setLoading(false);
       }
     };
 
