@@ -1,10 +1,4 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import Home from "./components/Home";
 import UserDashboard from "./components/UserDashboard";
 import Review from "./components/Review";
@@ -38,7 +32,7 @@ function App() {
           />
           <Route path="/form" element={<Form2 />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
-          <Route path="/review/:reviewId?" element={!user ? <Review /> : <Review/>} />
+          <Route path="/review/:reviewId?" element={<Review />} />
           <Route path="/getData" element={<GetData />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
