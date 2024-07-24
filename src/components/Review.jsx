@@ -110,17 +110,6 @@ function Review() {
       `Database/${state ? state.data._id : reviewId}/${dynamicKey}`
     );
 
-    let userId = ""; // Initialize user ID for data submission
-
-    if (id) { // If a signed-in user exists (from AuthContext)
-      userId = id; // Use the signed-in user ID
-    } else if (isAnonymous) { // If anonymous user (tracked by state)
-      userId = "anonymous"; // Use a flag to indicate anonymous submission
-    } else {
-      alert("Please sign in or fill anonymously!"); // Prompt user to sign in
-      return;
-    }
-    
     // Fetch the current data dynamically
     const snapshot = await get(userDocRef);
     const currentData = snapshot.val();
