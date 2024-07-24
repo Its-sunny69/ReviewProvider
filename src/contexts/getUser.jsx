@@ -8,6 +8,7 @@ const authContext = createContext()
 const AuthProvider = ({ children }) => {
     const [userData, setUserData] = useState(null)
     const [id, setId] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     const fetchUser = async () => {
         auth.onAuthStateChanged(async (user) => {
@@ -19,6 +20,7 @@ const AuthProvider = ({ children }) => {
             } else {
                 console.log("User is not loggedin");
             }
+            setLoading(false)
         });
     };
 
@@ -29,7 +31,7 @@ const AuthProvider = ({ children }) => {
     }, [])
 
     return (
-        <authContext.Provider value={{ userData, id }}>
+        <authContext.Provider value={{ userData, id, loading }}>
             {children}
         </authContext.Provider>
     )

@@ -6,10 +6,11 @@ import { getDatabase, ref, update, get } from "firebase/database";
 import app from "../Store/realtimeDB";
 import Navbar from "./Navbar";
 import toast from "react-hot-toast";
+import LoadingPage from "./LoadingPage"
 
 function Review() {
   const { state } = useLocation();
-  const { id } = useAuth();
+  const { id, loading } = useAuth();
   const [isShow, setIsShow] = useState(false);
   const [ansForm, setAnsForm] = useState([]);
   const [inputName, setInputName] = useState("");
@@ -153,6 +154,10 @@ function Review() {
       position: "top-center",
     });
   };
+
+  if (loading) {
+    return <LoadingPage/>
+  }
 
   if (ansForm.length && questions.length && data)
     return (
