@@ -10,19 +10,52 @@ const AuthProvider = ({ children }) => {
     const [id, setId] = useState(null)
     const [loading, setLoading] = useState(true)
 
+    // const fetchUser = async () => {
+    //     auth.onAuthStateChanged(async (user) => {
+    //         setId(user.uid)
+    //         const docRef = doc(store, "users", user.uid);
+    //         const docSnap = await getDoc(docRef);
+    //         if (docSnap.exists()) {
+    //             setUserData(docSnap.data());
+    //         } else {
+    //             console.log("User is not loggedin");
+    //         }
+    //         setLoading(false)
+    //     });
+    // };
+
     const fetchUser = async () => {
         auth.onAuthStateChanged(async (user) => {
-            setId(user.uid)
+          if (user) {
+            setId(user.uid);
             const docRef = doc(store, "users", user.uid);
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
-                setUserData(docSnap.data());
+              setUserData(docSnap.data());
             } else {
-                console.log("User is not loggedin");
+              console.log("User is not loggedin");
             }
-            setLoading(false)
+          } else {
+            signInAnonymously(auth)
+              .then(async (result) => {
+                const user = result.user;
+                setId(user.uid);
+                const docRef = doc(store, "users", user.uid);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                  setUserData(docSnap.data());
+                } else {
+                  console.log("User is not loggedin");
+                }
+              })
+              .catch((e) => {
+                console.error("Error during anonymous sign-in", error);
+              });
+          }
+    
+          setLoading(false);
         });
-    };
+      };
 
     useEffect(() => {
         setTimeout(() => {
