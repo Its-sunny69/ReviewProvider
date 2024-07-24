@@ -37,7 +37,7 @@ const AuthProvider = ({ children }) => {
               console.log("User is not loggedin");
             }
           } else {
-            signInAnonymously(auth)
+            auth.signInAnonymously()
               .then(async (result) => {
                 const user = result.user;
                 setId(user.uid);
