@@ -147,7 +147,7 @@ function Review() {
 
   const handleLink = () => {
     navigator.clipboard.writeText(
-      `${import.meta.env.VITE_API_URL}/review/${data._id}`
+      `${window.location.origin}/review/${data._id}`
     );
     toast.success("Link Copied!", {
       duration: 1000,

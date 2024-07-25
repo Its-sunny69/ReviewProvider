@@ -1,48 +1,56 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, store } from "../Store/realtimeDB";
+import { signInAnonymously } from "firebase/auth";
 
-
-const authContext = createContext()
+const authContext = createContext();
 
 const AuthProvider = ({ children }) => {
-    const [userData, setUserData] = useState(null)
-    const [id, setId] = useState(null)
-    const [loading, setLoading] = useState(true)
+  const [userData, setUserData] = useState(null);
+  const [id, setId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    const fetchUser = async () => {
-        auth.onAuthStateChanged(async (user) => {
-            setId(user.uid)
-            const docRef = doc(store, "users", user.uid);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                setUserData(docSnap.data());
-            } else {
-                console.log("User is not loggedin");
-            }
-            setLoading(false)
-        });
-    };
+  const fetchUser = async () => {
+    auth.onAuthStateChanged(async (user) => {
+      console.log("before", user);
+      if (!user) {
+        signInAnonymously(auth);
+        console.log(user);
+      }
+      console.log("after", user);
 
-    useEffect(() => {
-        setTimeout(() => {
-            fetchUser()
-        }, 5)
-    }, [])
+      user = auth.currentUser;
+      setId(user.uid);
+      const docRef = doc(store, "users", user.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setUserData(docSnap.data());
+      } else {
+        console.log("User is not loggedin");
+      }
+      setLoading(false);
+    });
+  };
 
-    return (
-        <authContext.Provider value={{ userData, id, loading }}>
-            {children}
-        </authContext.Provider>
-    )
-}
+  useEffect(() => {
+    setTimeout(() => {
+      fetchUser();
+    }, 5);
+  }, []);
 
-const useAuth = () => {
-    const context = useContext(authContext);
-    if (context === undefined) {
-        throw new Error('useData must be used within a DataProvider');
-    }
-    return context;
+  return (
+    <authContext.Provider value={{ userData, id, loading }}>
+      {children}
+    </authContext.Provider>
+  );
 };
 
-export { AuthProvider, useAuth }
+const useAuth = () => {
+  const context = useContext(authContext);
+  if (context === undefined) {
+    throw new Error("useData must be used within a DataProvider");
+  }
+  return context;
+};
+
+export { AuthProvider, useAuth };
