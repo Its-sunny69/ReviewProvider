@@ -9,6 +9,7 @@ import { renderToString } from "react-dom/server";
 import Navbar from "./Navbar";
 import LoadingPage from "./LoadingPage";
 import IframeData from "../IframeData";
+import { useIframeContent } from "../contexts/IframeContentContext";
 
 function UserDashboard() {
   const { state } = useLocation();
@@ -20,8 +21,9 @@ function UserDashboard() {
   const [dynamicKey, setDynamicKey] = useState("");
   const [loading, setLoading] = useState(true);
   const [iframeSrc, setIframeSrc] = useState("");
+  const { setIframeContent } = useIframeContent();
 
-  const [iframeContent, setIframeContent] = useState(null);
+  // const [iframeContent, setIframeContent] = useState(null);
   const divRef = useRef(null);
 
   const styles = {
@@ -134,19 +136,17 @@ function UserDashboard() {
 
   const handleClick = (key, value) => {
     const content = (
-      // <div key={key} style={styles.container}>
-      //   <p style={styles.key}>{key}</p>
-      //   {value.map((item) => (
-      //     <div key={item.question}>
-      //       <p style={styles.answer}>
-      //         {item.question}:{item.answer}
-      //       </p>
-      //     </div>
-      //   ))}
-      // </div>
-      <p>Hii</p>
+      <div key={key} style={styles.container}>
+        <p style={styles.key}>{key}</p>
+        {value.map((item) => (
+          <div key={item.question}>
+            <p style={styles.answer}>
+              {item.question}: {item.answer}
+            </p>
+          </div>
+        ))}
+      </div>
     );
-
     setIframeContent(content);
   };
 
@@ -217,7 +217,8 @@ function UserDashboard() {
         <Modal isOpen={modalOpen} isClosed={closeModal}>
           <h2>Modal Content</h2>
           <p>This is the content of the modal.</p>
-
+          {/* {iframeContent && <IframeData content={iframeContent} />} */}
+          {<IframeData />}
           <div
             contentEditable
             suppressContentEditableWarning

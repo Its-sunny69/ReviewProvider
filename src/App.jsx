@@ -14,6 +14,7 @@ import Navbar from "./components/Navbar";
 import IframeData from "./IframeData";
 import "./App.css";
 import LoadingPage from "./components/LoadingPage";
+import { IframeContentProvider } from "./contexts/IframeContentContext";
 
 function App() {
   const [user, setUser] = useState();
@@ -33,6 +34,7 @@ function App() {
 
   return (
     <div className="select-none w-full bg-slate-100">
+      <IframeContentProvider>
       <BrowserRouter>
         <Routes>
           <Route
@@ -67,9 +69,19 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Landing />}></Route>
-          <Route path="/iframe-render" element={<IframeData />}></Route>
+          <Route
+            path="/iframe-render"
+            element={
+              user && !user.isAnonymous ? (
+                <IframeData />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          ></Route>
         </Routes>
       </BrowserRouter>
+      </IframeContentProvider>
       <Toaster />
     </div>
   );
