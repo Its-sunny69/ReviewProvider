@@ -1,48 +1,104 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, store } from "../Store/realtimeDB";
+import { signInAnonymously, deleteUser } from "firebase/auth";
+import { useLocation } from "react-router-dom";
 
-
-const authContext = createContext()
+const authContext = createContext();
 
 const AuthProvider = ({ children }) => {
-    const [userData, setUserData] = useState(null)
-    const [id, setId] = useState(null)
-    const [loading, setLoading] = useState(true)
+  const [userData, setUserData] = useState(null);
+  const [id, setId] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const { state } = useLocation();
+  const { pathname } = useLocation();
+  console.log(state);
 
-    const fetchUser = async () => {
-        auth.onAuthStateChanged(async (user) => {
-            setId(user.uid)
-            const docRef = doc(store, "users", user.uid);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                setUserData(docSnap.data());
-            } else {
-                console.log("User is not loggedin");
-            }
-            setLoading(false)
-        });
-    };
+  const fetchUser = async () => {
+    auth.onAuthStateChanged(async (user) => {
+      //     console.log(user)
+      //       if (!user && (user ? !user.isAnonymous: true)) {
+      //         signInAnonymously(auth);
+      //         console.log("anonymous");
+      //       }
+      //     console.log("after", user);
 
-    useEffect(() => {
-        setTimeout(() => {
-            fetchUser()
-        }, 5)
-    }, [])
+      //     console.log(user);
+      //     user = auth.currentUser;
+      //     setId(user.uid);
+      //     const docRef = doc(store, "users", user.uid);
+      //     const docSnap = await getDoc(docRef);
+      //     if (docSnap.exists()) {
+      //       setUserData(docSnap.data());
+      //     } else {
+      //       console.log("User is not loggedin");
+      //     }
+      //     setLoading(false);
+      //   });
+      // };
 
-    return (
-        <authContext.Provider value={{ userData, id, loading }}>
-            {children}
-        </authContext.Provider>
-    )
-}
+      if (!user) {
+        if (pathname.startsWith("/review")) {
+          await signInAnonymously(auth);
+        } else {
+          navigate("/login");
+          return;
+        }
+      } else if (user.isAnonymous && !pathname.startsWith("/review")) {
+        await auth.signOut();
+        navigate("/login");
+      } else {
+        const docRef = doc(store, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setUserData(docSnap.data());
+        }
+      }
+      setId(user ? user.uid : null);
+      setLoading(false);
+    });
+  };
 
-const useAuth = () => {
-    const context = useContext(authContext);
-    if (context === undefined) {
-        throw new Error('useData must be used within a DataProvider');
+  useEffect(() => {
+    setTimeout(() => {
+      fetchUser();
+    }, 5);
+  }, [auth.currentUser]);
+
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      toast.success("User Logedout Successfully!!", {
+        duration: 2000,
+        position: "top-center",
+      });
+      setId(null);
+      navigate("/login");
+    } catch (error) {
+      toast.error(error.message, {
+        duration: 2000,
+        position: "bottom-center",
+      });
     }
-    return context;
+  };
+
+  useEffect(() => {
+    handleLogout;
+  });
+
+  return (
+    <authContext.Provider value={{ userData, id, loading }}>
+      {children}
+    </authContext.Provider>
+  );
 };
 
-export { AuthProvider, useAuth }
+const useAuth = () => {
+  const context = useContext(authContext);
+  if (context === undefined) {
+    throw new Error("useData must be used within a DataProvider");
+  }
+  return context;
+};
+
+export { AuthProvider, useAuth };
