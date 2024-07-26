@@ -6,7 +6,7 @@ export const useIframeContent = () => useContext(IframeContentContext);
 
 export const IframeContentProvider = ({ children }) => {
   const [iframeContent, setIframeContent] = useState(null);
-
+    console.log(iframeContent)
   return (
     <IframeContentContext.Provider value={{ iframeContent, setIframeContent }}>
       {children}

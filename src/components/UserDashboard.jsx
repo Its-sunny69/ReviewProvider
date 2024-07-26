@@ -153,6 +153,7 @@ function UserDashboard() {
   const openModal = (key, value) => {
     handleClick(key, value);
     setModalOpen(true);
+    // navigate("/iframe-render")
   };
 
   const closeModal = () => {
