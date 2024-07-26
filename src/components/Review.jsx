@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { AuthProvider, useAuth } from "../contexts/getUser";
 import { getDatabase, ref, update, get } from "firebase/database";
-import app from "../Store/realtimeDB";
+import app, { auth } from "../Store/realtimeDB";
 import Navbar from "./Navbar";
 import toast from "react-hot-toast";
-import LoadingPage from "./LoadingPage"
+import LoadingPage from "./LoadingPage";
 
 function Review() {
   const { state } = useLocation();
@@ -20,6 +20,12 @@ function Review() {
     state ? state.data.questions : data ? data.questions : []
   );
   const { reviewId } = useParams();
+
+  if (performance.getEntriesByType("navigation")[0].type == "reload" && (auth.currentUser ? auth.currentUser.isAnonymous: false)) {
+    console.log("reloadddddd")
+  }
+
+  // console.log(performance.getEntriesByType("navigation")[0].type)
 
   useEffect(() => {
     const getData = async (path) => {
@@ -93,7 +99,7 @@ function Review() {
   const updateId = (e) => {
     let change = e.target.value;
     for (let i = 0; i < ansForm.length; i++) {
-      setInputName(change)
+      setInputName(change);
       ansForm[i].id = change;
     }
   };
@@ -156,14 +162,15 @@ function Review() {
   };
 
   if (loading) {
-    return <LoadingPage/>
+    return <LoadingPage />;
   }
 
   if (ansForm.length && questions.length && data)
     return (
       <>
         <div className="w-full h-dvh">
-          <Navbar />
+          {auth.currentUser.isAnonymous ? "" : <Navbar />}
+          {/* <Navbar /> */}
 
           <p>This is Review</p>
           <div>
@@ -220,7 +227,7 @@ function Review() {
                 transition={{ duration: 0.5 }}
                 className="w-full border-2 min-h-16 border-slate-400 flex justify-around flex-col items-center origin-top"
               >
-                <p>{`${import.meta.env.VITE_API_URL}/review/${data._id}`}</p>
+                <p>{`${window.location.origin}/review/${data._id}`}</p>
                 <p
                   className="w-full hover:bg-slate-700 hover:text-white hover:cursor-pointer text-center"
                   onClick={handleLink}
