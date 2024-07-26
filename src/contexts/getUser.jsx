@@ -3,6 +3,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { auth, store } from "../Store/realtimeDB";
 import { signInAnonymously, deleteUser } from "firebase/auth";
 import { useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const authContext = createContext();
 
