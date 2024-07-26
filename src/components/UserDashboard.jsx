@@ -8,6 +8,7 @@ import Modal from "./Modal";
 import { renderToString } from "react-dom/server";
 import Navbar from "./Navbar";
 import LoadingPage from "./LoadingPage";
+import IframeData from "../IframeData";
 
 function UserDashboard() {
   const { state } = useLocation();
@@ -18,6 +19,7 @@ function UserDashboard() {
   const [data, setData] = useState(null);
   const [dynamicKey, setDynamicKey] = useState("");
   const [loading, setLoading] = useState(true);
+  const [iframeSrc, setIframeSrc] = useState("");
 
   const [iframeContent, setIframeContent] = useState(null);
   const divRef = useRef(null);
@@ -50,6 +52,7 @@ function UserDashboard() {
     },
   };
 
+  console.log(window.location.origin);
   const fetchData = async (path) => {
     const db = getDatabase(app);
     const dbRef = ref(db, `Database/${path}`);
@@ -98,6 +101,10 @@ function UserDashboard() {
     }
   }, [data]);
 
+  useEffect(() => {
+    setIframeSrc(`${window.location.origin}/iframe-render`);
+  }, []);
+
   const handleDelete = async () => {
     const db = getDatabase(app);
     const docRef = ref(
@@ -136,11 +143,11 @@ function UserDashboard() {
             </p>
           </div>
         ))}
-        <button onClick={openModal} style={styles.button}>
-          share
-        </button>
       </div>
     );
+    <button onClick={openModal} style={styles.button}>
+      share
+    </button>;
     console.log(content);
     setIframeContent(content);
   };
@@ -222,11 +229,7 @@ function UserDashboard() {
             }}
           >
             <pre>
-              <code>
-                &lt;iframe
-                src="https://review-provider.vercel.app/user-dashboard"
-                frameborder="0"&gt;&lt;/iframe&gt;
-              </code>
+              <code>&lt;iframe src="{iframeSrc}"&gt;&lt;/iframe&gt;</code>
             </pre>
           </div>
         </Modal>

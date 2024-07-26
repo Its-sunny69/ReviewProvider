@@ -11,6 +11,7 @@ import Login from "./Auth/Login";
 import { useEffect, useState } from "react";
 import { auth } from "./Store/realtimeDB";
 import Navbar from "./components/Navbar";
+import IframeData from "./IframeData";
 import "./App.css";
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Landing />}></Route>
+          <Route path="/iframe-render" element={<IframeData />}></Route>
         </Routes>
       </BrowserRouter>
       <Toaster />
