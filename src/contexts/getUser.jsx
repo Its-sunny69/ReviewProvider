@@ -43,7 +43,6 @@ const AuthProvider = ({ children }) => {
             await signInAnonymously(auth);
           } catch (err) {
             if (err.code === 'auth/too-many-requests') {
-              setError('Too many requests. Please try again later.');
               toast.error('Too many requests. Please try again later.', {
                 duration: 3000,
                 position: 'top-center',
