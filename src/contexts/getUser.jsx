@@ -3,7 +3,6 @@ import { doc, getDoc } from "firebase/firestore";
 import { auth, store } from "../Store/realtimeDB";
 import { signInAnonymously, deleteUser } from "firebase/auth";
 import { useLocation } from "react-router-dom";
-import toast from "react-hot-toast";
 
 const authContext = createContext();
 
@@ -40,18 +39,7 @@ const AuthProvider = ({ children }) => {
 
       if (!user) {
         if (pathname.startsWith("/review")) {
-          try {
-            await signInAnonymously(auth);
-          } catch (err) {
-            if (err.code === 'auth/too-many-requests') {
-              toast.error('Too many requests. Please try again later.', {
-                duration: 3000,
-                position: 'top-center',
-              });
-            } else {
-              console.error(err);
-            }
-          }
+          await signInAnonymously(auth);
         } else {
           navigate("/login");
           return;
