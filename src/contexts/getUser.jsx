@@ -39,7 +39,19 @@ const AuthProvider = ({ children }) => {
 
       if (!user) {
         if (pathname.startsWith("/review")) {
-          await signInAnonymously(auth);
+          try {
+            await signInAnonymously(auth);
+          } catch (err) {
+            if (err.code === 'auth/too-many-requests') {
+              setError('Too many requests. Please try again later.');
+              toast.error('Too many requests. Please try again later.', {
+                duration: 3000,
+                position: 'top-center',
+              });
+            } else {
+              console.error(err);
+            }
+          }
         } else {
           navigate("/login");
           return;
