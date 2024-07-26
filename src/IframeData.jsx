@@ -1,7 +1,6 @@
 import React from "react";
 const IframeData = ({ content }) => {
-  console.log(content);
-  return <div>This is content:{content}</div>;
+  return content ? <div>{content}</div> : null;
 };
 
 export default IframeData;

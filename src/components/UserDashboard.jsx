@@ -212,11 +212,12 @@ function UserDashboard() {
             </div>
           ))}
         </div>
+        {iframeContent ? <IframeData content={iframeContent} /> : null}
 
         <Modal isOpen={modalOpen} isClosed={closeModal}>
           <h2>Modal Content</h2>
           <p>This is the content of the modal.</p>
-          <IframeData content={iframeContent} />
+
           <div
             contentEditable
             suppressContentEditableWarning
