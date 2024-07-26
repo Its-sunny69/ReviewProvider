@@ -21,12 +21,6 @@ function Review() {
   );
   const { reviewId } = useParams();
 
-  if (performance.getEntriesByType("navigation")[0].type == "reload" && (auth.currentUser ? auth.currentUser.isAnonymous: false)) {
-    console.log("reloadddddd")
-  }
-
-  // console.log(performance.getEntriesByType("navigation")[0].type)
-
   useEffect(() => {
     const getData = async (path) => {
       const db = getDatabase(app);
@@ -170,7 +164,6 @@ function Review() {
       <>
         <div className="w-full h-dvh">
           {auth.currentUser.isAnonymous ? "" : <Navbar />}
-          {/* <Navbar /> */}
 
           <p>This is Review</p>
           <div>
