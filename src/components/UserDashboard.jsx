@@ -213,7 +213,7 @@ function UserDashboard() {
             </div>
           ))}
         </div>
-        {iframeContent ? <IframeData content={iframeContent} /> : null}
+        {/* {iframeContent ? <IframeData content={iframeContent} /> : null} */}
 
         <Modal isOpen={modalOpen} isClosed={closeModal}>
           <h2>Modal Content</h2>
