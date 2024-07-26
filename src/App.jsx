@@ -50,7 +50,11 @@ function App() {
           <Route
             path="/user-dashboard"
             element={
-              user && !user.isAnonymous ? <UserDashboard /> : <Navigate to="/login" />
+              user && !user.isAnonymous ? (
+                <UserDashboard />
+              ) : (
+                <Navigate to="/login" />
+              )
             }
           />
           <Route path="/review/:reviewId?" element={<Review />} />

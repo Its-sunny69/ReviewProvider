@@ -134,21 +134,19 @@ function UserDashboard() {
 
   const handleClick = (key, value) => {
     const content = (
-      <div key={key} style={styles.container}>
-        <p style={styles.key}>{key}</p>
-        {value.map((item) => (
-          <div key={item.question}>
-            <p style={styles.answer}>
-              {item.question}:{item.answer}
-            </p>
-          </div>
-        ))}
-      </div>
+      // <div key={key} style={styles.container}>
+      //   <p style={styles.key}>{key}</p>
+      //   {value.map((item) => (
+      //     <div key={item.question}>
+      //       <p style={styles.answer}>
+      //         {item.question}:{item.answer}
+      //       </p>
+      //     </div>
+      //   ))}
+      // </div>
+      <p>Hii</p>
     );
-    <button onClick={openModal} style={styles.button}>
-      share
-    </button>;
-    console.log(content);
+
     setIframeContent(content);
   };
 
@@ -218,6 +216,7 @@ function UserDashboard() {
         <Modal isOpen={modalOpen} isClosed={closeModal}>
           <h2>Modal Content</h2>
           <p>This is the content of the modal.</p>
+          <IframeData content={iframeContent} />
           <div
             contentEditable
             suppressContentEditableWarning
