@@ -156,6 +156,7 @@ function UserDashboard() {
   const openModal = (key, value) => {
     handleClick(key, value);
     setModalOpen(true);
+    // navigate("/iframe-render")
   };
 
   const closeModal = () => {
@@ -215,6 +216,7 @@ function UserDashboard() {
             </div>
           ))}
         </div>
+        {/* {iframeContent ? <IframeData content={iframeContent} /> : null} */}
 
         <Modal isOpen={modalOpen} isClosed={closeModal}>
           <h2>Modal Content</h2>
