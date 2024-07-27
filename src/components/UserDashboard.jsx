@@ -9,7 +9,10 @@ import { renderToString } from "react-dom/server";
 import Navbar from "./Navbar";
 import LoadingPage from "./LoadingPage";
 import IframeData from "../IframeData";
-import { useIframeContent } from "../contexts/IframeContentContext";
+import {
+  IframeContentProvider,
+  useIframeContent,
+} from "../contexts/IframeContentContext";
 
 function UserDashboard() {
   const { state } = useLocation();
@@ -255,7 +258,9 @@ function UserDashboard() {
 export default function App() {
   return (
     <AuthProvider>
-      <UserDashboard />
+      <IframeContentProvider>
+        <UserDashboard />
+      </IframeContentProvider>
     </AuthProvider>
   );
 }
