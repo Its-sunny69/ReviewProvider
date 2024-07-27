@@ -140,20 +140,20 @@ function UserDashboard() {
   const content = "Byeee";
 
   const handleClick = (key, value) => {
-    const content = 
-    `
+    const content = `
       <div key=${key} style="background: green;">
         <p style=${styles.key}>${key}</p>
-        ${value.map((item) => (
-          `<div key=${item.question}>
+        ${value.map(
+          (item) =>
+            `<div key=${item.question}>
             <p style=${styles.answer}>
               ${item.question}: ${item.answer}
             </p>
           </div>
       `
-        ))}
+        )}
       </div>
-    `
+    `;
     const uri = `data:text/html;charset=utf-8,${encodeURIComponent(content)}`;
     setIframeSrc(uri);
     setIframeContent(content);
@@ -193,10 +193,10 @@ function UserDashboard() {
           <p>
             Form Link:{" "}
             <a
-              href={`${import.meta.env.VITE_API_URL}/review/${state.data._id}`}
+              href={`${window.location.origin}/review/${state.data._id}`}
               target="_blank"
             >
-              {`${import.meta.env.VITE_API_URL}/review/${state.data._id}`}
+              {`${window.location.origin}/review/${state.data._id}`}
             </a>
           </p>
         </div>
@@ -229,11 +229,11 @@ function UserDashboard() {
           <p>This is the content of the modal.</p>
           {/* {iframeContent && <IframeData content={iframeContent} />} */}
           {<IframeData content={content} />}
-          <textarea 
-                value={`<iframe src="${iframeSrc}" width="600" height="400" style="border:none;" title="Dynamic Content"></iframe>`} 
-                readOnly 
-                style={{ width: '100%', height: '100px', marginTop: '20px' }}
-              />
+          <textarea
+            value={`<iframe src="${iframeSrc}" width="600" height="400" style="border:none;" title="Dynamic Content"></iframe>`}
+            readOnly
+            style={{ width: "100%", height: "100px", marginTop: "20px" }}
+          />
           {/* {iframeContent} */}
           <div
             contentEditable
