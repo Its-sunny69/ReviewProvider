@@ -21,7 +21,7 @@ function UserDashboard() {
   const [dynamicKey, setDynamicKey] = useState("");
   const [loading, setLoading] = useState(true);
   const [iframeSrc, setIframeSrc] = useState("");
-  const { setIframeContent } = useIframeContent();
+  const { setIframeContent, iframeContent } = useIframeContent();
 
   // const [iframeContent, setIframeContent] = useState(null);
   const divRef = useRef(null);
@@ -103,9 +103,9 @@ function UserDashboard() {
     }
   }, [data]);
 
-  useEffect(() => {
-    setIframeSrc(`${window.location.origin}/iframe-render`);
-  }, []);
+  // useEffect(() => {
+  //   setIframeSrc(`${window.location.origin}/iframe-render`);
+  // }, []);
 
   const handleDelete = async () => {
     const db = getDatabase(app);
@@ -134,19 +134,25 @@ function UserDashboard() {
     });
   };
 
+  const content = "Byeee";
+
   const handleClick = (key, value) => {
-    const content = (
-      <div key={key} style={styles.container}>
-        <p style={styles.key}>{key}</p>
-        {value.map((item) => (
-          <div key={item.question}>
-            <p style={styles.answer}>
-              {item.question}: {item.answer}
+    const content = 
+    `
+      <div key=${key} style="background: green;">
+        <p style=${styles.key}>${key}</p>
+        ${value.map((item) => (
+          `<div key=${item.question}>
+            <p style=${styles.answer}>
+              ${item.question}: ${item.answer}
             </p>
           </div>
+      `
         ))}
       </div>
-    );
+    `
+    const uri = `data:text/html;charset=utf-8,${encodeURIComponent(content)}`;
+    setIframeSrc(uri);
     setIframeContent(content);
   };
 
@@ -219,7 +225,13 @@ function UserDashboard() {
           <h2>Modal Content</h2>
           <p>This is the content of the modal.</p>
           {/* {iframeContent && <IframeData content={iframeContent} />} */}
-          {<IframeData />}
+          {<IframeData content={content} />}
+          <textarea 
+                value={`<iframe src="${iframeSrc}" width="600" height="400" style="border:none;" title="Dynamic Content"></iframe>`} 
+                readOnly 
+                style={{ width: '100%', height: '100px', marginTop: '20px' }}
+              />
+          {/* {iframeContent} */}
           <div
             contentEditable
             suppressContentEditableWarning
