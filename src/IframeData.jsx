@@ -1,7 +1,7 @@
 import React from "react";
 import { useIframeContent } from "./contexts/IframeContentContext";
 
-const IframeData = ({content}) => {
+const IframeData = () => {
   const { iframeContent } = useIframeContent();
 
   console.log("IframeData rendered with content:", iframeContent);

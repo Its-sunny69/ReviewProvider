@@ -140,20 +140,20 @@ function UserDashboard() {
   const content = "Byeee";
 
   const handleClick = (key, value) => {
-    const content = 
-    `
+    const content = `
       <div key=${key} style="background: green;">
         <p style=${styles.key}>${key}</p>
-        ${value.map((item) => (
-          `<div key=${item.question}>
+        ${value.map(
+          (item) =>
+            `<div key=${item.question}>
             <p style=${styles.answer}>
               ${item.question}: ${item.answer}
             </p>
           </div>
       `
-        ))}
+        )}
       </div>
-    `
+    `;
     const uri = `data:text/html;charset=utf-8,${encodeURIComponent(content)}`;
     setIframeSrc(uri);
     setIframeContent(content);
@@ -162,7 +162,6 @@ function UserDashboard() {
   const openModal = (key, value) => {
     handleClick(key, value);
     setModalOpen(true);
-    // navigate("/iframe-render")
   };
 
   const closeModal = () => {
@@ -224,32 +223,19 @@ function UserDashboard() {
         </div>
         {/* {iframeContent ? <IframeData content={iframeContent} /> : null} */}
 
-        <Modal isOpen={modalOpen} isClosed={closeModal}>
-          <h2>Modal Content</h2>
-          <p>This is the content of the modal.</p>
-          {/* {iframeContent && <IframeData content={iframeContent} />} */}
-          {<IframeData content={content} />}
-          <textarea 
-                value={`<iframe src="${iframeSrc}" width="600" height="400" style="border:none;" title="Dynamic Content"></iframe>`} 
-                readOnly 
-                style={{ width: '100%', height: '100px', marginTop: '20px' }}
-              />
-          {/* {iframeContent} */}
-          <div
-            contentEditable
-            suppressContentEditableWarning
-            style={{
-              border: "1px solid #ccc",
-              padding: "10px",
-              marginBottom: "10px",
-              whiteSpace: "pre-wrap",
-            }}
-          >
-            <pre>
-              <code>&lt;iframe src="{iframeSrc}"&gt;&lt;/iframe&gt;</code>
-            </pre>
-          </div>
-        </Modal>
+          <Modal isOpen={modalOpen} isClosed={closeModal}>
+            <p className="text-2xl font-bold my-4">Code For Your Testimonial</p>
+            <div
+              className="my-3"
+            >
+              <p className="my-1 text-lg">Embed Code:</p>
+              <pre className="overflow-scroll my-1 bg-black">
+                &lt;iframe src=&quot;${iframeSrc}&quot; width=&quot;100%&quot;
+                height=&quot;400&quot; style=&quot;border:none;&quot;
+                title=&quot;Dynamic Content&quot;&gt;&lt;/iframe&gt;
+              </pre>
+            </div>
+          </Modal>  
       </div>
     </>
   );
