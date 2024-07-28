@@ -9,6 +9,8 @@ import { renderToString } from "react-dom/server";
 import Navbar from "./Navbar";
 import LoadingPage from "./LoadingPage";
 import IframeData from "../IframeData";
+import Code from "./Code";
+
 import {
   IframeContentProvider,
   useIframeContent,
@@ -225,16 +227,19 @@ function UserDashboard() {
 
           <Modal isOpen={modalOpen} isClosed={closeModal}>
             <p className="text-2xl font-bold my-4">Code For Your Testimonial</p>
-            <div
+            {/* <div
               className="my-3"
             >
               <p className="my-1 text-lg">Embed Code:</p>
-              <pre className="overflow-scroll my-1 bg-black">
+              <pre className="overflow-scroll my-1" contentEditable>
+                <code className="">
                 &lt;iframe src=&quot;${iframeSrc}&quot; width=&quot;100%&quot;
                 height=&quot;400&quot; style=&quot;border:none;&quot;
                 title=&quot;Dynamic Content&quot;&gt;&lt;/iframe&gt;
-              </pre>
-            </div>
+                </code>
+              </pre> 
+            </div> */}
+            <Code code={`<iframe src=${iframeSrc} width="100%" height="400" style="border:none;" title="Dynamic Content"></iframe>`} language="javascript" copy={true}/>
           </Modal>  
       </div>
     </>
@@ -250,3 +255,5 @@ export default function App() {
     </AuthProvider>
   );
 }
+
+
