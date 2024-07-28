@@ -192,10 +192,10 @@ function UserDashboard() {
           <p>
             Form Link:{" "}
             <a
-              href={`${import.meta.env.VITE_API_URL}/review/${state.data._id}`}
+              href={`${window.location.origin}/review/${state.data._id}`}
               target="_blank"
             >
-              {`${import.meta.env.VITE_API_URL}/review/${state.data._id}`}
+              {`${window.location.origin}/review/${state.data._id}`}
             </a>
           </p>
         </div>
