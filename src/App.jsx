@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./components/Home";
 import UserDashboard from "./components/UserDashboard";
 import Review from "./components/Review";
@@ -10,8 +10,6 @@ import { Toaster } from "react-hot-toast";
 import Login from "./Auth/Login";
 import { useEffect, useState } from "react";
 import { auth } from "./Store/realtimeDB";
-import Navbar from "./components/Navbar";
-import IframeData from "./IframeData";
 import "./App.css";
 import LoadingPage from "./components/LoadingPage";
 import { IframeContentProvider } from "./contexts/IframeContentContext";
@@ -73,7 +71,6 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Landing />}></Route>
-            <Route path="/iframe-render" element={<IframeData />}></Route>
           </Routes>
         </BrowserRouter>
       </IframeContentProvider>

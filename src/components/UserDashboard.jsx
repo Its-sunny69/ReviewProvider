@@ -8,8 +8,9 @@ import Modal from "./Modal";
 import { renderToString } from "react-dom/server";
 import Navbar from "./Navbar";
 import LoadingPage from "./LoadingPage";
-import IframeData from "../IframeData";
 import Code from "./Code";
+import {DeleteOutlined, DeleteFilled} from "@ant-design/icons"
+import toast from "react-hot-toast";
 
 import {
   IframeContentProvider,
@@ -127,6 +128,11 @@ function UserDashboard() {
           ),
         });
         navigate("/home");
+        toast("Spaces Deleted", {
+          icon: <span className="text-red-500"><DeleteFilled /></span>,
+          position: "top-center",
+          duration: 2000
+        })
       })
       .catch((error) => console.log(error));
   };
@@ -170,77 +176,82 @@ function UserDashboard() {
     setModalOpen(false);
   };
 
+  function capitalizeFirstLetter(str) {
+    if (typeof str !== "string") return "str is not a string"; // Ensure str is a string
+    if (!str.length) return str; // Handle empty strings
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
+
   if (loading) {
     return <LoadingPage />;
   }
 
   return (
     <>
-      <div className="w-full h-dvh">
+      <div className="w-full h-dvh ">
         <Navbar />
 
-        <div className="flex justify-center items-left flex-col border-2 shadow-sm">
-          {state.data.item ? (
-            Object.entries(state.data.item).map((key, index) => (
-              <p className="font-bold text-xl" key={index}>
-                {key[1].firstname}
+        <div className="px-20 py-6">
+          <div className="flex m-2 p-4  justify-between items-center flex-row bg-blue-200 shadow-sm rounded-lg">
+            <div className="flex justify-center items-left flex-col">
+            {state.data.item ? (
+              Object.entries(state.data.item).map((key, index) => (
+                <p className="font-bold text-xl" key={index}>
+                  {key[1].firstname}
+                </p>
+              ))
+            ) : (
+              <p className="font-bold text-xl">
+                {capitalizeFirstLetter(state.data.firstname)} Dashboard
               </p>
-            ))
-          ) : (
-            <p className="font-bold text-xl">
-              {state.data.firstname} Dashboard
+            )}
+            <p className="font-bold">
+              Form Link:{" "}
+              <a
+                href={`${window.location.origin}/review/${state.data._id}`}
+                target="_blank"
+                className="font-normal underline hover:text-blue-500 visited:text-blue-800"
+              >
+                {`${window.location.origin}/review/${state.data._id}`}
+              </a>
             </p>
-          )}
-          <p>
-            Form Link:{" "}
-            <a
-              href={`${window.location.origin}/review/${state.data._id}`}
-              target="_blank"
-            >
-              {`${window.location.origin}/review/${state.data._id}`}
-            </a>
-          </p>
-        </div>
-        <button onClick={handleDelete}>Delete Space</button>
-        <br />
-        <button onClick={handleSubmit}>Review</button>
-        <div className="flex flex-wrap justify-evenly items-center p-4">
-          {Object.entries(names).map(([key, value], index) => (
-            <div
-              key={index}
-              className="w-max h-max p-10 shadow-md border-2 border-slate-800 "
-              ref={divRef}
-            >
-              <p>{key}</p>
-              {value.map((item) => (
-                <div key={item.question}>
-                  <p>
-                    {item.question}:{item.answer}
-                  </p>
-                </div>
-              ))}
-              <button onClick={() => openModal(key, value)}>share</button>
             </div>
-          ))}
-        </div>
-        {/* {iframeContent ? <IframeData content={iframeContent} /> : null} */}
+            <div className="flex justify-center items-center">
+            <button className="flex items-center gap-x-2 border border-1 shadow-md border-red-500 h-max px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md bg-red-500 hover:bg-red-100 hover:text-slate-900" onClick={handleDelete}><DeleteOutlined /></button>
+            </div>
+          </div>
+          
+          <br />
+          <button onClick={handleSubmit}>Review</button>
+          <div className="flex flex-wrap justify-evenly items-center p-4">
+            {Object.entries(names).map(([key, value], index) => (
+              <div
+                key={index}
+                className="w-max h-max p-10 shadow-md border-2 border-slate-800 "
+                ref={divRef}
+              >
+                <p>{key}</p>
+                {value.map((item) => (
+                  <div key={item.question}>
+                    <p>
+                      {item.question}:{item.answer}
+                    </p>
+                  </div>
+                ))}
+                <button onClick={() => openModal(key, value)}>share</button>
+              </div>
+            ))}
+          </div>
 
           <Modal isOpen={modalOpen} isClosed={closeModal}>
             <p className="text-2xl font-bold my-4">Code For Your Testimonial</p>
-            {/* <div
-              className="my-3"
-            >
-              <p className="my-1 text-lg">Embed Code:</p>
-              <pre className="overflow-scroll my-1" contentEditable>
-                <code className="">
-                &lt;iframe src=&quot;${iframeSrc}&quot; width=&quot;100%&quot;
-                height=&quot;400&quot; style=&quot;border:none;&quot;
-                title=&quot;Dynamic Content&quot;&gt;&lt;/iframe&gt;
-                </code>
-              </pre> 
-            </div> */}
-            <Code code={`<iframe src=${iframeSrc} width="100%" height="400" style="border:none;" title="Dynamic Content"></iframe>`} language="javascript" copy={true}/>
-          </Modal>  
+            <Code
+              code={`<iframe src=${iframeSrc} width="100%" height="400" style="border:none;" title="Dynamic Content"></iframe>`}
+              language="javascript"
+              copy={true}
+            />
+          </Modal>
+        </div>
       </div>
     </>
   );
@@ -255,5 +266,3 @@ export default function App() {
     </AuthProvider>
   );
 }
-
-

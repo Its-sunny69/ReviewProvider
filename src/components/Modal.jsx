@@ -1,5 +1,6 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import {CloseOutlined} from "@ant-design/icons"
 
 const Modal = ({ isOpen, isClosed, children }) => {
   return (
@@ -15,10 +16,10 @@ const Modal = ({ isOpen, isClosed, children }) => {
             transition={{ duration: 0.2 }}
           >
             <button
-              className="w-fit text-3xl font-bold text-red-500 hover:text-red-300 hover:scale-125 flex justify-start items-center transition ease-in-out delay-120"
+              className="w-fit text-lg font-extrabold text-red-500 hover:text-red-300 hover:scale-125 flex justify-start items-center transition ease-in-out delay-120"
               onClick={isClosed}
             >
-              x
+              <CloseOutlined />
             </button>
             {children}
           </motion.div>
