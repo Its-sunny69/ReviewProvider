@@ -71,13 +71,12 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Landing />}></Route>
-          </Routes>  
-          {/* comment */}
+          </Routes>
         </BrowserRouter>
       </IframeContentProvider>
       <Toaster />
     </div>
   );
-}
+}   
 
 export default App;
