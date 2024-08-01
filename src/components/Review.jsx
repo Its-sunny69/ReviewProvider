@@ -190,6 +190,7 @@ function Review() {
                   name="id"
                   value={inputName}
                   onChange={(e) => updateId(e)}
+                  maxLength={10}
                 />
               </>
 
