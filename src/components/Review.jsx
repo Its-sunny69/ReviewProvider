@@ -166,74 +166,72 @@ function Review() {
         <div className="w-full h-dvh">
           {auth.currentUser.isAnonymous ? "" : <Navbar />}
 
-          <p>This is Review</p>
-          <div>
-            <div className="flex w-full h-52 flex-col border-2 shadow-xl items-center p-4 ">
-              {questions.map((item, index) => (
-                <>
-                  <p key={index} className="text-xl p-1 font-bold">
-                    {item.question}{" "}
-                    <input
-                      type="text"
-                      className="border-2"
-                      onChange={(e) => ansInput(e, index)}
-                      name={`answer`}
-                      value={ansForm[index].answer}
-                    />
-                  </p>
-                </>
-              ))}
-              <>
-                <p>Name:</p>
-                <input
-                  type="text"
-                  name="id"
-                  value={inputName}
-                  onChange={(e) => updateId(e)}
-                  maxLength={10}
-                />
-              </>
+          <div className="w-full h-lvh flex justify-center items-center bg-slate-100">
+            <div className="w-2/6 text-xl flex flex-col border-none p-5 shadow-lg rounded-md backdrop-blur-sm bg-blue-200">
+              <div>
+                <p>This is Review</p>
+              </div>
 
-              <button onClick={saveAnswer}>Answer</button>
-              {data && data._id ? (
-                <div className="flex justify-around items-center p-5">
-                  <button
-                    className="flex border-2 rounded-full bg-green-600 w-max h-max p-2 justify-center items-center text-white"
-                    onClick={() => setIsShow(!isShow)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="size-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"
+              <div>
+                {questions.map((item, index) => (
+                  <>
+                    <p key={index} className="text-xl p-1 font-bold">
+                      {item.question}{" "}
+                      <input
+                        type="text"
+                        className="border-2"
+                        onChange={(e) => ansInput(e, index)}
+                        name={`answer`}
+                        value={ansForm[index].answer}
                       />
-                    </svg>
-                  </button>
-                </div>
-              ) : (
-                ""
-              )}
-              <motion.div
-                initial={{ scaleY: 0 }}
-                animate={{ scaleY: isShow ? 1 : 0 }}
-                transition={{ duration: 0.5 }}
-                className="w-full border-2 min-h-16 border-slate-400 flex justify-around flex-col items-center origin-top"
-              >
-                <p>{`${window.location.origin}/review/${data._id}`}</p>
-                <p
-                  className="w-full hover:bg-slate-700 hover:text-white hover:cursor-pointer text-center"
-                  onClick={handleLink}
+                    </p>
+                  </>
+                ))}
+                <></>
+              </div>
+
+              <div>
+                <button onClick={saveAnswer}>Answer</button>
+                {data && data._id ? (
+                  <div className="flex justify-around items-center p-5">
+                    <button
+                      className="flex border-2 rounded-full bg-green-600 w-max h-max p-2 justify-center items-center text-white"
+                      onClick={() => setIsShow(!isShow)}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="size-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                ) : (
+                  ""
+                )}
+                <motion.div
+                  initial={{ scaleY: 0 }}
+                  animate={{ scaleY: isShow ? 1 : 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="w-full border-2 min-h-16 border-slate-400 flex justify-around flex-col items-center origin-top"
                 >
-                  Copy the link
-                </p>
-              </motion.div>
+                  <p>{`${window.location.origin}/review/${data._id}`}</p>
+                  <p
+                    className="w-full hover:bg-slate-700 hover:text-white hover:cursor-pointer text-center"
+                    onClick={handleLink}
+                  >
+                    Copy the link
+                  </p>
+                </motion.div>
+              </div>
             </div>
           </div>
         </div>

@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "../contexts/getUser";
 import toast from "react-hot-toast";
 import { auth } from "../Store/realtimeDB";
-import Logo from '../assets/logo.svg'
+import Logo from "../assets/logo.svg";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ function Navbar() {
 
   if (pathname && pathname != "/login" && pathname != "/signup")
     return (
-      <nav className="w-full py-2 flex justify-between shadow-md shadow-cyan-400 z-50 sticky top-0 backdrop-blur-lg">
+      <nav className="w-full py-2 flex justify-between z-50 sticky top-0 backdrop-blur-lg">
         <Link to={"/home"}>
           <div className="flex justify-around w-max gap-x-3 items-center px-4">
             <div className="w-14 h-14">

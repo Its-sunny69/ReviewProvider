@@ -9,9 +9,14 @@ import { renderToString } from "react-dom/server";
 import Navbar from "./Navbar";
 import LoadingPage from "./LoadingPage";
 import Code from "./Code";
-import { DeleteOutlined, DeleteFilled, ShareAltOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  DeleteFilled,
+  ShareAltOutlined,
+} from "@ant-design/icons";
 import toast from "react-hot-toast";
 import Quote from "../assets/quote.svg";
+import parse from "html-react-parser";
 
 import {
   IframeContentProvider,
@@ -29,6 +34,7 @@ function UserDashboard() {
   const [loading, setLoading] = useState(true);
   const [iframeSrc, setIframeSrc] = useState("");
   const { setIframeContent, iframeContent } = useIframeContent();
+  const [contentDiv, setContentDiv] = useState("");
 
   // const [iframeContent, setIframeContent] = useState(null);
   const divRef = useRef(null);
@@ -168,33 +174,22 @@ function UserDashboard() {
 
     const content = `
         <style>
-        * {
-          font-family: "Inconsolata", monospace;
-        }
 
-        *::-webkit-scrollbar {
+        .card-content::-webkit-scrollbar {
             width: 5px;
             height: 5px;
         }
-        *::-webkit-scrollbar-track {
+        .card-content::-webkit-scrollbar-track {
             background-color: #f1f5f9;
             border-radius: 10px;
         }
-        *::-webkit-scrollbar-thumb {
+        .card-content::-webkit-scrollbar-thumb {
             background-color: #60a5fa;
             border-radius: 10px;
         }
-        .container {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: space-evenly;
-          align-items: center;
-          margin: 24px 0;
-          font-family: Arial, sans-serif;
-        }
 
         .card {
-          width: 30%;
+          width: 18rem;
           height: 26rem;
           margin: 8px;
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -202,19 +197,21 @@ function UserDashboard() {
           border-radius: 8px;
           display: flex;
           flex-direction: column;
+          font-family: "Inconsolata", monospace;
         }
 
         .card-header {
           display: flex;
           height: 6rem;
-          padding: 40px 40px 0 40px;
+          padding: 20px 20px 0 20px;
           justify-content: flex-start;
           align-items: center;
         }
 
-        .card-header img {
-          margin-right: 16px;
-          width: 56px;
+        .img svg {
+        width: 4rem;
+        height: 4rem;
+        margin-right: 1rem
         }
 
         .card-header p {
@@ -226,8 +223,8 @@ function UserDashboard() {
         }
 
         .card-content {
-          margin: 12px 40px;
-          height: 14rem;
+          margin: 12px 30px;
+          height: 12.8rem;
           position: relative;
           overflow-y: auto;
           scroll-behavior: smooth;
@@ -246,7 +243,7 @@ function UserDashboard() {
         .gradient-bottom {
           background: linear-gradient(to top, #bfdbfe 10%, rgba(191, 219, 254, 0) 100%);
           position: sticky;
-          bottom: -1;
+          bottom: 0;
           left: 0;
           right: 0;
           height: 24px;
@@ -265,58 +262,78 @@ function UserDashboard() {
 
         .separator {
           width: 100%;
-          height: 1.5px;
+          height: 1.25px;
           margin: 16px 0;
           background-color: white;
+          border: none;
         }
 
         .card-footer {
-          width: 100%;
+  
           display: flex;
           justify-content: flex-end;
-          padding: 40px;
+          padding: 20px;
           padding-top: 0;
         }
 
-        .share-button {
-          font-size: 1.5rem;
+        .logo-button a {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 1rem;
           font-weight: 800;
           color: #2563eb;
           cursor: pointer;
           transition: transform 0.12s ease-in-out, color 0.12s ease-in-out;
+          text-decoration: none;
         }
 
-        .share-button:hover {
-          color: #60a5fa;
-          transform: scale(1.25);
+        .logo-button a img {
+          width: 2.5rem;
+          margin-right: 5px;
+        }
+
+        .logo-button:hover a {
+          opacity: 40%;
         }
       </style>
-      <div class="container">
         <div class="card">
           <div class="card-header">
-            <img src="" alt="quote" >
-              <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" margin-top="16" viewBox="0 0 56 56"><path d="M13 14.725c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275zm-13 0c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275z"/></svg>
-            </img>
+            <p class="img">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13 14.725c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275zm-13 0c0-5.141 3.892-10.519 10-11.725l.984 2.126c-2.215.835-4.163 3.742-4.38 5.746 2.491.392 4.396 2.547 4.396 5.149 0 3.182-2.584 4.979-5.199 4.979-3.015 0-5.801-2.305-5.801-6.275z"/></svg>
+            </p>
             <p>${key}</p>
           </div>
 
           <div class="card-content">
             <div class="gradient-top"></div>
             <div>
-              ${value.map(
-                (item, i) =>`
+              ${value
+                .map(
+                  (item, i) => `
                 <div key=${item.question}>
                   <p class="question">Q.${i + 1} ${item.question}</p>
                   <p>&emsp;&emsp;&emsp;${item.answer}</p>
                 </div>
                 `
-              ).join('')}
+                )
+                .join("")}
             </div>
             <div class="gradient-bottom"></div>
           </div>
+          <hr class="separator" />
+          <div class="card-footer">
+            <div class="logo-button">
+            <a href="https://review-provider.vercel.app/" target="_blank">
+             <img src="https://raw.githubusercontent.com/Its-sunny69/ReviewProvider/main/src/assets/logo.svg" alt="logo" />
+
+             TrustVibes
+             <a>
+            </div>
+          </div>
         </div>
-      </div>
-    `
+    `;
+    setContentDiv(content);
     const uri = `data:text/html;charset=utf-8,${encodeURIComponent(content)}`;
     setIframeSrc(uri);
     setIframeContent(content);
@@ -343,10 +360,10 @@ function UserDashboard() {
 
   return (
     <>
-      <div className="w-full h-dvh ">
+      <div className="w-full h-dvh">
         <Navbar />
 
-        <div className="px-20 py-6">
+        <div className="px-20 py-6 bg-slate-100">
           <div className="flex mt-2 mb-2 p-4 justify-center items-center flex-col bg-blue-200 shadow-sm rounded-lg">
             <div className="w-full mb-2 flex justify-between items-center flex-row">
               <div className="flex justify-center items-left flex-col">
@@ -413,17 +430,22 @@ function UserDashboard() {
                       <p className="font-bold text-lg break-words">
                         Q.{i + 1} {item.question}
                       </p>
-                      <p className="break-words">&emsp;&emsp;&emsp;{item.answer}</p>
+                      <p className="break-words">
+                        &emsp;&emsp;&emsp;{item.answer}
+                      </p>
                     </div>
                   ))}
                   <div className="bg-gradient-to-t from-blue-200 from-10% sticky -bottom-0 left-0 right-0 h-6 z-50"></div>
                 </div>
-                
+
                 <hr className="w-full h-[1.5px] mt-4 mb-4 bg-white" />
                 <div className="w-full flex justify-end p-10 pt-0">
-                <button className="w-fit text-2xl font-extrabold text-blue-600 hover:text-blue-400 hover:scale-125 flex justify-start items-center transition ease-in-out delay-120" onClick={() => openModal(key, value)}>
-                  <ShareAltOutlined />
-                </button>
+                  <button
+                    className="w-fit text-2xl font-extrabold text-blue-600 hover:text-blue-400 hover:scale-125 flex justify-start items-center transition ease-in-out delay-120"
+                    onClick={() => openModal(key, value)}
+                  >
+                    <ShareAltOutlined />
+                  </button>
                 </div>
               </div>
             ))}
@@ -431,11 +453,19 @@ function UserDashboard() {
 
           <Modal isOpen={modalOpen} isClosed={closeModal}>
             <p className="text-2xl font-bold my-4">Code For Your Testimonial</p>
-            <Code
-              code={`<iframe src=${iframeSrc} width="100%" height="400" style="border:none;" title="Dynamic Content"></iframe>`}
-              language="javascript"
-              copy={true}
-            />
+
+            <div className="w-full grid grid-cols-6">
+              <div className="flex justify-center items-center col-span-4">
+                <Code
+                  code={`<iframe src=${iframeSrc} width="100%" height="400" style="border:none;" title="Dynamic Content"></iframe>`}
+                  language="javascript"
+                  copy={true}
+                />
+              </div>
+              <div className="flex justify-center items-center col-span-2">
+                {parse(contentDiv)}
+              </div>
+            </div>
           </Modal>
         </div>
       </div>

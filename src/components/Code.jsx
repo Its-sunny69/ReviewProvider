@@ -4,6 +4,7 @@ import "prismjs/themes/prism-okaidia.css";
 import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 import "prismjs/plugins/line-numbers/prism-line-numbers";
 import toast from "react-hot-toast";
+import "../CSS/code.css";
 
 export default function Code({ code, language, copy }) {
   const [copied, setCopied] = useState(false);
@@ -26,20 +27,20 @@ export default function Code({ code, language, copy }) {
   };
 
   return (
-    <div className="my-3">
-      <p className="my-1 text-lg">Embed Code:</p>
+    <div className="w-[80%] my-3">
+      <p className="my-1 text-xl font-bold">Embed Code:</p>
       <pre>
         <code className={`language-${language}`}>{code}</code>
       </pre>
       {copy && (
         <div className="flex mt-3 justify-end items-center">
-        <button
-          className="border border-1 shadow-md border-blue-800 h-max px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md bg-blue-800 hover:bg-blue-100 hover:text-slate-900"
-          onClick={handleCopy}
-          title="Copy to clipboard"
-        >
-          Copy Code
-        </button>
+          <button
+            className="border border-1 shadow-md border-blue-800 h-max px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md bg-blue-800 hover:bg-blue-100 hover:text-slate-900"
+            onClick={handleCopy}
+            title="Copy to clipboard"
+          >
+            Copy Code
+          </button>
         </div>
       )}
     </div>

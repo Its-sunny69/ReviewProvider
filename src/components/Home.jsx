@@ -45,8 +45,8 @@ function Home() {
                   <iframe
                     width="560"
                     height="315"
-                    className=" rounded-lg shadow-md"
-                    src="https://www.youtube.com/embed/WX7DBPcsiEs?si=sXn90_TIhWuDFm3W"
+                    className=" rounded-lg shadow-sm"
+                    src="https://www.youtube.com/embed/KLuTLF3x9sA?si=ScMFxJ6W4ugwlbyT"
                     title="YouTube video player"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
