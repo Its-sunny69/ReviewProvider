@@ -95,12 +95,13 @@ function Form2() {
     <>
       <div className="w-full h-dvh">
         <Navbar />
-        <div className="w-full h-lvh flex justify-center items-center bg-slate-100">
-          <form
-            className="w-2/6 text-xl flex flex-col border-none p-5 shadow-lg rounded-md backdrop-blur-sm bg-blue-200"
-            action=""
-            onSubmit={handleSubmit}
+        <div className="flex justify-center items-center bg-slate-100">
+          <div
+            className="w-2/6 my-5 text-xl flex flex-col border-none p-5 shadow-lg rounded-md backdrop-blur-sm bg-blue-200"
+            
           >
+            <form action=""
+            onSubmit={handleSubmit}>
             <div className="flex flex-col m-2">
               <label
                 className=" font-extrabold drop-shadow-sm flex"
@@ -155,7 +156,8 @@ function Form2() {
                 Submit
               </button>
             </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </>

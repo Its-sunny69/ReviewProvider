@@ -187,7 +187,7 @@ function Review() {
           {auth.currentUser.isAnonymous ? "" : <Navbar />}
 
           <div className="flex justify-center items-center bg-slate-100">
-            <div className="w-2/6 my-4 text-xl flex flex-col border-none p-5 shadow-lg rounded-md backdrop-blur-sm bg-blue-200">
+            <div className="w-2/6 my-5 text-xl flex flex-col border-none p-5 shadow-lg rounded-md backdrop-blur-sm bg-blue-200">
               <form onSubmit={handleSubmit}>
                 <div className="flex justify-center items-center">
                   <p className="text-2xl font-extrabold drop-shadow-sm">
