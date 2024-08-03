@@ -48,8 +48,8 @@ function Form2() {
           });
           toast.success("Space & Form Created Successfully", {
             position: "top-center",
-            duration: 2000
-          })
+            duration: 2000,
+          });
           navigate("/user-dashboard", {
             state: {
               data: userData,
@@ -61,8 +61,8 @@ function Form2() {
         console.log(error);
         toast.error(error.message, {
           position: "top-center",
-          duration: 2000
-        })
+          duration: 2000,
+        });
       });
   };
 
@@ -124,8 +124,12 @@ function Form2() {
             {questionArray.map((n) => {
               return (
                 <div className="flex flex-col m-2" key={n}>
-                  <label className="font-extrabold drop-shadow-sm flex " htmlFor="">
-                    Q.{n}<span className="text-red-500 text-sm">*</span>
+                  <label
+                    className="font-extrabold drop-shadow-sm flex "
+                    htmlFor=""
+                  >
+                    Q.{n}
+                    <span className="text-red-500 text-sm">*</span>
                   </label>
                   <input
                     className="shadow-md py-1 px-2 m-2 rounded-md bg-blue-100 focus:outline-none focus:ring-[1.2px] ring-offset-red-300 ring-offset-0 ring-blue-500"
@@ -142,14 +146,14 @@ function Form2() {
               );
             })}
 
-<div className="flex flex-col justify-center items-center m-2">
-            <button
-              className="w-2/6 border border-1 shadow-md border-blue-800 h-max px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md bg-blue-800 hover:bg-blue-100 hover:text-slate-900"
-              type="submit"
-              onClick={saveData}
-            >
-              Submit
-            </button>
+            <div className="flex flex-col justify-center items-center m-2">
+              <button
+                className="w-2/6 border border-1 shadow-md border-blue-800 h-max px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md bg-blue-800 hover:bg-blue-100 hover:text-slate-900"
+                type="submit"
+                onClick={saveData}
+              >
+                Submit
+              </button>
             </div>
           </form>
         </div>

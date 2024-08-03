@@ -33,11 +33,6 @@ function Home() {
                   our Service 😄
                 </p>
               </div>
-              <div className="py-2">
-                <button className="border border-1 shadow-md border-blue-800 h-max px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md bg-blue-800 hover:bg-blue-100 hover:text-slate-900">
-                  Learn More
-                </button>
-              </div>
             </div>
             <div className=" w-5/12 ml-2 flex justify-center items-center">
               <div className="w-full pt-[56.25%] m-2 relative flex justify-center items-center rounded-lg">
