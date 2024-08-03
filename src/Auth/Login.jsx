@@ -16,7 +16,7 @@ function Login() {
     email: "",
     password: "",
   });
-  const { id } = useAuth()
+  const { id } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -25,9 +25,9 @@ function Login() {
 
   useEffect(() => {
     if (id) {
-      navigate("/home")
+      navigate("/home");
     }
-  })
+  });
 
   let name, value;
   const handleInput = (e) => {
@@ -66,10 +66,13 @@ function Login() {
         case "auth/network-request-failed":
           message = "A network error occurred. Please check your connection.";
           break;
+        case "auth/invalid-credential":
+          message = "The credential is invalid or has expired.";
+          break;
         default:
           break;
       }
-      
+
       toast.error(message, {
         duration: 4000,
         position: "bottom-center",
@@ -149,5 +152,5 @@ export default function App() {
     <AuthProvider>
       <Login />
     </AuthProvider>
-  )
+  );
 }
