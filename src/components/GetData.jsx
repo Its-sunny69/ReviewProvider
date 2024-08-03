@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { DataProvider, useData } from "../contexts/getDataContext.jsx";
-import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 function GetData() {
@@ -10,11 +10,11 @@ function GetData() {
 
   if (loading) {
     return (
-        <SkeletonTheme baseColor="#c3c3c3" highlightColor="#e7e7e7">
-          <p>
-            <Skeleton width={150} height={100} />
-          </p>
-        </SkeletonTheme>
+      <SkeletonTheme baseColor="#c3c3c3" highlightColor="#e7e7e7">
+        <p>
+          <Skeleton width={150} height={100} />
+        </p>
+      </SkeletonTheme>
     );
   }
 
@@ -26,9 +26,14 @@ function GetData() {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 
+  if (data.length === 0) {
+    return <p className="text-lg my-16 font-bold text-slate-400 drop-shadow-sm">No space created yet...</p>;
+  }
+
   return (
     <div>
       <ul className="flex flex-wrap gap-10 my-16">
+        {/* {if(data == null) {return "No Space Created Yet.."}} */}
         {data.map((item, index) => (
           <li
             key={index}

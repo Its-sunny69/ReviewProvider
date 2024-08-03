@@ -19,10 +19,11 @@ export default function Code({ code, language, copy }) {
     setTimeout(() => {
       setCopied(false);
     }, 2000);
-
-    toast.success("Link Copied!", {
+ 
+    toast.success("Code Copied!", {
       duration: 2000,
       position: "top-center",
+      icon: "🧑‍💻"
     });
   };
 

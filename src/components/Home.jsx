@@ -20,7 +20,7 @@ function Home() {
         <Navbar />
 
         <div className="w-full bg-slate-100 px-24 py-6">
-          <div className=" flex flex-row justify-between items-center my-16">
+          <div className=" flex flex-row justify-between items-center my-24">
             <div className=" w-7/12 my-2 mr-2 py-1 flex flex-col">
               <div className="py-2">
                 <p className="text-5xl font-extrabold drop-shadow-md">
