@@ -60,7 +60,33 @@ function SignUp() {
       navigate("/");
     } catch (error) {
       console.log(error);
-      toast.error(error.message, {
+      let message = "An error occurred. Please try again.";
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          message = "The email address is already in use by another account.";
+          break;
+        case "auth/invalid-email":
+          message = "The email address is badly formatted.";
+          break;
+        case "auth/operation-not-allowed":
+          message = "Operation not allowed. Please enable this service in the console.";
+          break;
+        case "auth/weak-password":
+          message = "The password must be 6 characters long or more.";
+          break;
+        case "auth/network-request-failed":
+          message = "A network error occurred. Please check your connection.";
+          break;
+        case "auth/too-many-requests":
+          message = "We have blocked all requests from this device due to unusual activity. Try again later.";
+          break;
+        case "auth/user-disabled":
+          message = "The user account has been disabled.";
+          break;
+        default:
+          break;
+      }
+      toast.error(message, {
         position: "bottom-center",
         duration: 4000,
       });

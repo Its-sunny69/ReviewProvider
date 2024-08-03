@@ -49,7 +49,28 @@ function Login() {
       navigate("/");
     } catch (error) {
       console.log(error);
-      toast.error(error.message, {
+      let message = "An error occurred. Please try again.";
+      switch (error.code) {
+        case "auth/invalid-email":
+          message = "The email address is badly formatted.";
+          break;
+        case "auth/user-disabled":
+          message = "The user account has been disabled.";
+          break;
+        case "auth/user-not-found":
+          message = "No user found with this email.";
+          break;
+        case "auth/wrong-password":
+          message = "Incorrect password.";
+          break;
+        case "auth/network-request-failed":
+          message = "A network error occurred. Please check your connection.";
+          break;
+        default:
+          break;
+      }
+      
+      toast.error(message, {
         duration: 4000,
         position: "bottom-center",
       });
