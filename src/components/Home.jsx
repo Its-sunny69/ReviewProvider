@@ -56,7 +56,7 @@ function Home() {
                       width="560"
                       height="315"
                       className=" rounded-lg shadow-sm"
-                      src="https://www.youtube.com/embed/WNr31dmBciI?si=4Mv_uSdblbPLWEW0"
+                      src="https://www.youtube.com/embed/qhduKvNismc?si=srhGYQX0Yp_QK1Ey"
                       title="YouTube video player"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
