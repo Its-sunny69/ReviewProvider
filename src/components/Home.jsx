@@ -20,7 +20,6 @@ function Home() {
 
   const loadingFalse = setTimeout(handleLoading, 1000);
 
-  console.log(loading);
   return (
     <>
       <div className="w-full h-dvh">
@@ -59,10 +58,10 @@ function Home() {
                       className=" rounded-lg shadow-sm"
                       src="https://www.youtube.com/embed/WNr31dmBciI?si=4Mv_uSdblbPLWEW0"
                       title="YouTube video player"
-                      frameborder="0"
+                      frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerpolicy="strict-origin-when-cross-origin"
-                      allowfullscreen
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
                       onLoad={handleLoading}
                     ></iframe>
                   )}
