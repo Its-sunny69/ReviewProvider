@@ -46,7 +46,11 @@ function Home() {
                 <div className="absolute top-0 bottom-0 right-0 left-0 flex justify-center items-center">
                   {loading ? (
                     <SkeletonTheme baseColor="#c3c3c3" highlightColor="#e7e7e7">
-                      <Skeleton width={560} height={315} />
+                      <Skeleton
+                        width={407}
+                        height={315}
+                        className="rounded-lg"
+                      />
                     </SkeletonTheme>
                   ) : (
                     <iframe
