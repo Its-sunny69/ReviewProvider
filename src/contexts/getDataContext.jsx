@@ -1,14 +1,14 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { getDatabase, ref, get } from "firebase/database";
 import app from "../Store/realtimeDB";
-import { AuthProvider, useAuth } from './getUser';
+import { AuthProvider, useAuth } from "./getUser";
 
 const dataContext = createContext();
 
 function DataProvider({ children }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { userData } = useAuth()
+  const { userData } = useAuth();
 
   const fetchData = async (path) => {
     const db = getDatabase(app);
@@ -22,18 +22,19 @@ function DataProvider({ children }) {
       }));
       setData((prev) => [...prev, updatedData]);
     } else {
-      console.log("Fetch failed");
+      //console.log("Fetch failed");
       setLoading(false);
     }
   };
 
   useEffect(() => {
     if (userData) {
-      console.log("userData", userData)
-      userData.spaces && userData.spaces.forEach(element => {
-        fetchData(element)
-      });
-      setLoading(false)
+      //console.log("userData", userData)
+      userData.spaces &&
+        userData.spaces.forEach((element) => {
+          fetchData(element);
+        });
+      setLoading(false);
     }
   }, [userData]);
 
@@ -48,10 +49,9 @@ function DataProvider({ children }) {
 const useData = () => {
   const context = useContext(dataContext);
   if (context === undefined) {
-    throw new Error('useData must be used within a DataProvider');
+    throw new Error("useData must be used within a DataProvider");
   }
   return context;
 };
-
 
 export { DataProvider, useData };

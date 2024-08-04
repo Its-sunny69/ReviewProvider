@@ -23,7 +23,7 @@ function App() {
       setUser(currentUser);
       setLoading(false);
     });
-    console.log(user);
+    // console.log(user);
   }, []);
 
   if (loading) {
@@ -77,6 +77,6 @@ function App() {
       <Toaster />
     </div>
   );
-}   
+}
 
 export default App;

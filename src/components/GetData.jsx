@@ -18,7 +18,7 @@ function GetData() {
     );
   }
 
-  console.log(data);
+  //console.log(data);
 
   function capitalizeFirstLetter(str) {
     if (typeof str !== "string") return "str is not a string"; // Ensure str is a string
@@ -27,7 +27,11 @@ function GetData() {
   }
 
   if (data.length === 0) {
-    return <p className="text-lg my-16 font-bold text-slate-400 drop-shadow-sm">No space created yet...</p>;
+    return (
+      <p className="text-lg my-16 font-bold text-slate-400 drop-shadow-sm">
+        No space created yet...
+      </p>
+    );
   }
 
   return (
@@ -59,18 +63,18 @@ function GetData() {
   );
 }
 
-function RenderQuestions({ questions }) {
-  return (
-    <div>
-      {" "}
-      <ul>
-        {Object.entries(questions).map(([key, value]) => (
-          <li key={key}>{value}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+// function RenderQuestions({ questions }) {
+//   return (
+//     <div>
+//       {" "}
+//       <ul>
+//         {Object.entries(questions).map(([key, value]) => (
+//           <li key={key}>{value}</li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
 
 export default function App() {
   return (

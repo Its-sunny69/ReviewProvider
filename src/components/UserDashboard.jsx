@@ -67,7 +67,7 @@ function UserDashboard() {
     },
   };
 
-  console.log(window.location.origin);
+  //console.log(window.location.origin);
   const fetchData = async (path) => {
     const db = getDatabase(app);
     const dbRef = ref(db, `Database/${path}`);

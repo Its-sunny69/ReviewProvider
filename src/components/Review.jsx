@@ -22,7 +22,7 @@ function Review() {
   );
   const { reviewId } = useParams();
 
-  console.log(auth);
+  //console.log(auth);
   useEffect(() => {
     const getData = async (path) => {
       const db = getDatabase(app);

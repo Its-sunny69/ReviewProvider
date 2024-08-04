@@ -36,12 +36,12 @@ function SignUp() {
         userData.password
       );
       const user = auth.currentUser;
-      console.log(user);
-      console.log({
-        email: user.email,
-        fname: userData.fname,
-        lname: userData.lname,
-      });
+      // console.log(user);
+      // //console.log({
+      //   email: user.email,
+      //   fname: userData.fname,
+      //   lname: userData.lname,
+      // });
 
       if (user) {
         await setDoc(doc(store, "users", user.uid), {
@@ -69,7 +69,8 @@ function SignUp() {
           message = "The email address is badly formatted.";
           break;
         case "auth/operation-not-allowed":
-          message = "Operation not allowed. Please enable this service in the console.";
+          message =
+            "Operation not allowed. Please enable this service in the console.";
           break;
         case "auth/weak-password":
           message = "The password must be 6 characters long or more.";
@@ -78,7 +79,8 @@ function SignUp() {
           message = "A network error occurred. Please check your connection.";
           break;
         case "auth/too-many-requests":
-          message = "We have blocked all requests from this device due to unusual activity. Try again later.";
+          message =
+            "We have blocked all requests from this device due to unusual activity. Try again later.";
           break;
         case "auth/user-disabled":
           message = "The user account has been disabled.";
@@ -93,7 +95,7 @@ function SignUp() {
     }
   };
 
-  console.log(userData);
+  //console.log(userData);
 
   const [showPassword, setShowPassword] = useState(false);
 

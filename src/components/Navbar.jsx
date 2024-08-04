@@ -13,7 +13,7 @@ function Navbar() {
 
   useEffect(() => {
     if (id && pathname != "/login" && pathname != "/signup") {
-      console.log(id);
+      //console.log(id);
       setId(id);
     }
   }, [pathname, id]);

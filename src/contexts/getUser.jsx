@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const { state } = useLocation();
   const { pathname } = useLocation();
-  console.log(state);
+  // console.log(state);
 
   const fetchUser = async () => {
     auth.onAuthStateChanged(async (user) => {
