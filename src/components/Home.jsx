@@ -3,17 +3,24 @@ import { useNavigate } from "react-router-dom";
 import GetData from "./GetData";
 import { AuthProvider, useAuth } from "../contexts/getUser";
 import Navbar from "./Navbar";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 function Home() {
   const navigate = useNavigate();
   const userData = useAuth().userData;
-
+  const [loading, setLoading] = useState(true);
   const handleCreate = () => {
     navigate("/form");
   };
 
-  console.log("home");
+  const handleLoading = () => {
+    setLoading(false);
+    clearTimeout(loadingFalse);
+  };
 
+  const loadingFalse = setTimeout(handleLoading, 1000);
+
+  console.log(loading);
   return (
     <>
       <div className="w-full h-dvh">
@@ -37,17 +44,24 @@ function Home() {
             <div className=" w-5/12 ml-2 flex justify-center items-center">
               <div className="w-full pt-[56.25%] m-2 relative flex justify-center items-center rounded-lg">
                 <div className="absolute top-0 bottom-0 right-0 left-0 flex justify-center items-center">
-                  <iframe
-                    width="560"
-                    height="315"
-                    className=" rounded-lg shadow-sm"
-                    src="https://www.youtube.com/embed/WNr31dmBciI?si=4Mv_uSdblbPLWEW0"
-                    title="YouTube video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allowfullscreen
-                  ></iframe>
+                  {loading ? (
+                    <SkeletonTheme baseColor="#c3c3c3" highlightColor="#e7e7e7">
+                      <Skeleton width={560} height={315} />
+                    </SkeletonTheme>
+                  ) : (
+                    <iframe
+                      width="560"
+                      height="315"
+                      className=" rounded-lg shadow-sm"
+                      src="https://www.youtube.com/embed/WNr31dmBciI?si=4Mv_uSdblbPLWEW0"
+                      title="YouTube video player"
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerpolicy="strict-origin-when-cross-origin"
+                      allowfullscreen
+                      onLoad={handleLoading}
+                    ></iframe>
+                  )}
                 </div>
               </div>
             </div>
