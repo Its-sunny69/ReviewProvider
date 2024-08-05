@@ -9,10 +9,10 @@ export default function landing() {
       <div className="w-full h-dvh">
         <Navbar />
 
-        <div className="w-full mt-16 px-24 py-6 bg-slate-100">
-          <div className=" my-2 mr-2 py-1 flex flex-col justify-center items-center text-center">
+        <div className="w-full mt-16 sm:px-24 px-10 sm:py-6 bg-slate-100">
+          <div className=" my-2 mr-2 py-1 flex flex-col justify-center items-center sm:text-center text-justify">
             <div className="py-2">
-              <p className="text-5xl font-extrabold drop-shadow-md">
+              <p className="sm:text-5xl text-3xl font-extrabold drop-shadow-md text-center">
                 Effortlessly gather testimonials from your customers.
               </p>
             </div>

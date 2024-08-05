@@ -25,9 +25,9 @@ function Home() {
       <div className="w-full h-dvh">
         <Navbar />
 
-        <div className="w-full bg-slate-100 px-24 py-6">
-          <div className=" flex flex-row justify-between items-center my-24">
-            <div className=" w-7/12 my-2 mr-2 py-1 flex flex-col">
+        <div className="w-full bg-slate-100 sm:px-24 px-10 py-6">
+          <div className=" flex sm:flex-row flex-col justify-between items-center sm:my-24 mb-10">
+            <div className=" sm:w-7/12 my-2 mr-2 py-1 flex flex-col">
               <div className="py-2">
                 <p className="text-5xl font-extrabold drop-shadow-md">
                   Don't Know How To Create Space ?
@@ -40,37 +40,36 @@ function Home() {
                 </p>
               </div>
             </div>
-            <div className=" w-5/12 ml-2 flex justify-center items-center">
-              <div className="w-full pt-[56.25%] m-2 relative flex justify-center items-center rounded-lg">
+            <div className=" sm:w-5/12 w-full ml-2 flex justify-center items-center">
+              <div className="w-full pt-[56.25%] sm:m-2 relative flex justify-center items-center rounded-lg">
                 <div className="absolute top-0 bottom-0 right-0 left-0 flex justify-center items-center">
-                  {loading ? (
-                    <SkeletonTheme baseColor="#c3c3c3" highlightColor="#e7e7e7">
-                      <Skeleton
-                        width={407}
-                        height={315}
-                        className="rounded-lg"
+                  <div className="relative w-full max-w-xs sm:max-w-md mx-auto" style={{ paddingTop: '56.25%' /* 16:9 Aspect Ratio */ }}>
+                    {loading ? (
+                      <SkeletonTheme baseColor="#c3c3c3" highlightColor="#e7e7e7">
+                        <Skeleton
+                          className="absolute top-0 left-0 w-full h-full rounded-lg"
+                          style={{ aspectRatio: '16 / 9' }}
+                        />
+                      </SkeletonTheme>
+                    ) : (
+                      <iframe
+                        className="absolute top-0 left-0 w-full h-full rounded-lg"
+                        src="https://www.youtube.com/embed/qhduKvNismc?si=srhGYQX0Yp_QK1Ey"
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                        onLoad={handleLoading}
                       />
-                    </SkeletonTheme>
-                  ) : (
-                    <iframe
-                      width="560"
-                      height="315"
-                      className=" rounded-lg shadow-sm"
-                      src="https://www.youtube.com/embed/qhduKvNismc?si=srhGYQX0Yp_QK1Ey"
-                      title="YouTube video player"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerPolicy="strict-origin-when-cross-origin"
-                      allowFullScreen
-                      onLoad={handleLoading}
-                    ></iframe>
-                  )}
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <hr className="w-[95%] h-[2px] my-2 mx-auto bg-blue-800 shadow-sm" />
-          <div className="flex flex-row justify-between items-center my-16">
+          <div className="flex flex-row justify-between items-center sm:my-16 my-10">
             <p className="text-2xl font-bold">Spaces </p>
             <button
               onClick={handleCreate}

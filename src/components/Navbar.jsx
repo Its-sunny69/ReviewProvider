@@ -92,7 +92,7 @@ function Navbar() {
               )}
               {pathname != "/signup" && (
                 <button
-                  className="flex justify-center items-center border border-1 shadow-md px-3 py-1.5 text-md border-blue-800 min-w-32 h-max p-3 rounded-3xl text-black font-mono font-bold text-md bg-blue-100 hover:bg-blue-800 hover:text-white hover:opacity-65 hover:shadow-none"
+                  className="hidden sm:flex justify-center items-center border border-1 shadow-md px-3 py-1.5 text-md border-blue-800 min-w-32 h-max p-3 rounded-3xl text-black font-mono font-bold text-md bg-blue-100 hover:bg-blue-800 hover:text-white hover:opacity-65 hover:shadow-none"
                   onClick={() => navigate("/signup")}
                 >
                   Signup

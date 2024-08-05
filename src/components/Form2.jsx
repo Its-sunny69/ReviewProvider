@@ -95,8 +95,8 @@ function Form2() {
     <>
       <div className="w-full h-dvh">
         <Navbar />
-        <div className="flex justify-center items-center bg-slate-100">
-          <div className="w-2/6 my-5 text-xl flex flex-col border-none p-5 shadow-lg rounded-md backdrop-blur-sm bg-blue-200">
+        <div className="w-full h-svh flex justify-center items-center bg-slate-100">
+          <div className="sm:w-2/6 my-5 text-xl flex flex-col border-none p-5 shadow-lg rounded-md backdrop-blur-sm bg-blue-200">
             <form action="" onSubmit={handleSubmit}>
               <div className="flex flex-col m-2">
                 <label
@@ -145,7 +145,7 @@ function Form2() {
 
               <div className="flex flex-col justify-center items-center m-2">
                 <button
-                  className="w-2/6 border border-1 shadow-md border-blue-800 h-max px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md bg-blue-800 hover:bg-blue-100 hover:text-slate-900"
+                  className=" border border-1 shadow-md border-blue-800 h-max px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md bg-blue-800 hover:bg-blue-100 hover:text-slate-900"
                   type="submit"
                   onClick={saveData}
                 >

@@ -107,7 +107,7 @@ function SignUp() {
     <>
       <div className="w-full h-lvh flex justify-center items-center bg-slate-100">
         <form
-          className="w-2/6 text-xl flex flex-col border-none p-5 shadow-lg rounded-md backdrop-blur-sm bg-blue-200"
+          className="sm:w-2/6 text-xl flex flex-col border-none p-5 shadow-lg rounded-md backdrop-blur-sm bg-blue-200"
           action=""
           onSubmit={handleSubmit}
         >
@@ -175,7 +175,7 @@ function SignUp() {
             </div>
           </div>
           <div className="flex flex-col justify-center items-center m-2">
-            <button className="w-2/6 border border-1 shadow-md border-blue-800 h-max px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md bg-blue-800 hover:bg-blue-100 hover:text-slate-900">
+            <button className="border border-1 shadow-md border-blue-800 h-max px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md bg-blue-800 hover:bg-blue-100 hover:text-slate-900">
               Sign Up
             </button>
           </div>

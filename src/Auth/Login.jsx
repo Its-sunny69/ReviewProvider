@@ -86,7 +86,7 @@ function Login() {
     <>
       <div className="w-full h-lvh flex justify-center items-center bg-slate-100">
         <form
-          className="w-2/6 text-xl flex flex-col border-none p-5 shadow-lg rounded-md backdrop-blur-sm bg-blue-200"
+          className="sm:w-2/6 text-xl flex flex-col border-none p-5 shadow-lg rounded-md backdrop-blur-sm bg-blue-200"
           action=""
           onSubmit={handleSubmit}
         >
