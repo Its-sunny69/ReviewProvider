@@ -13,18 +13,27 @@ export default function Code({ code, language, copy }) {
     Prism.highlightAll();
   }, []);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-    }, 2000);
- 
-    toast.success("Code Copied!", {
-      duration: 2000,
-      position: "top-center",
-      icon: "🧑‍💻"
-    });
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => {
+        setCopied(false);
+      }, 2000);
+
+      toast.success("Code Copied!", {
+        duration: 2000,
+        position: "top-center",
+        icon: "🧑‍💻"
+      });
+
+    } catch (error) {
+      console.error("Failed to copy: ", error);
+      toast.error("Failed to copy link!", {
+        duration: 1000,
+        position: "top-center",
+      });
+    }
   };
 
   return (
