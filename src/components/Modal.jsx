@@ -8,7 +8,7 @@ const Modal = ({ isOpen, isClosed, children }) => {
       {isOpen && (
         <div className="fixed top-0 left-0 right-0 bottom-0 inset-0 flex items-center justify-center z-50">
           <motion.div
-            className="w-4/5 h-[95%] backdrop-blur-lg bg-[#f1f5f97b] rounded-md flex flex-col p-5 shadow-md"
+            className="w-4/5 h-[95%] backdrop-blur-lg bg-[#f1f5f97b] rounded-md flex flex-col p-5 shadow-md overflow-auto"
             key="modal"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}

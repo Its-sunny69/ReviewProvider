@@ -36,8 +36,7 @@ function GetData() {
 
   return (
     <div>
-      <ul className="flex flex-wrap gap-10 my-16">
-        {/* {if(data == null) {return "No Space Created Yet.."}} */}
+      <ul className="flex flex-wrap sm:justify-left items-center sm:gap-10 gap-4 my-16">
         {data.map((item, index) => (
           <li
             key={index}
@@ -62,19 +61,6 @@ function GetData() {
     </div>
   );
 }
-
-// function RenderQuestions({ questions }) {
-//   return (
-//     <div>
-//       {" "}
-//       <ul>
-//         {Object.entries(questions).map(([key, value]) => (
-//           <li key={key}>{value}</li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// }
 
 export default function App() {
   return (

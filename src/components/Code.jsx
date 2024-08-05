@@ -28,7 +28,7 @@ export default function Code({ code, language, copy }) {
   };
 
   return (
-    <div className="w-[80%] my-3">
+    <div className="sm:w-[80%] w-[95%] my-3">
       <p className="my-1 text-xl font-bold">Embed Code:</p>
       <pre>
         <code className={`language-${language}`}>{code}</code>

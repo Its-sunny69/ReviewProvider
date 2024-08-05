@@ -153,15 +153,21 @@ function Review() {
       });
   };
 
-  const handleLink = () => {
-    navigator.clipboard.writeText(
-      `${window.location.origin}/review/${data._id}`
-    );
-    toast.success("Link Copied!", {
-      duration: 1000,
-      position: "top-center",
-    });
-  };
+  const handleLink = async () => {
+    try {
+        await navigator.clipboard.writeText(`${window.location.origin}/review/${data._id}`);
+        toast.success("Link Copied!", {
+            duration: 1000,
+            position: "top-center",
+        });
+    } catch (error) {
+        console.error("Failed to copy: ", error);
+        toast.error("Failed to copy link!", {
+            duration: 1000,
+            position: "top-center",
+        });
+    }
+};
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -186,8 +192,8 @@ function Review() {
         <div className="w-full h-dvh">
           {auth.currentUser.isAnonymous ? "" : <Navbar />}
 
-          <div className="flex justify-center items-center bg-slate-100">
-            <div className="w-2/6 my-5 text-xl flex flex-col border-none p-5 shadow-lg rounded-md backdrop-blur-sm bg-blue-200">
+          <div className="h-svh flex justify-center items-center bg-slate-100">
+            <div className="sm:w-2/6 my-5 text-xl flex flex-col border-none p-5 shadow-lg rounded-md backdrop-blur-sm bg-blue-200">
               <form onSubmit={handleSubmit}>
                 <div className="flex justify-center items-center">
                   <p className="text-2xl font-extrabold drop-shadow-sm">
@@ -226,7 +232,7 @@ function Review() {
 
                 <div className="flex justify-center items-center">
                   <button
-                    className="w-2/6 border border-1 shadow-md border-blue-800 h-max px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md bg-blue-800 hover:bg-blue-100 hover:text-slate-900"
+                    className="border border-1 shadow-md border-blue-800 h-max px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md bg-blue-800 hover:bg-blue-100 hover:text-slate-900"
                     type="submit"
                   >
                     Submit

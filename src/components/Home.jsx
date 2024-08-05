@@ -29,7 +29,7 @@ function Home() {
           <div className=" flex sm:flex-row flex-col justify-between items-center sm:my-24 mb-10">
             <div className=" sm:w-7/12 my-2 mr-2 py-1 flex flex-col">
               <div className="py-2">
-                <p className="text-5xl font-extrabold drop-shadow-md">
+                <p className="sm:text-5xl text-3xl font-extrabold drop-shadow-md">
                   Don't Know How To Create Space ?
                 </p>
               </div>

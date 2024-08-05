@@ -354,6 +354,7 @@ function UserDashboard() {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 
+
   if (loading) {
     return <LoadingPage />;
   }
@@ -363,18 +364,18 @@ function UserDashboard() {
       <div className="w-full h-dvh">
         <Navbar />
 
-        <div className="px-20 py-6 bg-slate-100">
+        <div className="sm:px-24 px-10 py-6 bg-slate-100">
           <div className="flex mt-2 mb-2 p-4 justify-center items-center flex-col bg-blue-200 shadow-sm rounded-lg">
-            <div className="w-full mb-2 flex justify-between items-center flex-row">
-              <div className="flex justify-center items-left flex-col">
+            <div className="w-full sm:mb-2 p-2 flex justify-between items-center flex-row">
+              <div className="w-[90%] my-2 flex justify-center flex-col">
                 {state.data.item ? (
                   Object.entries(state.data.item).map((key, index) => (
-                    <p className="font-bold text-xl" key={index}>
+                    <p className="font-bold text-xl my-2" key={index}>
                       {key[1].firstname}
                     </p>
                   ))
                 ) : (
-                  <p className="font-bold text-xl">
+                  <p className="font-bold text-xl my-2">
                     {capitalizeFirstLetter(state.data.firstname)} Dashboard
                   </p>
                 )}
@@ -385,13 +386,13 @@ function UserDashboard() {
                     target="_blank"
                     className="font-normal underline hover:text-blue-500 visited:text-blue-800"
                   >
-                    {`${window.location.origin}/review/${state.data._id}`}
+                    Open Link
                   </a>
                 </p>
               </div>
-              <div className="flex justify-center items-center">
+              <div className="flex justify-center items-center my-4">
                 <button
-                  className="flex items-center gap-x-2 border border-1 shadow-md border-red-500 h-max px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md bg-red-500 hover:bg-red-100 hover:text-slate-900"
+                  className="flex items-center gap-x-2 border border-1 shadow-md border-red-500 h-max sm:px-3 px-5 sm:py-1.5 py-2 rounded-3xl text-white font-mono font-bold sm:text-md text-lg bg-red-500 hover:bg-red-100 hover:text-slate-900"
                   onClick={handleDelete}
                 >
                   <DeleteOutlined />
@@ -401,7 +402,7 @@ function UserDashboard() {
             <hr className="w-full h-[1px] mt-4 mb-4 bg-white" />
             <div className="flex justify-center items-center">
               <button
-                className="flex items-center justify-center border border-1 shadow-md px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md  border-blue-800 min-w-32 p-3 text-md bg-blue-600 hover:bg-blue-100 hover:text-black hover:opacity-65 hover:shadow-none"
+                className="flex items-center justify-center border border-1 shadow-md px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md  border-blue-800 p-3 text-md bg-blue-600 hover:bg-blue-100 hover:text-black hover:opacity-65 hover:shadow-none"
                 onClick={handleSubmit}
               >
                 View Form
@@ -413,17 +414,17 @@ function UserDashboard() {
             {Object.entries(names).map(([key, value], index) => (
               <div
                 key={index}
-                className="w-[30%] h-[26rem] m-2 shadow-sm bg-blue-200 rounded-lg"
+                className="sm:w-[30%] m-2 shadow-sm bg-blue-200 rounded-lg"
                 ref={divRef}
               >
-                <div className="flex h-[6rem] p-10 pb-0 justify-start items-center">
+                <div className="flex sm:h-[6rem] h-[4rem] p-10 pb-0 justify-start items-center">
                   <img className="mr-4 w-14" src={Quote} alt="quote" />
                   <p className="text-3xl font-bold text-slate-500 break-words">
                     {capitalizeFirstLetter(key)}
                   </p>
                 </div>
 
-                <div className="my-3 px-10 h-[14rem] relative overflow-y-auto scroll-smooth">
+                <div className="my-3 px-10 sm:h-[14rem] h-[2rem]] relative overflow-y-auto scroll-smooth">
                   <div className="bg-gradient-to-b from-blue-200 from-10% sticky top-0 left-0 right-0 h-6 z-50"></div>
                   {value.map((item, i) => (
                     <div key={item.question}>
@@ -439,7 +440,7 @@ function UserDashboard() {
                 </div>
 
                 <hr className="w-full h-[1.5px] mt-4 mb-4 bg-white" />
-                <div className="w-full flex justify-end p-10 pt-0">
+                <div className="w-full flex justify-end sm:p-[2rem] p-5 pt-0">
                   <button
                     className="w-fit text-2xl font-extrabold text-blue-600 hover:text-blue-400 hover:scale-125 flex justify-start items-center transition ease-in-out delay-120"
                     onClick={() => openModal(key, value)}
@@ -452,10 +453,10 @@ function UserDashboard() {
           </div>
 
           <Modal isOpen={modalOpen} isClosed={closeModal}>
-            <p className="text-2xl font-bold my-4">Code For Your Testimonial</p>
+            <p className="text-2xl font-bold my-4 sm:text-left text-center">Code For Your Testimonial</p>
 
-            <div className="w-full grid grid-cols-6">
-              <div className="flex justify-center items-center col-span-4">
+            <div className="w-full sm:grid sm:grid-cols-6">
+              <div className="flex justify-center items-center sm:col-span-4">
                 <Code
                   code={`<iframe src=${iframeSrc} width="100%" height="400" style="border:none;" title="Dynamic Content"></iframe>`}
                   language="javascript"
