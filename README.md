@@ -21,11 +21,10 @@ You can view the live project here: [TrustVibes](https://trust-vibes.vercel.app/
 
 ### Demo Video
 
-For a detailed demonstration, watch the demo video.
-![](https://res.cloudinary.com/dvpmx2xxb/video/upload/v1726028885/z4wbuieg7j1xawruva0d.mp4)
-![](docs/docfx/images/MixtureOpen.gif)
+For a detailed demonstration, watch the demo video: [](https://github.com/user-attachments/assets/b880d84a-04f4-400e-838d-3b25b9d61b90)
 
 ## Getting Started
+
 
 To get a local copy of the project up and running, follow these steps:
 
