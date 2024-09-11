@@ -42,7 +42,7 @@ Make sure you have the following installed:
 
 1. Clone the repo:
     ```bash
-    git clone https://github.com/your-username/trustvibes.git
+    git clone https://github.com/Its-sunny69/ReviewProvider.git
     ```
 2. Install dependencies:
     ```bash
