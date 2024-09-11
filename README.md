@@ -21,7 +21,9 @@ You can view the live project here: [TrustVibes](https://trust-vibes.vercel.app/
 
 ### Demo Video
 
-For a detailed demonstration, watch the demo video [here](https://res.cloudinary.com/dvpmx2xxb/video/upload/v1726028885/z4wbuieg7j1xawruva0d.mp4).
+For a detailed demonstration, watch the demo video.
+![](https://res.cloudinary.com/dvpmx2xxb/video/upload/v1726028885/z4wbuieg7j1xawruva0d.mp4)
+![](docs/docfx/images/MixtureOpen.gif)
 
 ## Getting Started
 
