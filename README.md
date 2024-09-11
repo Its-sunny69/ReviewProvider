@@ -1,61 +1,72 @@
 # TrustVibes
 
-[![Deployed Site](https://img.shields.io/badge/Live%20Site-TrustVibes-brightgreen)](https://trust-vibes.vercel.app/)
+TrustVibes is a platform where users can create public spaces for testimonials. These spaces allow others to leave reviews, comments, or feedback. The spaces can contain specific questions about any project, product, or service, making it easy to gather insights and opinions.
 
-TrustVibes is a web platform designed for creating public spaces where users can leave testimonials or reviews. These spaces can be customized with questions about any project, product, or topic, and can be shared publicly for feedback.
+## Features
 
-## 🛠️ Tech Stack
+- **Create Public Spaces**: Easily create spaces that are publicly accessible.
+- **Leave Reviews**: Visitors can leave reviews or answers to specific questions.
+- **Customizable Spaces**: Spaces can be tailored to fit various projects or products.
+- **Real-Time Updates**: Powered by Firebase, the reviews and spaces update in real-time.
 
-- **Frontend**: [React-Vite](https://vitejs.dev/)
-- **Backend**: [Node.js](https://nodejs.org/)
-- **Database/Authentication**: [Firebase](https://firebase.google.com/)
+## Tech Stack
 
-## 🔗 Deployed Link
+- **Frontend**: React with Vite
+- **Backend**: Node.js
+- **Database & Hosting**: Firebase
 
-Check out the live project here: [TrustVibes](https://trust-vibes.vercel.app/)
+## Demo
 
-## 🚀 Features
+You can view the live project here: [TrustVibes](https://trust-vibes.vercel.app/)
 
-- **Create Public Spaces**: Users can create a customizable space for receiving reviews and testimonials.
-- **Questionnaire Setup**: Spaces can contain custom questions related to projects, products, services, etc.
-- **Review System**: Public users can leave reviews and share their feedback.
-- **Firebase Authentication**: Secure login and management of user data.
-- **Fast and Responsive**: Built using Vite for a fast and optimized web experience.
+### Demo Video
 
-## 💡 How It Works
+For a detailed demonstration, watch the demo video [here](https://res.cloudinary.com/dvpmx2xxb/video/upload/v1726028885/z4wbuieg7j1xawruva0d.mp4).
 
-1. **Create a Space**: Users create a space to receive feedback, where they can define custom questions.
-2. **Share the Space**: The space link can be shared with others for public testimonials and reviews.
-3. **Review & Manage**: Collected reviews can be viewed and managed through the platform.
+## Getting Started
 
-## 🖥️ Running the Project Locally
+To get a local copy of the project up and running, follow these steps:
 
-To run this project locally, follow these steps:
+### Prerequisites
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/trustvibes.git
-   cd trustvibes
-   ```
+Make sure you have the following installed:
 
+- [Node.js](https://nodejs.org/)
+- [Firebase CLI](https://firebase.google.com/docs/cli)
+
+### Installation
+
+1. Clone the repo:
+    ```bash
+    git clone https://github.com/your-username/trustvibes.git
+    ```
 2. Install dependencies:
-   ```bash
-   npm install
-   ```
+    ```bash
+    cd trustvibes
+    npm install
+    ```
+3. Start the development server:
+    ```bash
+    npm run dev
+    ```
 
-3. Create a `.env` file for environment variables (Firebase credentials, etc.).
+### Deployment
 
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
+The project is deployed on Vercel. To deploy your own version, you can follow these steps:
 
-5. Open [http://localhost:3000](http://localhost:3000) to view the app in your browser.
+1. Install the Vercel CLI:
+    ```bash
+    npm i -g vercel
+    ```
+2. Deploy to Vercel:
+    ```bash
+    vercel
+    ```
 
-## 🤝 Contributing
+## License
 
-Contributions are welcome! Feel free to open an issue or submit a pull request.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## 📄 License
+## Contact
 
-This project is licensed under the MIT License.
+For any inquiries or suggestions, please reach out to [your-email@example.com](mailto:your-email@example.com).
