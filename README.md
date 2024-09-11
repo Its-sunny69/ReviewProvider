@@ -21,7 +21,10 @@ You can view the live project here: [TrustVibes](https://trust-vibes.vercel.app/
 
 ### Demo Video
 
-For a detailed demonstration, watch the demo video: [](https://github.com/user-attachments/assets/b880d84a-04f4-400e-838d-3b25b9d61b90)
+For a detailed demonstration, watch the demo video:
+
+https://github.com/user-attachments/assets/024c0e53-56dd-4935-8663-7c126e66e6cb
+
 
 ## Getting Started
 
