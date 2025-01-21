@@ -67,10 +67,6 @@ The project is deployed on Vercel. To deploy your own version, you can follow th
     vercel
     ```
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
 ## Contact
 
-For any inquiries or suggestions, please reach out to [your-email@example.com](mailto:your-email@example.com).
+For any inquiries or suggestions, please reach out to [dynamosdev0@gmail.com](mailto:dynamosdev0@gmail.com).
