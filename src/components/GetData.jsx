@@ -7,7 +7,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 function GetData() {
   const navigate = useNavigate();
   const { data, loading } = useData();
-
+  console.log(data);
   if (loading) {
     return (
       <SkeletonTheme baseColor="#c3c3c3" highlightColor="#e7e7e7">
