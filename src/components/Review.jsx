@@ -21,7 +21,7 @@ function Review() {
     state ? state.data.questions : data ? data.questions : []
   );
   const { reviewId } = useParams();
-
+  const navigate = useNavigate();
   //console.log(auth);
   useEffect(() => {
     const getData = async (path) => {
@@ -155,19 +155,21 @@ function Review() {
 
   const handleLink = async () => {
     try {
-        await navigator.clipboard.writeText(`${window.location.origin}/review/${data._id}`);
-        toast.success("Link Copied!", {
-            duration: 1000,
-            position: "top-center",
-        });
+      await navigator.clipboard.writeText(
+        `${window.location.origin}/review/${data._id}`
+      );
+      toast.success("Link Copied!", {
+        duration: 1000,
+        position: "top-center",
+      });
     } catch (error) {
-        console.error("Failed to copy: ", error);
-        toast.error("Failed to copy link!", {
-            duration: 1000,
-            position: "top-center",
-        });
+      console.error("Failed to copy: ", error);
+      toast.error("Failed to copy link!", {
+        duration: 1000,
+        position: "top-center",
+      });
     }
-};
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();

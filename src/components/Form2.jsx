@@ -5,6 +5,8 @@ import { getDatabase, ref, set, push } from "firebase/database";
 import app from "../Store/realtimeDB";
 import { AuthProvider, useAuth } from "../contexts/getUser";
 import { arrayUnion, doc, getFirestore, updateDoc } from "firebase/firestore";
+import { FaPlus } from "react-icons/fa6";
+import { RxCross2 } from "react-icons/rx";
 import Navbar from "./Navbar";
 import toast from "react-hot-toast";
 
@@ -12,29 +14,43 @@ function Form2() {
   const userId = useAuth().id;
   const [userData, setUserData] = useState({
     firstname: "",
-    questions: [],
+    questions: [{ id: uuidv4(), question: "", answer: [] }], // Initialize with one question
     _id: uuidv4(),
   });
 
-  const questionArray = [1, 2, 3];
-  useEffect(() => {
-    const initialQuestions = [];
-    questionArray.forEach((_, index) => {
-      initialQuestions.push({ question: "", answer: [] });
-    });
+  const handleQuestion = () => {
     setUserData((prevState) => ({
       ...prevState,
-      questions: initialQuestions,
+      questions: [
+        ...prevState.questions,
+        { id: uuidv4(), question: "", answer: [] },
+      ],
     }));
-  }, []);
+  };
+
+  const handleQuestionClear = (id) => {
+    setUserData((prevState) => ({
+      ...prevState,
+      questions: prevState.questions.filter((q) => q.id !== id),
+    }));
+  };
 
   const navigate = useNavigate();
 
-  const saveData = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (userData.firstname == "") {
+      toast.error("Name is required", {
+        position: "top-center",
+        duration: 2000,
+      });
+      return;
+    }
     const db = getFirestore(app);
     const db1 = getDatabase(app);
     const userDocRef = doc(db, "users", userId);
     const newDocRef = push(ref(db1, `Database/${userData._id}`));
+
     set(newDocRef, {
       formLink: "",
       firstname: userData.firstname,
@@ -42,7 +58,6 @@ function Form2() {
     })
       .then(async () => {
         if (userId) {
-          //console.log(userData._id);
           await updateDoc(userDocRef, {
             spaces: arrayUnion(userData._id),
           });
@@ -66,20 +81,20 @@ function Form2() {
       });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  // };
 
   const handleData = (e) => {
     const name = e.target.name;
     const value = e.target.value;
 
     if (name.startsWith("question")) {
-      const questionIndex = parseInt(name.split("question")[1]) - 1;
+      const id = name.split("question")[1];
       setUserData((prevState) => ({
         ...prevState,
-        questions: prevState.questions.map((q, index) =>
-          index === questionIndex ? { ...q, question: value, answer: [] } : q
+        questions: prevState.questions.map((q) =>
+          q.id === id ? { ...q, question: value } : q
         ),
       }));
     } else {
@@ -88,7 +103,6 @@ function Form2() {
         [name]: value,
       }));
     }
-    //console.log(userData);
   };
 
   return (
@@ -100,10 +114,10 @@ function Form2() {
             <form action="" onSubmit={handleSubmit}>
               <div className="flex flex-col m-2">
                 <label
-                  className=" font-extrabold drop-shadow-sm flex"
+                  className="font-extrabold drop-shadow-sm flex"
                   htmlFor="firstname"
                 >
-                  Name:<span className="text-red-500 text-sm">*</span>
+                  Product Name:<span className="text-red-500 text-sm">*</span>
                 </label>
                 <input
                   className="shadow-md py-1 px-2 m-2 rounded-md bg-blue-100 focus:outline-none focus:ring-[1.2px] ring-offset-red-300 ring-offset-0 ring-blue-500"
@@ -111,43 +125,44 @@ function Form2() {
                   type="text"
                   value={userData.firstname}
                   onChange={handleData}
-                  required
                 />
               </div>
-              <p className="m-2 font-extrabold drop-shadow-sm">
-                Enter Your Questions
+              <p className="m-2 font-extrabold drop-shadow-sm flex items-center gap-5">
+                Enter Your Questions{" "}
+                <span className="cursor-pointer" onClick={handleQuestion}>
+                  <FaPlus />
+                </span>
               </p>
 
-              {questionArray.map((n) => {
-                return (
-                  <div className="flex flex-col m-2" key={n}>
-                    <label
-                      className="font-extrabold drop-shadow-sm flex "
-                      htmlFor=""
-                    >
-                      Q.{n}
-                      <span className="text-red-500 text-sm">*</span>
-                    </label>
+              {userData.questions.map((q, i) => (
+                <div className="flex flex-col m-2" key={q.id}>
+                  <label className="font-extrabold drop-shadow-sm flex">
+                    Q.{i + 1}
+                    <span className="text-red-500 text-sm">*</span>
+                  </label>
+                  <div className="flex items-center justify-between">
                     <input
-                      className="shadow-md py-1 px-2 m-2 rounded-md bg-blue-100 focus:outline-none focus:ring-[1.2px] ring-offset-red-300 ring-offset-0 ring-blue-500"
-                      name={`question${n}`}
+                      className="w-full shadow-md py-1 px-2 m-2 rounded-md bg-blue-100 focus:outline-none focus:ring-[1.2px] ring-offset-red-300 ring-offset-0 ring-blue-500"
+                      name={`question${q.id}`}
                       id=""
                       type="text"
-                      value={userData.questions[`question${n}`]}
+                      value={q.question}
                       onChange={handleData}
-                      rows={10}
-                      column={10}
                       required
-                    ></input>
+                    />
+                    <RxCross2
+                      className="cursor-pointer"
+                      onClick={() => handleQuestionClear(q.id)}
+                    />
                   </div>
-                );
-              })}
+                </div>
+              ))}
 
               <div className="flex flex-col justify-center items-center m-2">
                 <button
-                  className=" border border-1 shadow-md border-blue-800 h-max px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md bg-blue-800 hover:bg-blue-100 hover:text-slate-900"
+                  className="border border-1 shadow-md border-blue-800 h-max px-3 py-1.5 rounded-3xl text-white font-mono font-bold text-md bg-blue-800 hover:bg-blue-100 hover:text-slate-900"
                   type="submit"
-                  onClick={saveData}
+                  // onClick={saveData}
                 >
                   Submit
                 </button>
