@@ -68,7 +68,7 @@ const AuthProvider = ({ children }) => {
   const handleLogout = async () => {
     try {
       await auth.signOut();
-      toast.success("User Logedout Successfully!!", {
+      toast.success("User Logged Out Successfully!!", {
         duration: 2000,
         position: "top-center",
       });

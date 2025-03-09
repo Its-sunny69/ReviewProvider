@@ -15,7 +15,7 @@ import {
 } from "@ant-design/icons";
 import toast from "react-hot-toast";
 import Quote from "../assets/quote.svg";
-import { capitalizeFirstLetter } from "../utils/capitalizeLetter";
+import { capitalizeFirstLetter } from "../utils/helper";
 
 function UserDashboard() {
   const { state } = useLocation();

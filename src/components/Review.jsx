@@ -2,6 +2,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState, useEffect, useId } from "react";
 import { AuthProvider, useAuth } from "../contexts/getUser";
+import { fetchReviewCategory, updateSentimentCount } from "../utils/helper";
 import { getDatabase, ref, update, get } from "firebase/database";
 import app, { auth } from "../Store/realtimeDB";
 import Navbar from "./Navbar";
@@ -12,6 +13,7 @@ import { CopyTwoTone, ShareAltOutlined } from "@ant-design/icons";
 function Review() {
   const { state } = useLocation();
   const { id, loading } = useAuth();
+  const [formMadeById, setFormMadeById] = useState();
   const [isShow, setIsShow] = useState(false);
   const [ansForm, setAnsForm] = useState([]);
   const [inputName, setInputName] = useState("");
@@ -22,7 +24,7 @@ function Review() {
   );
   const { reviewId } = useParams();
   const navigate = useNavigate();
-  //console.log(auth);
+
   useEffect(() => {
     const getData = async (path) => {
       const db = getDatabase(app);
@@ -34,8 +36,9 @@ function Review() {
           ...item,
           _id: path,
         }));
-        console.log(updatedData);
+
         setData((prev) => [...prev, updatedData]);
+        setFormMadeById(updatedData[0].formMadeById);
         setQuestions(updatedData[0].questions);
       } else {
         console.log("Fetch failed");
@@ -100,6 +103,23 @@ function Review() {
     }
   };
 
+  const answerConvert = async (ansForm) => {
+    const reviews = ansForm.map(
+      (ans, index) => `${questions[index]?.question}: ${ans.answer}`
+    );
+    console.log(reviews);
+    const data = await fetchReviewCategory(reviews);
+
+    if (data) {
+      updateSentimentCount(data, formMadeById);
+    } else {
+      toast.error("Failed to fetch review category", {
+        position: "top-center",
+        duration: 2000,
+      });
+    }
+  };
+
   const saveAnswer = async () => {
     if (!dynamicKey) {
       alert("Dynamic key not found!");
@@ -130,6 +150,8 @@ function Review() {
       }
       questions[index]["answers"].push(ansForm[index]);
     });
+
+    answerConvert(ansForm);
 
     // Update the database with the answers
     await update(userDocRef, { questions })
@@ -218,17 +240,72 @@ function Review() {
 
                 {questions.map((item, index) => (
                   <div className="flex flex-col m-2" key={index}>
-                    <label className=" font-bold drop-shadow-sm">
+                    <label className="font-bold drop-shadow-sm">
                       Q.{index + 1} {item.question}
                     </label>
-                    <input
-                      type="text"
-                      className=" shadow-md py-1 px-2 m-2 rounded-md bg-blue-100 focus:outline-none focus:ring-[1.2px] ring-offset-red-300 ring-offset-0 ring-blue-500"
-                      onChange={(e) => ansInput(e, index)}
-                      name={`answer`}
-                      value={ansForm[index].answer}
-                      required
-                    />
+
+                    {item.type === "text" && (
+                      <input
+                        type="text"
+                        className="shadow-md py-1 px-2 m-2 rounded-md bg-blue-100 focus:outline-none focus:ring-[1.2px] ring-offset-red-300 ring-offset-0 ring-blue-500"
+                        onChange={(e) => ansInput(e, index)}
+                        name={`answer`}
+                        value={ansForm[index]?.answer || ""}
+                        required
+                      />
+                    )}
+
+                    {item.type === "checkbox" &&
+                      item.options?.map((option, optIndex) => (
+                        <label
+                          key={optIndex}
+                          className="flex items-center space-x-2"
+                        >
+                          <input
+                            type="checkbox"
+                            value={option}
+                            name={`question-${index}`}
+                            onChange={(e) => ansInput(e, index, optIndex)}
+                            checked={ansForm[index]?.answer?.includes(option)}
+                          />
+                          <span>{option}</span>
+                        </label>
+                      ))}
+
+                    {item.type === "radio" &&
+                      item.options?.map((option, optIndex) => (
+                        <label
+                          key={optIndex}
+                          className="flex items-center space-x-2"
+                        >
+                          <input
+                            type="radio"
+                            name={`question-${index}`}
+                            value={option}
+                            onChange={(e) => ansInput(e, index)}
+                            checked={ansForm[index]?.answer === option}
+                          />
+                          <span>{option}</span>
+                        </label>
+                      ))}
+
+                    {item.type === "range" && (
+                      <div className="flex flex-col">
+                        <input
+                          type="range"
+                          min={item.min || 0}
+                          max={item.max || 10}
+                          step={item.step || 1}
+                          className="w-full accent-blue-500"
+                          onChange={(e) => ansInput(e, index)}
+                          name={`answer`}
+                          value={ansForm[index]?.answer || item.min || 0}
+                        />
+                        <span className="text-center font-semibold mt-1">
+                          {ansForm[index]?.answer || item.min || 0}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 ))}
 

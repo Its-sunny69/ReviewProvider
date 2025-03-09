@@ -8,6 +8,7 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 function Home() {
   const navigate = useNavigate();
   const userData = useAuth().userData;
+
   const [loading, setLoading] = useState(true);
   const handleCreate = () => {
     navigate("/form");
@@ -43,12 +44,18 @@ function Home() {
             <div className=" sm:w-5/12 w-full ml-2 flex justify-center items-center">
               <div className="w-full pt-[56.25%] sm:m-2 relative flex justify-center items-center rounded-lg">
                 <div className="absolute top-0 bottom-0 right-0 left-0 flex justify-center items-center">
-                  <div className="relative w-full max-w-xs sm:max-w-md mx-auto" style={{ paddingTop: '56.25%' /* 16:9 Aspect Ratio */ }}>
+                  <div
+                    className="relative w-full max-w-xs sm:max-w-md mx-auto"
+                    style={{ paddingTop: "56.25%" /* 16:9 Aspect Ratio */ }}
+                  >
                     {loading ? (
-                      <SkeletonTheme baseColor="#c3c3c3" highlightColor="#e7e7e7">
+                      <SkeletonTheme
+                        baseColor="#c3c3c3"
+                        highlightColor="#e7e7e7"
+                      >
                         <Skeleton
                           className="absolute top-0 left-0 w-full h-full rounded-lg"
-                          style={{ aspectRatio: '16 / 9' }}
+                          style={{ aspectRatio: "16 / 9" }}
                         />
                       </SkeletonTheme>
                     ) : (

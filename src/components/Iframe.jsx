@@ -6,7 +6,7 @@ import { getDatabase, ref, get, remove } from "firebase/database";
 import app, { store } from "../Store/realtimeDB";
 import LoadingPage from "./LoadingPage.jsx";
 import { useState, useEffect } from "react";
-import { capitalizeFirstLetter } from "../utils/capitalizeLetter.js";
+import { capitalizeFirstLetter } from "../utils/helper.js";
 import Quote from "../assets/quote.svg";
 
 export default function Iframe() {
