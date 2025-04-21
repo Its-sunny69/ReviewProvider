@@ -11,7 +11,7 @@ load_dotenv()
 
 # Get frontend origin from env
 frontend_origin = os.getenv("FRONTEND_ORIGIN")
-
+print(frontend_origin)
 app = FastAPI()
 
 # Enable CORS
