@@ -50,7 +50,7 @@ def analyze_sentiment(review: str) -> str:
     else:
         return "Neutral" 
 
-@app.post("/analyze/")
+@app.post("/analyze")
 def analyze_reviews(data: ReviewRequest):
     """API endpoint to analyze multiple reviews."""
     if not (1 <= len(data.reviews) <= 4):
