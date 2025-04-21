@@ -3,5 +3,11 @@
 @tailwind utilities;
 
 #root {
-    background-color: #f1f5f9;
+  background-color: #f1f5f9;
+}
+
+@layer utilities {
+  .react-calendar-heatmap .month-label {
+    @apply fill-amber-500 font-semibold text-sm;
+  }
 }

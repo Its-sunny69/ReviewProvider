@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../CSS/code.css";
 import ReactCalendarHeatmap from "react-calendar-heatmap";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import Navbar from "../components/Navbar";
 import {
   LineChart,
   Legend,
@@ -79,74 +80,77 @@ function Graph() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      {/* Calendar Heatmap */}
-      <div className="w-2/5 flex justify-center my-10">
-        <ReactCalendarHeatmap
-          startDate={new Date("2025-01-01")}
-          endDate={new Date("2025-12-31")}
-          values={dateData}
-          classForValue={(value) => {
-            if (!value || value.count === 0) return "color-empty";
-            if (value.count > 10) return "color-scale-10";
-            if (value.count > 5) return "color-scale-5";
-            if (value.count > 2) return "color-scale-2";
-            return "color-scale-1";
-          }}
-          tooltipDataAttrs={(value) => ({
-            "data-tooltip-id": "heatmap-tooltip",
-            "data-tooltip-content": `Date: ${value.date}, Responses: ${
-              value.count || 0
-            }`,
-          })}
-        />
-        <ReactTooltip id="heatmap-tooltip" />
-      </div>
+    <>
+      <Navbar />
+      <div className="flex flex-col items-center justify-center">
+        {/* Calendar Heatmap */}
+        <div className="text-white w-2/5 flex justify-center my-10">
+          <ReactCalendarHeatmap
+            startDate={new Date("2025-01-01")}
+            endDate={new Date("2025-12-31")}
+            values={dateData}
+            classForValue={(value) => {
+              if (!value || value.count === 0) return "color-empty";
+              if (value.count > 10) return "color-scale-10";
+              if (value.count > 5) return "color-scale-5";
+              if (value.count > 2) return "color-scale-2";
+              return "color-scale-1";
+            }}
+            tooltipDataAttrs={(value) => ({
+              "data-tooltip-id": "heatmap-tooltip",
+              "data-tooltip-content": `Date: ${value.date}, Responses: ${
+                value.count || 0
+              }`,
+            })}
+          />
+          <ReactTooltip id="heatmap-tooltip" />
+        </div>
 
-      <div className="w-full flex justify-center mt-10">
-        <ResponsiveContainer width="80%" height={300}>
-          <LineChart data={sentimentData}>
-            <XAxis
-              dataKey="date"
-              tickFormatter={(date) => dayjs(date).format("MMM DD")}
-            />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <CartesianGrid strokeDasharray="3 3" />
-            <Line
-              type="monotone"
-              dataKey="good"
-              stroke="#4CAF50"
-              strokeWidth={2}
-              dot={{ r: 5 }}
-              name="Good"
-            />
-            <Line
-              type="monotone"
-              dataKey="neutral"
-              stroke="#9E9E9E"
-              strokeWidth={2}
-              dot={{ r: 5 }}
-              name="Neutral"
-            />
-            <Line
-              type="monotone"
-              dataKey="bad"
-              stroke="#F44336"
-              strokeWidth={2}
-              dot={{ r: 5 }}
-              name="Bad"
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+        <div className="w-full flex justify-center mt-10">
+          <ResponsiveContainer width="80%" height={300}>
+            <LineChart data={sentimentData}>
+              <XAxis
+                dataKey="date"
+                tickFormatter={(date) => dayjs(date).format("MMM DD")}
+              />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <CartesianGrid strokeDasharray="3 3" />
+              <Line
+                type="monotone"
+                dataKey="good"
+                stroke="#4CAF50"
+                strokeWidth={2}
+                dot={{ r: 5 }}
+                name="Good"
+              />
+              <Line
+                type="monotone"
+                dataKey="neutral"
+                stroke="#9E9E9E"
+                strokeWidth={2}
+                dot={{ r: 5 }}
+                name="Neutral"
+              />
+              <Line
+                type="monotone"
+                dataKey="bad"
+                stroke="#F44336"
+                strokeWidth={2}
+                dot={{ r: 5 }}
+                name="Bad"
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
 
-      {/* Loading State */}
-      <div className="mt-4">
-        {userData ? <p>Data Loaded</p> : <p>Loading...</p>}
+        {/* Loading State */}
+        <div className="mt-4">
+          {userData ? <p>Data Loaded</p> : <p>Loading...</p>}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -14,6 +14,7 @@ import "./App.css";
 import LoadingPage from "./components/LoadingPage";
 import Iframe from "./components/Iframe";
 import Graph from "./pages/Graph";
+import Social from "./pages/Social";
 function App() {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
@@ -31,7 +32,7 @@ function App() {
   }
 
   return (
-    <div className="select-none w-full bg-slate-100">
+    <div className="select-none w-full bg-[#222629]">
       <BrowserRouter>
         <Routes>
           <Route
@@ -57,7 +58,7 @@ function App() {
             }
           />
           <Route path="/review/:reviewId?" element={<Review />} />
-          <Route path="/iframe/:id" element={<Iframe />} />
+          <Route path="/iframe/:id/:cardindex" element={<Iframe />} />
           <Route
             path="/getData"
             element={
@@ -68,6 +69,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/graph" element={<Graph />} />
           <Route path="/" element={<Landing />}></Route>
+          <Route path="/social" element={<Social />} />
         </Routes>
       </BrowserRouter>
 

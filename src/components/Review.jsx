@@ -9,6 +9,7 @@ import Navbar from "./Navbar";
 import toast from "react-hot-toast";
 import LoadingPage from "./LoadingPage";
 import { CopyTwoTone, ShareAltOutlined } from "@ant-design/icons";
+import reviewImg from "../assets/review.jpg";
 
 function Review() {
   const { state } = useLocation();
@@ -216,7 +217,7 @@ function Review() {
         <div className="w-full h-dvh">
           {auth.currentUser.isAnonymous ? "" : <Navbar />}
 
-          <div className="h-svh flex justify-center items-center bg-slate-100">
+          <div className=" flex justify-center items-center ">
             <div className="sm:w-2/6 my-5 text-xl flex flex-col border-none p-5 shadow-lg rounded-md backdrop-blur-sm bg-blue-200">
               <form onSubmit={handleSubmit}>
                 <div className="flex justify-center items-center">

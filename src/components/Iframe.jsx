@@ -13,8 +13,8 @@ export default function Iframe() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [names, setNames] = useState({});
-  const { id } = useParams();
-  console.log(id);
+  const { id, cardindex } = useParams();
+  console.log(cardindex);
 
   const fetchData = async (path) => {
     const db = getDatabase(app);
@@ -72,50 +72,56 @@ export default function Iframe() {
   return (
     <>
       <div className="flex my-6 flex-wrap justify-evenly items-center">
-        {Object.entries(names).map(([key, value], index) => (
-          <div
-            key={index}
-            className="sm:w-[30%] m-2 shadow-sm bg-blue-200 rounded-lg"
-          >
-            <div className="flex sm:h-[6rem] h-[4rem] p-10 pb-0 justify-start items-center">
-              <img className="mr-4 w-14" src={Quote} alt="quote" />
-              <p className="text-3xl font-bold text-slate-500 break-words">
-                {" "}
-                {capitalizeFirstLetter(key)}
-              </p>
-            </div>
+        {Object.entries(names).map(([key, value], index) =>
+          index == cardindex ? (
+            <div
+              key={index}
+              className="sm:w-[50%] m-2 shadow-sm bg-blue-200 rounded-lg"
+            >
+              <div className="flex sm:h-[6rem] h-[4rem] w-full p-10 pb-0 justify-start items-center">
+                <img className="mr-4 w-14" src={Quote} alt="quote" />
+                <p className="text-3xl font-bold text-slate-500 break-words">
+                  {" "}
+                  {capitalizeFirstLetter(key)}
+                </p>
+              </div>
 
-            <div className="my-3 px-10 sm:h-[14rem] h-[2rem]] relative overflow-y-auto scroll-smooth">
-              <div className="bg-gradient-to-b from-blue-200 from-10% sticky top-0 left-0 right-0 h-6 z-50"></div>
-              {value.map((item, i) => (
-                <div key={item.question}>
-                  <p className="font-bold text-lg break-words">
-                    Q.{i + 1} {item.question}
-                  </p>
-                  <p className="break-words">&emsp;&emsp;&emsp;{item.answer}</p>
-                </div>
-              ))}
-              <div className="bg-gradient-to-t from-blue-200 from-10% sticky -bottom-0 left-0 right-0 h-6 z-50"></div>
-            </div>
+              <div className="my-3 px-10 sm:h-[14rem] h-[2rem]] relative overflow-y-auto scroll-smooth">
+                <div className="bg-gradient-to-b from-blue-200 from-10% sticky top-0 left-0 right-0 h-6 z-50"></div>
+                {value.map((item, i) => (
+                  <div key={item.question}>
+                    <p className="font-bold text-lg break-words">
+                      Q.{i + 1} {item.question}
+                    </p>
+                    <p className="break-words">
+                      &emsp;&emsp;&emsp;{item.answer}
+                    </p>
+                  </div>
+                ))}
+                <div className="bg-gradient-to-t from-blue-200 from-10% sticky -bottom-0 left-0 right-0 h-6 z-50"></div>
+              </div>
 
-            <hr className="w-full h-[1.5px] mt-4 mb-4 bg-white" />
-            <div className="w-full flex justify-end sm:p-[2rem] p-5 pt-0">
-              <a
-                className="flex justify-end items-center"
-                href="https://review-provider.vercel.app/"
-                target="_blank"
-              >
-                <img
-                  height={40}
-                  width={40}
-                  src="https://raw.githubusercontent.com/Its-sunny69/ReviewProvider/main/src/assets/logo.svg"
-                  alt="logo"
-                />
-                <p className="text-blue-800 font-bold">TrustVibes</p>
-              </a>
+              <hr className="w-full h-[1.5px] mt-4 mb-4 bg-white" />
+              <div className="w-full flex justify-end sm:p-[2rem] p-5 pt-0">
+                <a
+                  className="flex justify-end items-center"
+                  href="https://review-provider.vercel.app/"
+                  target="_blank"
+                >
+                  <img
+                    height={40}
+                    width={40}
+                    src="https://raw.githubusercontent.com/Its-sunny69/ReviewProvider/main/src/assets/logo.svg"
+                    alt="logo"
+                  />
+                  <p className="text-blue-800 font-bold">TrustVibes</p>
+                </a>
+              </div>
             </div>
-          </div>
-        ))}
+          ) : (
+            ""
+          )
+        )}
       </div>
     </>
   );

@@ -4,7 +4,7 @@ import { AuthProvider, useAuth } from "../contexts/getUser";
 import toast from "react-hot-toast";
 import { auth } from "../Store/realtimeDB";
 import Logo from "../assets/logo.svg";
-
+import newLogo from "../assets/logonew.png";
 function Navbar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -40,10 +40,13 @@ function Navbar() {
       <nav className="w-full py-2 flex justify-between z-50 sticky top-0 backdrop-blur-lg">
         <Link to={"/home"}>
           <div className="flex justify-around w-max gap-x-3 items-center px-4">
-            <div className="sm:w-14 w-10 sm:h-14 h-10">
-              <img src={Logo} alt="logo" />
+            <div className="sm:w-36 w-10 sm:h-28 h-10">
+              <img
+                src={newLogo}
+                alt="logo"
+                className=" w-full h-full object-cover"
+              />
             </div>
-            <p className="text-blue-800 text-xl font-bold ">TrustVibes</p>
           </div>
         </Link>
         <div className="flex justify-evenly items-center sm:px-4 px-2 gap-x-4">
@@ -51,7 +54,7 @@ function Navbar() {
             <>
               <div>
                 {userData ? (
-                  <p className="text-black font-extrabold text-2xl drop-shadow-sm">
+                  <p className="text-white font-extrabold text-2xl drop-shadow-sm">
                     {userData.fname.charAt(0).toUpperCase() +
                       userData.fname.slice(1)}
                   </p>

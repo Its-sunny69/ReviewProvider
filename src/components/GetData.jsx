@@ -48,11 +48,13 @@ function GetData() {
               })
             }
           >
-            <div className="flex justify-center items-center flex-col shadow-md border hover:border-blue-600 py-8 px-12 rounded-md bg-blue-400 hover:bg-blue-200">
+            <div className="bg-blue-400 flex flex-col items-center justify-center hover:bg-blue-50 shadow-lg border border-gray-200 hover:border-blue-400 rounded-xl px-20 py-6 transition-all duration-300 cursor-pointer">
               {Object.entries(item).map(([key, value]) => (
-                <p key={key} className="font-bold text-xl">
-                  {capitalizeFirstLetter(value.firstname)}
-                </p>
+                <div key={key} className="mb-2 text-center">
+                  <p className="text-gray-800 font-semibold text-lg">
+                    {capitalizeFirstLetter(value.firstname)}
+                  </p>
+                </div>
               ))}
             </div>
           </li>

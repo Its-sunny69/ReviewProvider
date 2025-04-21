@@ -1,15 +1,23 @@
+import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from textblob import TextBlob
+from dotenv import load_dotenv
 from typing import List
+
+
+load_dotenv()
+
+# Get frontend origin from env
+frontend_origin = os.getenv("FRONTEND_ORIGIN")
 
 app = FastAPI()
 
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Allow requests from Vite frontend
+    allow_origins=[frontend_origin],  # Allow requests from Vite frontend
     allow_credentials=True,
     allow_methods=["*"],  
     allow_headers=["*"],  
